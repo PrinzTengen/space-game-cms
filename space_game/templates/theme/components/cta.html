@@ -1,0 +1,22 @@
+{% load djangocms_link_tags %}
+
+<section class="space-section space-callout">
+  <div class="container">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-8">
+        {% if instance.eyebrow %}<p class="eyebrow">{{ instance.eyebrow }}</p>{% endif %}
+        <h2>{{ instance.title }}</h2>
+        {% if instance.description %}<p class="text-body-secondary mb-0">{{ instance.description }}</p>{% endif %}
+      </div>
+      {% with button_url=instance.button_link|to_url %}
+        {% if instance.button_label and button_url %}
+          <div class="col-lg-4 text-lg-end">
+            <a class="btn btn-outline-primary"
+               href="{{ button_url }}"
+               rel="noopener">{{ instance.button_label }} ↗</a>
+          </div>
+        {% endif %}
+      {% endwith %}
+    </div>
+  </div>
+</section>

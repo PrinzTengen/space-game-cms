@@ -9,47 +9,30 @@
   <section id="discover" class="space-section container">
     {% placeholder "discovery" %}
   </section>
-  <section class="space-section space-callout">
-    <div class="container">
-      {% placeholder "community" or %}
-      <div class="row align-items-center g-4">
-        <div class="col-lg-8">
-          <p class="eyebrow">{% translate "Follow the development" %}</p>
-          <h2>{% translate "Be part of the journey." %}</h2>
-          <p class="text-body-secondary mb-0">{% translate "See new impressions from the game, meet the community and share your ideas." %}</p>
-        </div>
-        <div class="col-lg-4 text-lg-end">
-          <a class="btn btn-outline-primary"
-             href="https://discord.gg/TeGQrqprRM"
-             rel="noopener">{% translate "Meet us on Discord" %} ↗</a>
-        </div>
+  {% placeholder "community" %}
+  <section class="space-section container">
+    {% placeholder "gallery" or %}
+    <p class="eyebrow">{% translate "From the universe" %}</p>
+    <h2 class="section-heading mb-5">{% translate "A glimpse beyond the horizon." %}</h2>
+    <div class="row g-4">
+      <div class="col-md-6">
+        <img class="gallery-image"
+             src="{% static 'images/theme/fotoshooting/01_meridian_nah_planet.png' %}"
+             alt="{% translate 'Meridian station near a planet' %}"
+             width="2560"
+             height="1440"
+             loading="lazy" />
       </div>
+      <div class="col-md-6">
+        <img class="gallery-image"
+             src="{% static 'images/theme/fotoshooting/09_maerzbach_vor_nebel_sonne.png' %}"
+             alt="{% translate 'The Märzbach ship in front of a sunlit nebula' %}"
+             width="2560"
+             height="1440"
+             loading="lazy" />
+      </div>
+    </div>
 {% endplaceholder %}
-</div>
-</section>
-<section class="space-section container">
-  {% placeholder "gallery" or %}
-  <p class="eyebrow">{% translate "From the universe" %}</p>
-  <h2 class="section-heading mb-5">{% translate "A glimpse beyond the horizon." %}</h2>
-  <div class="row g-4">
-    <div class="col-md-6">
-      <img class="gallery-image"
-           src="{% static 'images/theme/fotoshooting/01_meridian_nah_planet.png' %}"
-           alt="{% translate 'Meridian station near a planet' %}"
-           width="2560"
-           height="1440"
-           loading="lazy" />
-    </div>
-    <div class="col-md-6">
-      <img class="gallery-image"
-           src="{% static 'images/theme/fotoshooting/09_maerzbach_vor_nebel_sonne.png' %}"
-           alt="{% translate 'The Märzbach ship in front of a sunlit nebula' %}"
-           width="2560"
-           height="1440"
-           loading="lazy" />
-    </div>
-  </div>
-  {% endplaceholder %}
-  {% placeholder "content" %}
+{% placeholder "content" %}
 </section>
 {% endblock content %}

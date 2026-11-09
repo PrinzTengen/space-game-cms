@@ -120,3 +120,32 @@ class SpaceGameCard(CMSFrontendComponent):
         max_length=100,
     )
     link = LinkFormField(label=_("Link destination"), required=False)
+
+
+@components.register
+class SpaceGameCTA(CMSFrontendComponent):
+    class Meta:
+        name = _("Space Game CTA")
+        module = "Space Game"
+        render_template = "theme/components/cta.html"
+        allow_children = False
+        default_config = {
+            "eyebrow": "Follow the development",
+            "title": "Be part of the journey.",
+            "description": (
+                "See new impressions from the game, meet the community "
+                "and share your ideas."
+            ),
+            "button_label": "Meet us on Discord",
+            "button_link": {"external_link": "https://discord.gg/TeGQrqprRM"},
+        }
+
+    eyebrow = forms.CharField(label=_("Eyebrow"), required=False, max_length=200)
+    title = forms.CharField(label=_("Heading"), max_length=250)
+    description = forms.CharField(
+        label=_("Description"),
+        required=False,
+        widget=forms.Textarea,
+    )
+    button_label = forms.CharField(label=_("Button text"), max_length=100)
+    button_link = LinkFormField(label=_("Button destination"))

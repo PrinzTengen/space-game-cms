@@ -100,8 +100,8 @@ Der Befehl erzeugt eine neue veröffentlichte Version und lässt vorhandene Hero
 Plugins unverändert. Gibt es bereits einen unveröffentlichten Seitenentwurf,
 den Hero dort über das CMS hinzufügen und den Entwurf regulär veröffentlichen.
 Die Komponente ist in `space_game/theme/cms_components.py` definiert; ihr Template
-liegt in `space_game/templates/theme/components/hero.html`. Community und Galerie
-verwenden weiterhin die bestehenden Template-Vorgaben.
+liegt in `space_game/templates/theme/components/hero.html`. Die Galerie
+verwendet weiterhin die bestehenden Template-Vorgaben.
 
 ### Kartenmodul unter dem Hero
 
@@ -128,6 +128,27 @@ docker compose -f docker-compose.local.yml exec django python manage.py install_
 Vorhandene Plugins und geänderte Entwürfe bleiben erhalten. Ein unveränderter
 Frontend-Entwurf kann für die Übernahme verwendet werden; bei eigenen Änderungen
 das Modul im bestehenden Entwurf ergänzen und regulär veröffentlichen.
+
+### Call to Action unter den Karten
+
+Im Platzhalter `community` liegt **Space Game → Space Game CTA**, ebenfalls eine
+`CMSFrontendComponent` von **djangocms-frontend**. Vorspann, Überschrift,
+Beschreibung, Button-Text und Button-Ziel lassen sich im CMS bearbeiten. Der
+Button unterstützt CMS-Seiten, externe URLs, Dateien und Anker. Das responsive
+Space-Game-Layout bleibt erhalten; entfernte CTA-Plugins werden nicht durch
+fest eingebauten Inhalt ersetzt.
+
+Neue Startseiten erhalten den CTA automatisch. Bestehende Startseiten nach
+`migrate` einmal überführen:
+
+```bash
+docker compose -f docker-compose.local.yml exec django python manage.py install_home_cta --username DEIN_ADMIN
+```
+
+Vorhandene Inhalte und geänderte Entwürfe bleiben erhalten. Bei einem eigenen
+Entwurf den CTA dort ergänzen und regulär veröffentlichen. Die Komponente liegt
+in `space_game/theme/cms_components.py`, ihr Template in
+`space_game/templates/theme/components/cta.html`.
 
 ### Start mit Docker
 
