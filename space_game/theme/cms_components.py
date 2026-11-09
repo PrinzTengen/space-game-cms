@@ -149,3 +149,60 @@ class SpaceGameCTA(CMSFrontendComponent):
     )
     button_label = forms.CharField(label=_("Button text"), max_length=100)
     button_link = LinkFormField(label=_("Button destination"))
+
+
+@components.register
+class SpaceGameGallery(CMSFrontendComponent):
+    class Meta:
+        name = _("Space Game Gallery")
+        module = "Space Game"
+        render_template = "theme/components/gallery.html"
+        allow_children = True
+        child_classes = ["SpaceGameGalleryImagePlugin"]
+        default_config = {
+            "eyebrow": "From the universe",
+            "title": "A glimpse beyond the horizon.",
+        }
+
+    eyebrow = forms.CharField(label=_("Eyebrow"), required=False, max_length=200)
+    title = forms.CharField(label=_("Heading"), max_length=250)
+    description = forms.CharField(
+        label=_("Description"),
+        required=False,
+        widget=forms.Textarea,
+    )
+
+
+@components.register
+class SpaceGameGalleryImage(CMSFrontendComponent):
+    class Meta:
+        name = _("Space Game Gallery Image")
+        module = "Space Game"
+        render_template = "theme/components/gallery_image.html"
+        allow_children = False
+        require_parent = True
+        parent_classes = ["SpaceGameGalleryPlugin"]
+        default_config = {
+            "default_image": "meridian",
+            "image_alt": "Meridian station near a planet",
+        }
+
+    image = ImageFormField(label=_("Image"), required=False)
+    default_image = forms.ChoiceField(
+        label=_("Default image"),
+        required=False,
+        choices=[
+            ("", _("No default image")),
+            ("meridian", _("Meridian station")),
+            ("maerzbach", _("Märzbach in a sunlit nebula")),
+        ],
+        help_text=_("Used when no image is selected from the media library."),
+    )
+    image_alt = forms.CharField(label=_("Image description"), max_length=250)
+    title = forms.CharField(label=_("Caption"), required=False, max_length=250)
+
+    def clean(self):
+        data = super().clean()
+        if not data.get("image") and not data.get("default_image"):
+            self.add_error("image", _("Select an image or a default image."))
+        return data

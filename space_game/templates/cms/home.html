@@ -1,38 +1,19 @@
 {% extends "cms/default.html" %}
 
-{% load cms_tags static i18n %}
+{% load cms_tags i18n %}
 
 {% block content_container_class %}container-fluid px-0{% endblock content_container_class %}
 {% block main_class %}landing-main{% endblock main_class %}
 {% block content %}
-  {% placeholder "hero" %}
-  <section id="discover" class="space-section container">
-    {% placeholder "discovery" %}
-  </section>
-  {% placeholder "community" %}
-  <section class="space-section container">
-    {% placeholder "gallery" or %}
-    <p class="eyebrow">{% translate "From the universe" %}</p>
-    <h2 class="section-heading mb-5">{% translate "A glimpse beyond the horizon." %}</h2>
-    <div class="row g-4">
-      <div class="col-md-6">
-        <img class="gallery-image"
-             src="{% static 'images/theme/fotoshooting/01_meridian_nah_planet.png' %}"
-             alt="{% translate 'Meridian station near a planet' %}"
-             width="2560"
-             height="1440"
-             loading="lazy" />
-      </div>
-      <div class="col-md-6">
-        <img class="gallery-image"
-             src="{% static 'images/theme/fotoshooting/09_maerzbach_vor_nebel_sonne.png' %}"
-             alt="{% translate 'The Märzbach ship in front of a sunlit nebula' %}"
-             width="2560"
-             height="1440"
-             loading="lazy" />
-      </div>
-    </div>
-{% endplaceholder %}
-{% placeholder "content" %}
-</section>
+  {% language current_pagecontent.language %}
+    {% placeholder "hero" %}
+    <section id="discover" class="space-section container">
+      {% placeholder "discovery" %}
+    </section>
+    {% placeholder "community" %}
+    {% placeholder "gallery" %}
+    <section class="space-section container">
+      {% placeholder "content" %}
+    </section>
+  {% endlanguage %}
 {% endblock content %}

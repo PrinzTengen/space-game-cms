@@ -100,8 +100,7 @@ Der Befehl erzeugt eine neue veröffentlichte Version und lässt vorhandene Hero
 Plugins unverändert. Gibt es bereits einen unveröffentlichten Seitenentwurf,
 den Hero dort über das CMS hinzufügen und den Entwurf regulär veröffentlichen.
 Die Komponente ist in `space_game/theme/cms_components.py` definiert; ihr Template
-liegt in `space_game/templates/theme/components/hero.html`. Die Galerie
-verwendet weiterhin die bestehenden Template-Vorgaben.
+liegt in `space_game/templates/theme/components/hero.html`.
 
 ### Kartenmodul unter dem Hero
 
@@ -149,6 +148,37 @@ Vorhandene Inhalte und geänderte Entwürfe bleiben erhalten. Bei einem eigenen
 Entwurf den CTA dort ergänzen und regulär veröffentlichen. Die Komponente liegt
 in `space_game/theme/cms_components.py`, ihr Template in
 `space_game/templates/theme/components/cta.html`.
+
+### Galerie unter dem CTA
+
+Im Platzhalter `gallery` liegt **Space Game → Space Game Gallery** mit beliebig
+vielen **Space Game Gallery Image**-Plugins als Kindern. Am Modul werden Vorspann,
+Überschrift und Beschreibung bearbeitet. Pro Bild stehen django-filer, ein
+Alternativtext und eine optionale Caption zur Verfügung; die beiden bisherigen
+Motive lassen sich auch ohne Medienimport als Standardbild auswählen. Bilder
+können im CMS hinzugefügt, umsortiert und entfernt werden.
+
+Der Slider kombiniert eine gleitende Bewegung mit sanftem Zoom und eingeblendeten
+Captions. Er bietet Vorschaubilder, einen Bildzähler, Pfeile, Touch-Scrolling und
+Tastatursteuerung: Pfeil links/rechts sowie Pos1/Ende im fokussierten Bildbereich.
+Es gibt keinen automatischen Bildwechsel. Die Systemeinstellung für reduzierte
+Bewegung schaltet Animationen und weiches Scrollen ab. Bei nur einem Bild sind
+die Steuerelemente ausgeblendet. Ohne JavaScript bleibt die Galerie horizontal
+scrollbar; im CMS-Bearbeitungsmodus stehen alle Bilder untereinander, damit sie
+direkt bearbeitet werden können. Mehrere Galerien funktionieren unabhängig.
+
+Neue Startseiten erhalten automatisch die zwei bisherigen Motive als Plugins.
+Bestehende Startseiten nach `migrate` einmal überführen:
+
+```bash
+docker compose -f docker-compose.local.yml exec django python manage.py install_home_gallery --username DEIN_ADMIN
+```
+
+Vorhandene Galerie-Inhalte und geänderte Entwürfe bleiben erhalten. Bei einem
+eigenen Entwurf die Galerie dort ergänzen und regulär veröffentlichen. Templates
+liegen in `space_game/templates/theme/components/gallery*.html`, Styles in
+`space_game/static/scss/_gallery.scss` und die Steuerung in
+`space_game/static/js/project.js`. Der vorhandene npm-Build erstellt das CSS.
 
 ### Start mit Docker
 

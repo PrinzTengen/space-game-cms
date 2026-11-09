@@ -1,0 +1,30 @@
+{% load static %}
+
+<figure class="gallery-slide" data-gallery-slide>
+  {% if instance.image %}
+    <img class="gallery-photo"
+         src="{{ instance.image.url }}"
+         alt="{{ instance.image_alt }}"
+         width="{{ instance.image.width|floatformat:'0u' }}"
+         height="{{ instance.image.height|floatformat:'0u' }}"
+         loading="lazy"
+         decoding="async" />
+  {% elif instance.default_image == "meridian" %}
+    <img class="gallery-photo"
+         src="{% static 'images/theme/fotoshooting/01_meridian_nah_planet.png' %}"
+         alt="{{ instance.image_alt }}"
+         width="2560"
+         height="1440"
+         loading="lazy"
+         decoding="async" />
+  {% elif instance.default_image == "maerzbach" %}
+    <img class="gallery-photo"
+         src="{% static 'images/theme/fotoshooting/09_maerzbach_vor_nebel_sonne.png' %}"
+         alt="{{ instance.image_alt }}"
+         width="2560"
+         height="1440"
+         loading="lazy"
+         decoding="async" />
+  {% endif %}
+  {% if instance.title %}<figcaption class="gallery-caption">{{ instance.title }}</figcaption>{% endif %}
+</figure>

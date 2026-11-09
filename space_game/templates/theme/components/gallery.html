@@ -1,0 +1,54 @@
+{% load cms_tags i18n %}
+
+<section class="space-section space-gallery container"
+         data-gallery
+         {% if request.toolbar.edit_mode_active %}data-gallery-edit-mode{% endif %}
+         data-gallery-image-label="{% translate 'Show image' %}"
+         data-gallery-slide-label="{% translate 'Image' %}"
+         role="region"
+         aria-roledescription="{% translate 'carousel' %}"
+         aria-labelledby="gallery-title-{{ instance.pk }}">
+  <div class="gallery-heading">
+    <div>
+      {% if instance.eyebrow %}<p class="eyebrow">{{ instance.eyebrow }}</p>{% endif %}
+      <h2 id="gallery-title-{{ instance.pk }}" class="section-heading mb-0">{{ instance.title }}</h2>
+      {% if instance.description %}<p class="text-body-secondary mt-3 mb-0">{{ instance.description }}</p>{% endif %}
+    </div>
+    <div class="gallery-controls" data-gallery-controls hidden>
+      <span class="gallery-count" data-gallery-count aria-hidden="true"></span>
+      <button type="button"
+              class="gallery-arrow"
+              data-gallery-prev
+              aria-label="{% translate 'Previous image' %}"
+              aria-controls="gallery-track-{{ instance.pk }}">
+        <span aria-hidden="true">←</span>
+      </button>
+      <button type="button"
+              class="gallery-arrow"
+              data-gallery-next
+              aria-label="{% translate 'Next image' %}"
+              aria-controls="gallery-track-{{ instance.pk }}">
+        <span aria-hidden="true">→</span>
+      </button>
+    </div>
+  </div>
+  <div id="gallery-track-{{ instance.pk }}"
+       class="gallery-track"
+       data-gallery-track
+       tabindex="0"
+       role="group"
+       aria-labelledby="gallery-title-{{ instance.pk }}">
+    {% for image in instance.child_plugin_instances %}
+      {% render_plugin image %}
+    {% endfor %}
+  </div>
+  <div class="gallery-thumbnails"
+       data-gallery-thumbnails
+       role="group"
+       aria-label="{% translate 'Choose an image' %}"
+       hidden></div>
+  <p class="visually-hidden"
+     role="status"
+     aria-atomic="true"
+     data-gallery-status></p>
+</section>
