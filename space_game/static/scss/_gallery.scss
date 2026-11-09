@@ -56,7 +56,7 @@
   overflow: hidden;
   min-width: 0;
   margin: 0;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 24 / 9;
   scroll-snap-align: start;
   scroll-snap-stop: always;
 
@@ -139,7 +139,7 @@
   .gallery-heading { align-items: start; flex-direction: column; gap: 1.25rem; }
   .gallery-caption { inset-inline: 1rem; bottom: 1rem; padding-left: .75rem; }
   .gallery-thumbnail { flex-basis: 5.5rem; }
-  .gallery-slide { aspect-ratio: 4 / 3; }
+  .gallery-slide { aspect-ratio: 2 / 1; }
 }
 
 @media (prefers-reduced-motion: reduce) {
