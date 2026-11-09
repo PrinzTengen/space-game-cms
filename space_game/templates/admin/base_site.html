@@ -1,0 +1,28 @@
+{% extends "admin/base_site.html" %}
+
+{% load static i18n %}
+
+{% block dark-mode-vars %}
+  <script src="{% static 'js/admin-theme.js' %}"></script>
+  {{ block.super }}
+{% endblock dark-mode-vars %}
+{% block responsive %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'build/admin.css' %}" />
+  <link rel="icon" href="{% static 'images/favicons/favicon.ico' %}" />
+{% endblock responsive %}
+{% block branding %}
+  <a class="mission-brand" href="{% url 'admin:index' %}">
+    <img src="{% static 'images/theme/logo/space-game-logo.png' %}"
+         alt=""
+         width="44"
+         height="44" />
+    <span><strong>SPACE GAME</strong><small>MISSION CONTROL</small></span>
+  </a>
+  {% if user.is_anonymous %}
+    {% include "admin/color_theme_toggle.html" %}
+  {% endif %}
+{% endblock branding %}
+{% block footer %}
+  <span class="mission-footer">SPACE GAME <span aria-hidden="true">/</span> MISSION CONTROL</span>
+{% endblock footer %}

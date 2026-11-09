@@ -1,0 +1,49 @@
+{% extends "admin/index.html" %}
+
+{% load i18n %}
+
+{% block content_title %}
+  <section class="mission-welcome">
+    <div>
+      <p class="mission-eyebrow">{% translate "YOUR WORKSPACE" %}</p>
+      <h1>{% translate "Mission Control" %}<span aria-hidden="true">.</span></h1>
+      <p class="mission-intro">{% blocktranslate with name=user.get_username %}Welcome back, {{ name }}. Your universe is ready for its next chapter.{% endblocktranslate %}</p>
+    </div>
+    <a class="mission-visit"
+       href="{{ site_url|default:'/' }}">{% translate "View website" %} <span aria-hidden="true">↗</span></a>
+  </section>
+{% endblock content_title %}
+{% block content %}
+  <nav class="mission-shortcuts"
+       aria-label="{% translate 'Content shortcuts' %}">
+    {% for app in app_list %}
+      {% if app.app_label == "cms" or app.app_label == "djangocms_stories" or app.app_label == "filer" or app.app_label == "djangocms_cookie_love" %}
+        <a class="mission-shortcut mission-shortcut--{{ app.app_label }}"
+           href="{{ app.app_url }}">
+          <span class="mission-eyebrow">
+            {% if app.app_label == "cms" %}01 / {% translate "PAGES" %}{% endif %}
+            {% if app.app_label == "djangocms_stories" %}02 / {% translate "STORIES" %}{% endif %}
+            {% if app.app_label == "filer" %}03 / {% translate "MEDIA" %}{% endif %}
+            {% if app.app_label == "djangocms_cookie_love" %}04 / {% translate "PRIVACY" %}{% endif %}
+          </span>
+          <strong>
+            {% if app.app_label == "cms" %}
+              {% translate "Shape your world" %}
+            {% endif %}
+            {% if app.app_label == "djangocms_stories" %}
+              {% translate "Tell your story" %}
+            {% endif %}
+            {% if app.app_label == "filer" %}
+              {% translate "Explore your library" %}
+            {% endif %}
+            {% if app.app_label == "djangocms_cookie_love" %}
+              {% translate "Manage consent" %}
+            {% endif %}
+          </strong>
+          <span class="mission-shortcut-arrow" aria-hidden="true">↗</span>
+        </a>
+      {% endif %}
+    {% endfor %}
+  </nav>
+  {{ block.super }}
+{% endblock content %}

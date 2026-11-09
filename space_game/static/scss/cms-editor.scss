@@ -1,0 +1,140 @@
+@use "fonts";
+
+// Only the CMS UI consumes these tokens. The page being edited keeps its theme.
+:root {
+  --mission-cms-bg: #040a0e;
+  --mission-cms-panel: #0a151c;
+  --mission-cms-elevated: #10232e;
+  --mission-cms-field: #071118;
+  --mission-cms-text: #e3edf0;
+  --mission-cms-muted: #91acb8;
+  --mission-cms-border: #263e4b;
+  --mission-cms-accent: #8be0ec;
+  --mission-cms-action-text: #040a0e;
+  --mission-cms-selected: #153844;
+  --mission-cms-shadow: 0 12px 36px rgba(0, 0, 0, .28);
+}
+
+@mixin light-editor {
+  --mission-cms-bg: #f3f7f8;
+  --mission-cms-panel: #fff;
+  --mission-cms-elevated: #eaf1f4;
+  --mission-cms-field: #fff;
+  --mission-cms-text: #152d38;
+  --mission-cms-muted: #516973;
+  --mission-cms-border: #c6d8df;
+  --mission-cms-accent: #11667a;
+  --mission-cms-action-text: #fff;
+  --mission-cms-selected: #d2edf1;
+  --mission-cms-shadow: 0 12px 36px rgba(4, 10, 14, .12);
+}
+
+:root[data-theme="light"] { @include light-editor; }
+@media (prefers-color-scheme: light) {
+  :root[data-theme="auto"] { @include light-editor; }
+}
+
+div.cms {
+  --dca-white: var(--mission-cms-panel);
+  --dca-black: var(--mission-cms-text);
+  --dca-primary: var(--mission-cms-accent);
+  --dca-secondary: var(--mission-cms-elevated);
+  --dca-action-bg: var(--mission-cms-accent);
+  --dca-action-text: var(--mission-cms-action-text);
+  --dca-gray: var(--mission-cms-muted);
+  --dca-gray-light: var(--mission-cms-muted);
+  --dca-gray-lighter: var(--mission-cms-border);
+  --dca-gray-lightest: var(--mission-cms-elevated);
+  --dca-gray-darker: var(--mission-cms-text);
+  --dca-gray-darkest: var(--mission-cms-text);
+  --dca-border-radius: 10px;
+  --dca-btn-radius: 6px;
+  font-family: "JetBrains Mono", monospace;
+}
+
+// Replace Helvetica without touching the CMS icon font or changing geometry.
+#cms-top :is(div, p, a, ul, li, form, label, input, textarea, select, button, kbd, h1, h2, h3),
+#cms-top span:not(.cms-icon) {
+  font-family: "JetBrains Mono", monospace;
+}
+
+#cms-top {
+  .cms-toolbar { background: var(--mission-cms-panel); }
+  .cms-toolbar::after { background: var(--mission-cms-border) !important; box-shadow: 0 2px 10px rgba(0, 0, 0, .15); }
+  .cms-debug-bar { background: #ffab26; }
+  .cms-toolbar-item-navigation > li > a { font-size: 12px; color: var(--mission-cms-text); }
+  .cms-toolbar-item-navigation-hover > a { background: var(--mission-cms-selected); color: var(--mission-cms-accent); }
+  .cms-toolbar-item-navigation li ul, .cms-dropdown-menu { background: var(--mission-cms-panel); border: 1px solid var(--mission-cms-border); border-radius: 8px; box-shadow: var(--mission-cms-shadow); }
+  .cms-toolbar-item-navigation li ul a { font-size: 12px; color: var(--mission-cms-text); }
+  .cms-toolbar-item-navigation li ul a:hover { background: var(--mission-cms-selected); color: var(--mission-cms-accent); }
+  .cms-toolbar-item-navigation li ul .cms-toolbar-item-navigation-hover > a { background: var(--mission-cms-selected); color: var(--mission-cms-accent); }
+  .cms-btn { border-radius: 6px; font-size: 12px; }
+  .cms-btn-active { background: var(--mission-cms-selected); color: var(--mission-cms-accent); }
+  .cms-btn-action { background: var(--mission-cms-accent); color: var(--mission-cms-action-text); border-color: var(--mission-cms-accent); }
+  &.cms-toolbar-debug .cms-toolbar .cms-btn-action { background: #ffab26; border-color: #ffab26; color: #040a0e; }
+  .cms-btn-disabled { opacity: .5; }
+
+  .mission-cms-logo a {
+    display: flex; align-items: center; gap: 8px; padding-inline: 12px;
+    color: var(--mission-cms-text); background-image: none;
+    font-family: "JetBrains Mono", monospace;
+  }
+  .mission-cms-logo a::before { content: none; }
+  .mission-cms-logo a img { width: 26px; height: 26px; object-fit: contain; border-radius: 5px; }
+  .mission-cms-logo a span { display: inline; font-size: 10px; font-weight: 600; letter-spacing: .1em; }
+
+  // Placeholder groups and the actual plugin tree, including nested cards.
+  .cms-structure { background: var(--mission-cms-bg); }
+  .cms-structure .cms-dragarea {
+    border: 1px solid var(--mission-cms-border); border-radius: 10px;
+    background: var(--mission-cms-panel); padding: 12px 18px 18px;
+  }
+  .cms-structure .cms-dragbar-title { color: var(--mission-cms-accent); font-size: 13px; font-weight: 600; letter-spacing: .04em; }
+  .cms-structure .cms-dragbar-toggler { background-image: linear-gradient(to right, transparent, var(--mission-cms-panel) 25px); }
+  .cms-structure .cms-dragarea-empty .cms-draggables-root { border: 1px dashed var(--mission-cms-border); border-radius: 6px; }
+  .cms-structure .cms-draggables-empty { color: var(--mission-cms-muted); border: 0; border-radius: 6px; font-size: 12px; }
+  .cms-structure .cms-dragitem {
+    background-color: var(--mission-cms-elevated); border: 1px solid var(--mission-cms-border);
+    border-radius: 6px; margin-block: 4px;
+  }
+  .cms-structure .cms-dragitem:hover { border-color: var(--mission-cms-accent); box-shadow: inset 3px 0 var(--mission-cms-accent); }
+  .cms-structure .cms-dragitem-text { color: var(--mission-cms-muted); font-size: 12px; }
+  .cms-structure .cms-dragitem-text strong { color: var(--mission-cms-text); font-weight: 600; }
+  .cms-structure .cms-dragitem .cms-submenu-btn { color: var(--mission-cms-muted); }
+  .cms-structure .cms-dragitem .cms-submenu-btn:hover { color: var(--mission-cms-accent); background-color: var(--mission-cms-selected); }
+  .cms-structure .cms-dragitem-selected { border-color: var(--mission-cms-accent); background-color: var(--mission-cms-selected); }
+  .cms-droppable { box-shadow: 0 0 0 2px var(--mission-cms-accent); }
+
+  // Plugin menus and the searchable plugin picker.
+  .cms-submenu-dropdown, .cms-plugin-picker { background: var(--mission-cms-panel); border-color: var(--mission-cms-border); border-radius: 8px; box-shadow: var(--mission-cms-shadow); }
+  .cms-submenu-item a { color: var(--mission-cms-text); font-size: 12px; }
+  .cms-submenu-item a:hover, .cms-submenu-item a:focus { color: var(--mission-cms-accent); background: var(--mission-cms-selected); }
+  .cms-submenu-item.cms-submenu-item-title { background: var(--mission-cms-elevated); }
+  .cms-submenu-item.cms-submenu-item-title span { font-size: 11px; font-weight: 600; color: var(--mission-cms-accent); }
+  .cms-quicksearch { border-color: var(--mission-cms-border); }
+  .cms-quicksearch input { background: var(--mission-cms-field); color: var(--mission-cms-text); font-size: 12px; }
+  .cms-quicksearch input::placeholder { color: var(--mission-cms-muted); }
+
+  // Native modal frames keep their sizing, stacking, and drag/resize controls.
+  .cms-modal { background: var(--mission-cms-panel); border: 1px solid var(--mission-cms-border); box-shadow: var(--mission-cms-shadow); }
+  .cms-modal-head, .cms-modal-foot { background: var(--mission-cms-elevated); border-color: var(--mission-cms-border); }
+  .cms-modal-title, .cms-modal-title-prefix { color: var(--mission-cms-text); font-size: 13px; font-weight: 600; }
+  .cms-modal-title-suffix { color: var(--mission-cms-muted); }
+  .cms-modal-breadcrumb { background: var(--mission-cms-panel); border-color: var(--mission-cms-border); }
+  .cms-modal-breadcrumb a { color: var(--mission-cms-accent); }
+  .cms-modal-body, .cms-modal-markup { background: var(--mission-cms-panel); }
+  .cms-modal-minimize, .cms-modal-maximize, .cms-modal-close { color: var(--mission-cms-muted); }
+  .cms-modal-minimize:hover, .cms-modal-maximize:hover, .cms-modal-close:hover { color: var(--mission-cms-accent); background: var(--mission-cms-selected); }
+  .cms-modal-frame .cms-plugin-picker { box-shadow: none; }
+  .cms-clipboard { background: var(--mission-cms-panel); border-color: var(--mission-cms-border); }
+  .cms-messages { background: var(--mission-cms-elevated); color: var(--mission-cms-text); border-bottom: 1px solid var(--mission-cms-border); }
+  .cms-messages * { color: var(--mission-cms-text); }
+  .cms-messages a { color: var(--mission-cms-accent); }
+  :is(a, button, input, [tabindex]):focus-visible { outline: 2px solid var(--mission-cms-accent); outline-offset: -3px; }
+}
+
+@media (max-width: 767px) {
+  #cms-top .mission-cms-logo a { padding-inline: 8px; }
+  #cms-top .mission-cms-logo a span { display: none; }
+  #cms-top .cms-structure .cms-dragarea { margin-inline: 8px; padding-inline: 10px; }
+}
