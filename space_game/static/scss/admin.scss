@@ -165,6 +165,10 @@ input:focus, textarea:focus, select:focus { border-color: var(--link-fg); }
 .filebrowser .navigator-top-nav { background: var(--mission-panel); border-color: var(--border-color); }
 .filebrowser .filer-dropzone-upload-welcome { background: var(--darkened-bg); color: var(--body-quiet-color); }
 .filebrowser td.no-files { background: var(--darkened-bg); color: var(--body-quiet-color); }
+.filer-widget .related-lookup, .filer-widget .related-lookup .choose-file {
+  background: var(--button-bg); color: var(--button-fg); border-color: var(--border-color);
+}
+.filer-widget .related-lookup .cms-icon { color: inherit; }
 #footer { padding: 20px 32px; }
 .mission-footer { color: var(--body-quiet-color); font-size: 9px; letter-spacing: .14em; }
 .mission-footer span { color: var(--link-fg); margin-inline: 10px; }

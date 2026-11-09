@@ -16,7 +16,7 @@ function copy(source, destination) {
 
 function build() {
   mkdirSync(outputRoot, { recursive: true });
-  for (const entry of ["project", "admin"]) {
+  for (const entry of ["project", "admin", "cms-editor"]) {
     const result = sass.compile(join(scssRoot, `${entry}.scss`), {
       loadPaths: [join(root, "node_modules")],
       style: "compressed",
@@ -36,7 +36,7 @@ function build() {
       `fonts/jetbrains-mono-latin-${weight}-normal.woff2`,
     );
   }
-  console.log("Built website and admin styles, Bootstrap JavaScript and local fonts.");
+  console.log("Built website, admin and CMS editor styles, Bootstrap JavaScript and local fonts.");
 }
 
 build();

@@ -21,6 +21,17 @@ die Admin-Oberfläche importiert. Django-CMS-Seitenbaum und Filer verwenden
 dieselbe Farbpalette. Die nativen Admin-Formulare, Berechtigungen und Aktionen
 bleiben die Grundlage.
 
+Die django-CMS-Toolbar und die Strukturansicht der vorhandenen Plugins verwenden
+ebenfalls das Mission-Control-Design. Das gilt auch für verschachtelte Karten,
+Plugin-Suche, Kontextmenüs und Dialograhmen. Deren Styles liegen separat in
+`space_game/static/scss/cms-editor.scss` und werden als `build/cms-editor.css`
+über `space_game/theme/cms_toolbars.py` eingebunden, sobald die CMS-Toolbar
+angezeigt wird. Auch die eigenständige Strukturansicht erhält dadurch das Theme.
+Der native Farbumschalter übernimmt dieselbe gespeicherte Hell-/Dunkel-Auswahl
+wie der Admin; ohne gespeicherte Auswahl startet der Editor dunkel.
+Das Logo wird in `space_game/templates/cms/toolbar/items/logo.html` angepasst.
+Die öffentlichen Seiten laden das Editor-Stylesheet ohne Toolbar nicht.
+
 Das Projekt verwendet django CMS **5.1.3** mit Django 6.0.10 und Python 3.14.
 Die CMS-Pakete sind in `pyproject.toml` und `uv.lock` festgehalten:
 
