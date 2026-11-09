@@ -1,0 +1,25 @@
+// Visual direction from space-game-pack/LIESMICH.txt.
+$primary: #8be0ec;
+$warning: #ffab26;
+$body-bg: #040a0e;
+$body-color: #e3edf0;
+$body-secondary-color: #a1b7bf;
+$border-color: #263c45;
+$font-family-sans-serif: "JetBrains Mono", monospace;
+$font-size-base: .9375rem;
+$headings-font-weight: 600;
+$line-height-base: 1.7;
+$border-radius: .25rem;
+$border-radius-lg: .4rem;
+$enable-shadows: false;
+$enable-dark-mode: true;
+$body-bg-dark: $body-bg;
+$body-color-dark: $body-color;
+$body-secondary-color-dark: $body-secondary-color;
+$body-tertiary-bg-dark: #0d1b23;
+$body-secondary-bg-dark: #0a151c;
+$border-color-dark: $border-color;
+$link-color-dark: $primary;
+
+@import "bootstrap/scss/bootstrap";
+@import "theme";

@@ -1,0 +1,14 @@
+#!/bin/bash
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+
+npm ci
+npm run build
+# Keep SCSS changes reflected in the mounted static directory during development.
+npm run watch &
+
+python manage.py migrate
+exec uvicorn config.asgi:application --host 0.0.0.0 --reload --reload-include '*.html'

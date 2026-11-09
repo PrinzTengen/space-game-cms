@@ -1,0 +1,22 @@
+{% load cms_tags i18n %}
+
+<div data-card-module
+     {% if request.toolbar.edit_mode_active %}data-card-edit-mode{% endif %}
+     data-cards-loaded-label="{% translate 'Alle Karten werden angezeigt.' %}">
+  {% if instance.eyebrow %}<p class="eyebrow">{{ instance.eyebrow }}</p>{% endif %}
+  {% if instance.title %}<h2 class="section-heading mb-5">{{ instance.title }}</h2>{% endif %}
+  <div id="cards-{{ instance.pk }}" class="row g-4" data-card-list>
+    {% for card in instance.child_plugin_instances %}
+      <div class="col-12 col-md-6 col-lg-4" data-card-item tabindex="-1">{% render_plugin card %}</div>
+    {% endfor %}
+  </div>
+  <div class="text-center mt-4">
+    <button type="button"
+            class="btn btn-outline-primary"
+            data-load-all-cards
+            aria-controls="cards-{{ instance.pk }}"
+            aria-expanded="false"
+            hidden>alle laden</button>
+    <p class="visually-hidden" role="status" data-cards-status></p>
+  </div>
+</div>

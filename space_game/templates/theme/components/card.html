@@ -1,0 +1,41 @@
+{% load static djangocms_link_tags %}
+
+<article class="feature-card">
+  {% if instance.image %}
+    <img src="{{ instance.image.url }}"
+         alt="{{ instance.image_alt }}"
+         width="{{ instance.image.width|floatformat:'0u' }}"
+         height="{{ instance.image.height|floatformat:'0u' }}"
+         loading="lazy" />
+  {% elif instance.default_image %}
+    {% if instance.default_image == "resources" %}
+      <img src="{% static 'images/theme/website-bilder/mine_guertel.png' %}"
+           alt="{{ instance.image_alt }}"
+           width="3840"
+           height="2160"
+           loading="lazy" />
+    {% elif instance.default_image == "trade" %}
+      <img src="{% static 'images/theme/website-bilder/trade_levante.png' %}"
+           alt="{{ instance.image_alt }}"
+           width="3840"
+           height="2160"
+           loading="lazy" />
+    {% elif instance.default_image == "exploration" %}
+      <img src="{% static 'images/theme/website-bilder/explore_skycity.png' %}"
+           alt="{{ instance.image_alt }}"
+           width="3840"
+           height="2160"
+           loading="lazy" />
+    {% endif %}
+  {% endif %}
+  <div class="feature-copy">
+    {% if instance.eyebrow %}<p class="eyebrow mb-3">{{ instance.eyebrow }}</p>{% endif %}
+    <h3>{{ instance.title }}</h3>
+    {% if instance.description %}<p>{{ instance.description }}</p>{% endif %}
+    {% with link_url=instance.link|to_url %}
+      {% if instance.link_label and link_url %}
+        <a class="d-inline-block mt-3" href="{{ link_url }}">{{ instance.link_label }}</a>
+      {% endif %}
+    {% endwith %}
+  </div>
+</article>

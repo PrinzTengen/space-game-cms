@@ -1,0 +1,29 @@
+{% load static djangocms_link_tags %}
+
+<section class="space-hero">
+  <img class="hero-image"
+       src="{% if instance.image %}{{ instance.image.url }}{% else %}{% static 'images/theme/website-bilder/hero_scirocco.png' %}{% endif %}"
+       alt="{{ instance.image_alt }}"
+       width="{% if instance.image %}{{ instance.image.width|floatformat:"0u" }}{% else %}3840{% endif %}"
+       height="{% if instance.image %}{{ instance.image.height|floatformat:"0u" }}{% else %}2160{% endif %}"
+       fetchpriority="high" />
+  <div class="container">
+    {% if instance.eyebrow %}<p class="eyebrow mb-4">{{ instance.eyebrow }}</p>{% endif %}
+    <h1 class="mb-4">{{ instance.title }}</h1>
+    {% if instance.description %}<p class="hero-description mb-4">{{ instance.description }}</p>{% endif %}
+    {% with primary_url=instance.primary_link|to_url secondary_url=instance.secondary_link|to_url %}
+      {% if instance.primary_label and primary_url or instance.secondary_label and secondary_url %}
+        <div class="d-flex flex-wrap gap-3">
+          {% if instance.primary_label and primary_url %}
+            <a class="btn btn-primary" href="{{ primary_url }}" rel="noopener">{{ instance.primary_label }} ↗</a>
+          {% endif %}
+          {% if instance.secondary_label and secondary_url %}
+            <a class="btn btn-outline-light"
+               href="{{ secondary_url }}"
+               rel="noopener">{{ instance.secondary_label }} ↓</a>
+          {% endif %}
+        </div>
+      {% endif %}
+    {% endwith %}
+  </div>
+</section>

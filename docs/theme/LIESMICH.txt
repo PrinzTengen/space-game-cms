@@ -1,0 +1,36 @@
+﻿SPACE GAME - Material für die Website
+=====================================
+
+Stand: 06.11.2026 / monkey.cab
+
+Was drin ist
+------------
+logo/            Das Logo, 1024 × 1024 PNG, Ecken transparent
+website-bilder/  Die 4 Bilder der aktuellen Seite space-game.gg, Original 3840 × 2160
+fotoshooting/    10 Fotos vom Shooting, 2560 × 1440
+                 Station Meridian (3), Linse/Levante (3), Sky City (2), Schiff Märzbach (2)
+launcher/        Screenshot des Launchers, 1120 × 700
+
+Alle Bilder sind Screenshots aus dem Spiel, ohne Oberfläche (außer dem Launcher).
+Das Spiel ist in Entwicklung, Motive können sich ändern.
+
+Der Launcher-Screenshot ist ein Arbeitsstand und nur als Referenz für den Look gedacht:
+Er zeigt Test-Konten, "Server nicht erreichbar" und oben rechts einen angeschnittenen
+Tooltip. Bitte nicht so veröffentlichen.
+
+Look der aktuellen Seite
+------------------------
+Schrift       JetBrains Mono (die Schrift des Spiels, frei unter SIL OFL 1.1)
+Hintergrund   #040A0E
+Akzent        #8BE0EC
+Warnung       #FFAB26
+
+Links
+-----
+Aktuelle Seite  https://space-game.gg
+Studio          https://monkey.cab
+Discord         https://discord.gg/TeGQrqprRM
+YouTube         https://www.youtube.com/@monkeycabstudio
+Alpha-Start     12.11.2026
+
+Weitere Motive gibt es auf Anfrage.
