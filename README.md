@@ -159,11 +159,17 @@ Motive lassen sich auch ohne Medienimport als Standardbild auswählen. Bilder
 können im CMS hinzugefügt, umsortiert und entfernt werden.
 
 Der Slider kombiniert eine gleitende Bewegung mit sanftem Zoom und eingeblendeten
-Captions. Er bietet Vorschaubilder, einen Bildzähler, Pfeile, Touch-Scrolling und
-Tastatursteuerung: Pfeil links/rechts sowie Pos1/Ende im fokussierten Bildbereich.
+Captions. Links steht das große Bild, rechts eine senkrechte Vorschauleiste.
+Beide Bereiche blenden ihre Scrollleisten aus; Touch-Scrolling bleibt möglich.
+Vor-/Zurück-Pfeile und der Vollbild-Button liegen direkt im großen Bild. Der
+Vollbildmodus enthält auch die Vorschauen und lässt sich über den Schließen-
+Button oder Escape verlassen. Ohne Browser-Vollbild-Unterstützung öffnet sich
+stattdessen eine bildschirmfüllende Dialogansicht.
+Die Tastatursteuerung unterstützt Pfeil links/rechts sowie Pos1/Ende.
 Es gibt keinen automatischen Bildwechsel. Die Systemeinstellung für reduzierte
 Bewegung schaltet Animationen und weiches Scrollen ab. Bei nur einem Bild sind
-die Steuerelemente ausgeblendet. Ohne JavaScript bleibt die Galerie horizontal
+die Navigationspfeile und Vorschauen ausgeblendet; Vollbild bleibt verfügbar.
+Ohne JavaScript bleibt die Galerie horizontal
 scrollbar; im CMS-Bearbeitungsmodus stehen alle Bilder untereinander, damit sie
 direkt bearbeitet werden können. Mehrere Galerien funktionieren unabhängig.
 

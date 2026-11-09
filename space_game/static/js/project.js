@@ -43,6 +43,10 @@
     const events = new AbortController();
     const options = { signal: events.signal };
     const controls = module.querySelector("[data-gallery-controls]");
+    const viewer = module.querySelector("[data-gallery-viewer]");
+    const sidebar = module.querySelector("[data-gallery-sidebar]");
+    const fullscreen = module.querySelector("[data-gallery-fullscreen]");
+    const dialog = module.querySelector("[data-gallery-dialog]");
     const thumbnails = module.querySelector("[data-gallery-thumbnails]");
     const counter = module.querySelector("[data-gallery-count]");
     const status = module.querySelector("[data-gallery-status]");
@@ -51,7 +55,11 @@
     let trackWidth = track.clientWidth;
     thumbnails.replaceChildren();
     controls.hidden = slides.length < 2;
+    sidebar.hidden = slides.length < 2;
     thumbnails.hidden = slides.length < 2;
+    fullscreen.hidden = !slides.length;
+    counter.hidden = !slides.length;
+    viewer.classList.toggle("has-thumbnails", slides.length > 1);
     module.classList.add("is-ready");
 
     function select(index, announce = true) {
@@ -69,7 +77,8 @@
       const button = thumbnails.children[index];
       if (button) {
         thumbnails.scrollTo({
-          left: button.offsetLeft - thumbnails.offsetLeft - (thumbnails.clientWidth - button.offsetWidth) / 2,
+          top: thumbnails.scrollTop + button.getBoundingClientRect().top
+            - thumbnails.getBoundingClientRect().top - (thumbnails.clientHeight - button.offsetHeight) / 2,
           behavior: behavior(),
         });
       }
@@ -88,6 +97,44 @@
         behavior: behavior(),
       });
     }
+
+    function syncFullscreen() {
+      const expanded = document.fullscreenElement === viewer || dialog.open;
+      viewer.classList.toggle("is-expanded", expanded);
+      fullscreen.setAttribute("aria-pressed", String(expanded));
+      fullscreen.setAttribute("aria-label", expanded
+        ? module.dataset.galleryExitFullscreenLabel : module.dataset.galleryFullscreenLabel);
+      // Expanding changes the slide width; align it before measuring the new state.
+      trackWidth = track.clientWidth;
+      if (current >= 0) track.scrollTo({ left: slideOffset(current), behavior: "instant" });
+    }
+
+    fullscreen.addEventListener("click", async () => {
+      if (document.fullscreenElement === viewer) {
+        await document.exitFullscreen();
+      } else if (dialog.open) {
+        dialog.close();
+      } else {
+        if (viewer.requestFullscreen && document.fullscreenEnabled) {
+          try {
+            await viewer.requestFullscreen();
+            return;
+          } catch {
+            // A dialog also works when browser or iframe policy disallows fullscreen.
+          }
+        }
+        dialog.append(viewer);
+        dialog.showModal();
+        syncFullscreen();
+        fullscreen.focus({ preventScroll: true });
+      }
+    }, options);
+    document.addEventListener("fullscreenchange", syncFullscreen, options);
+    dialog.addEventListener("close", () => {
+      dialog.before(viewer);
+      syncFullscreen();
+      fullscreen.focus({ preventScroll: true });
+    }, options);
 
     slides.forEach((slide, i) => {
       slide.setAttribute("role", "group");
@@ -128,7 +175,7 @@
 
     module.querySelector("[data-gallery-prev]").addEventListener("click", () => goTo(current - 1), options);
     module.querySelector("[data-gallery-next]").addEventListener("click", () => goTo(current + 1), options);
-    track.addEventListener("keydown", (event) => {
+    viewer.addEventListener("keydown", (event) => {
       const destinations = { ArrowLeft: current - 1, ArrowRight: current + 1, Home: 0, End: slides.length - 1 };
       if (!(event.key in destinations) || event.altKey || event.ctrlKey || event.metaKey) return;
       event.preventDefault();
@@ -156,6 +203,17 @@
       track, slides,
       destroy() {
         events.abort();
+        if (document.fullscreenElement === viewer) document.exitFullscreen().catch(() => {});
+        if (dialog.open) {
+          dialog.close();
+          dialog.before(viewer);
+        }
+        viewer.classList.remove("is-expanded", "has-thumbnails");
+        fullscreen.setAttribute("aria-pressed", "false");
+        fullscreen.setAttribute("aria-label", module.dataset.galleryFullscreenLabel);
+        fullscreen.hidden = true;
+        sidebar.hidden = true;
+        counter.hidden = true;
         resize.disconnect();
         cancelAnimationFrame(scrollFrame);
         module.classList.remove("is-ready");
