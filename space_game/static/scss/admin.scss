@@ -1,0 +1,236 @@
+@use "fonts";
+
+// Keep the native Django/CMS layout and widgets; theme their existing variables.
+:root, html[data-theme="light"] {
+  --primary: #177184;
+  --secondary: #113946;
+  --accent: #8be0ec;
+  --primary-fg: #fff;
+  --body-bg: #f3f7f8;
+  --body-fg: #152d38;
+  --body-quiet-color: #516973;
+  --body-medium-color: #314e5c;
+  --body-loud-color: #102a36;
+  --header-bg: #040a0e;
+  --header-color: #b6ced7;
+  --header-branding-color: #e3edf0;
+  --header-link-color: #b9edf4;
+  --breadcrumbs-bg: #e6eff2;
+  --breadcrumbs-fg: #425e6a;
+  --breadcrumbs-link-fg: #155d70;
+  --link-fg: #11667a;
+  --link-hover-color: #093e4c;
+  --link-selected-fg: #155d70;
+  --hairline-color: #dce5e9;
+  --border-color: #c6d8df;
+  --darkened-bg: #eaf1f4;
+  --selected-bg: #e1eef2;
+  --selected-row: #d2edf1;
+  --button-bg: #176e80;
+  --button-hover-bg: #105364;
+  --default-button-bg: #145b6b;
+  --default-button-hover-bg: #0b4352;
+  --object-tools-bg: #176e80;
+  --object-tools-hover-bg: #105364;
+  --close-button-bg: #496672;
+  --delete-button-bg: #ad3547;
+  --delete-button-hover-bg: #8d2434;
+  --font-family-primary: "JetBrains Mono", monospace;
+  --font-family-monospace: "JetBrains Mono", monospace;
+  --mission-panel: #fff;
+  --mission-glow: rgba(23, 113, 132, .09);
+  --mission-field: #fff;
+  --mission-primary-text: #fff;
+  --mission-shadow: 0 8px 28px rgba(4, 10, 14, .04);
+}
+
+@mixin dark-palette {
+  color-scheme: dark;
+  --primary: #153a47;
+  --secondary: #0d202a;
+  --accent: #8be0ec;
+  --primary-fg: #e3edf0;
+  --body-bg: #040a0e;
+  --body-fg: #d9e6ec;
+  --body-quiet-color: #91acb8;
+  --body-medium-color: #b9cdd5;
+  --body-loud-color: #f3f8fa;
+  --breadcrumbs-bg: #0a151c;
+  --breadcrumbs-fg: #91acb8;
+  --breadcrumbs-link-fg: #8be0ec;
+  --link-fg: #8be0ec;
+  --link-hover-color: #c4f5ff;
+  --link-selected-fg: #b5eef6;
+  --hairline-color: #152b36;
+  --border-color: #263e4b;
+  --darkened-bg: #0a1720;
+  --selected-bg: #102a35;
+  --selected-row: #153844;
+  --button-fg: #e3edf0;
+  --button-bg: #183c4b;
+  --button-hover-bg: #235467;
+  --default-button-bg: #8be0ec;
+  --default-button-hover-bg: #b9edf4;
+  --object-tools-fg: #040a0e;
+  --object-tools-bg: #8be0ec;
+  --object-tools-hover-bg: #b9edf4;
+  --close-button-bg: #354e5d;
+  --close-button-hover-bg: #496778;
+  --error-fg: #ff9aab;
+  --message-debug-bg: #142a36;
+  --message-info-bg: #102d3e;
+  --message-success-bg: #103c32;
+  --message-warning-bg: #473512;
+  --message-error-bg: #48202b;
+  --mission-panel: #0a151c;
+  --mission-field: #071118;
+  --mission-glow: rgba(139, 224, 236, .06);
+  --mission-primary-text: #040a0e;
+  --mission-shadow: 0 8px 28px rgba(0, 0, 0, .12);
+}
+
+html[data-theme="dark"] { @include dark-palette; }
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) { @include dark-palette; }
+}
+
+// django CMS 5.1's page tree uses its own color system.
+html[data-theme] {
+  --dca-primary: var(--link-fg);
+  --dca-secondary: var(--darkened-bg);
+  --dca-white: var(--mission-panel);
+  --dca-black: var(--body-fg);
+  --dca-dark: #153a47;
+  --dca-light: #8be0ec;
+  --dca-action-bg: var(--default-button-bg);
+  --dca-action-text: var(--mission-primary-text);
+  --dca-gray: var(--body-quiet-color);
+  --dca-gray-light: var(--body-quiet-color);
+  --dca-gray-lighter: var(--border-color);
+  --dca-gray-lightest: var(--mission-panel);
+  --dca-gray-darker: var(--body-medium-color);
+  --dca-gray-darkest: var(--body-loud-color);
+  --dca-border-radius: 10px;
+  --dca-btn-radius: 6px;
+}
+
+body { font-size: 13px; line-height: 1.6; }
+a { text-underline-offset: .2em; }
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 2px solid var(--link-fg);
+  outline-offset: 3px;
+}
+
+#header { min-height: 66px; padding: 12px 32px; border-bottom: 1px solid #263e4b; }
+#branding { display: flex; align-items: center; gap: 16px; }
+.mission-brand { display: inline-flex; align-items: center; gap: 14px; text-decoration: none; }
+.mission-brand img { border-radius: 10px; object-fit: contain; }
+.mission-brand strong { display: block; color: #e3edf0; font-size: 14px; letter-spacing: .16em; font-weight: 600; }
+.mission-brand small { display: block; color: #8be0ec; font-size: 9px; letter-spacing: .24em; margin-top: 3px; }
+#user-tools { font-size: 10px; line-height: 2; letter-spacing: .02em; }
+div.breadcrumbs { padding: 12px 32px; border-bottom: 1px solid var(--hairline-color); }
+#content { padding: 28px 32px; }
+#content > h1 { font-size: 25px; font-weight: 600; letter-spacing: -.04em; color: var(--body-loud-color); }
+.module, .inline-group, #changelist-filter { border: 1px solid var(--border-color); border-radius: 10px; background: var(--mission-panel); overflow: hidden; box-shadow: var(--mission-shadow); }
+.module h2, .module caption, .inline-group h2 { background: var(--darkened-bg); color: var(--body-loud-color); padding: 14px 18px; font-size: 11px; font-weight: 600; letter-spacing: .04em; border-bottom: 1px solid var(--border-color); }
+.module caption a.section { color: var(--link-fg); }
+td, th { padding: 12px 14px; font-size: 12px; }
+thead th { background: var(--darkened-bg); color: var(--body-medium-color); }
+.row1 { background: var(--mission-panel); }
+.row2 { background: var(--darkened-bg); }
+.module table { width: 100%; }
+.form-row { padding: 16px 18px; }
+.aligned label { color: var(--body-medium-color); }
+input:not([type="checkbox"], [type="radio"], [type="submit"], [type="button"], [type="hidden"]), textarea, select {
+  background-color: var(--mission-field); color: var(--body-fg); border: 1px solid var(--border-color); border-radius: 6px; padding: 9px 11px;
+}
+input:focus, textarea:focus, select:focus { border-color: var(--link-fg); }
+.help, p.help, form p.help { color: var(--body-quiet-color); font-size: 11px; }
+.button, input[type="submit"], input[type="button"], .submit-row input, a.button, button.button {
+  border-radius: 6px; font-family: inherit; font-weight: 600; padding: 10px 16px; min-height: 36px; cursor: pointer;
+}
+.button.default, input[type="submit"].default, .submit-row input.default { color: var(--mission-primary-text); }
+.object-tools a:link, .object-tools a:visited { border-radius: 6px; padding: 10px 16px; font-size: 11px; font-weight: 600; }
+.submit-row { background: var(--mission-panel); border: 1px solid var(--border-color); border-radius: 8px; padding: 16px; }
+#changelist #toolbar { border: 1px solid var(--border-color); border-radius: 8px; background: var(--mission-panel); padding: 14px; }
+#changelist .actions, #changelist .paginator { background: var(--mission-panel); color: var(--body-medium-color); }
+#changelist-filter h2 { background: var(--darkened-bg); color: var(--body-fg); }
+#nav-sidebar { background: var(--mission-panel); }
+#nav-sidebar .module { border: 0; border-radius: 0; box-shadow: none; margin-bottom: 8px; }
+#nav-sidebar .module caption { background: transparent; font-size: 10px; border-bottom: 1px solid var(--hairline-color); }
+#nav-sidebar th { font-size: 11px; padding-block: 9px; }
+#nav-filter { margin: 16px; width: calc(100% - 32px); }
+#nav-sidebar .current-model { background: var(--selected-bg); }
+.filebrowser .navigator-button { background: var(--default-button-bg); color: var(--mission-primary-text); border-radius: 6px; }
+.filebrowser .navigator-top-nav { background: var(--mission-panel); border-color: var(--border-color); }
+.filebrowser .filer-dropzone-upload-welcome { background: var(--darkened-bg); color: var(--body-quiet-color); }
+.filebrowser td.no-files { background: var(--darkened-bg); color: var(--body-quiet-color); }
+#footer { padding: 20px 32px; }
+.mission-footer { color: var(--body-quiet-color); font-size: 9px; letter-spacing: .14em; }
+.mission-footer span { color: var(--link-fg); margin-inline: 10px; }
+
+// Dashboard: real, permission-filtered shortcuts and Django's original app list.
+.dashboard #content { width: auto; margin-right: 0; display: grid; grid-template-columns: minmax(0, 1fr) 260px; gap: 24px; }
+.dashboard #content > .clear { display: none; }
+.mission-welcome { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 32px; border: 1px solid var(--border-color); border-radius: 12px; background: radial-gradient(ellipse at top right, var(--mission-glow), transparent 65%), var(--mission-panel); }
+.mission-eyebrow { color: var(--link-fg); font-size: 10px; letter-spacing: .14em; font-weight: 600; margin: 0 0 12px; }
+.mission-welcome h1 { font-size: clamp(27px, 3vw, 42px); font-weight: 600; letter-spacing: -.06em; margin: 0 0 12px; }
+.mission-welcome h1 span { color: var(--link-fg); }
+.mission-intro { color: var(--body-quiet-color); max-width: 60ch; margin-bottom: 0; }
+.mission-visit { white-space: nowrap; border: 1px solid var(--border-color); padding: 10px 16px; border-radius: 6px; }
+.mission-shortcuts { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 16px; }
+.mission-shortcut { position: relative; display: flex; flex-direction: column; gap: 8px; padding: 22px 40px 22px 22px; border: 1px solid var(--border-color); border-radius: 10px; background: var(--mission-panel); text-decoration: none !important; }
+.mission-shortcut:hover, .mission-shortcut:focus-visible { border-color: var(--link-fg); background: var(--mission-glow); }
+.mission-shortcut .mission-eyebrow { margin: 0; }
+.mission-shortcut strong { color: var(--body-loud-color); font-size: 13px; font-weight: 600; }
+.mission-shortcut-arrow { position: absolute; top: 20px; right: 18px; font-size: 18px; }
+.mission-shortcut--cms { order: 1; }
+.mission-shortcut--djangocms_stories { order: 2; }
+.mission-shortcut--filer { order: 3; }
+.mission-shortcut--djangocms_cookie_love { order: 4; }
+.dashboard #content-main { float: none; width: auto; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; align-items: start; grid-column: 1; }
+.dashboard #content-main .module { margin: 0; }
+.dashboard #content-related { float: none; width: auto; margin: 0; grid-column: 2; grid-row: 3; align-self: start; background: var(--mission-panel); border: 1px solid var(--border-color); border-radius: 10px; }
+.dashboard #content-related .module { border: 0; box-shadow: none; }
+.dashboard #content-related h3 { font-size: 11px; padding-top: 16px; }
+.dashboard #recent-actions-module ul { padding: 0 18px; }
+.dashboard #recent-actions-module li { padding-bottom: 16px; }
+
+// Login keeps Django's original form, errors, CSRF and redirect handling.
+body.login { background: radial-gradient(ellipse at 75% 10%, rgba(139, 224, 236, .1), transparent 45%), var(--body-bg); }
+.login #container { width: min(460px, calc(100% - 32px)); margin: 7vh auto 24px; border: 1px solid var(--border-color); border-radius: 14px; background: var(--mission-panel); box-shadow: var(--mission-shadow); overflow: hidden; }
+.login #header { padding: 24px 30px; min-height: auto; }
+.login #content { padding: 30px; }
+.login .mission-login-intro h1 { color: var(--body-loud-color); font-size: 27px; font-weight: 600; letter-spacing: -.05em; margin-bottom: 12px; }
+.mission-login-intro > p:last-child { color: var(--body-quiet-color); font-size: 12px; }
+.login .form-row { padding: 10px 0; }
+.login .form-row label { font-size: 12px; color: var(--body-medium-color); }
+.login .form-row #id_username, .login .form-row #id_password { padding: 11px; border-radius: 6px; }
+.login .submit-row { border: 0; background: transparent; padding: 12px 0 0; margin: 0; }
+.login .submit-row input { width: 100%; color: var(--mission-primary-text); background: var(--default-button-bg); }
+.login #footer { padding: 0 30px 24px; }
+
+@media (max-width: 1200px) {
+  .dashboard #content-main { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 900px) {
+  .dashboard #content { grid-template-columns: minmax(0, 1fr); }
+  .dashboard #content-related { grid-column: 1; grid-row: auto; }
+  .mission-welcome { align-items: flex-start; flex-direction: column; padding: 24px; }
+}
+@media (max-width: 767px) {
+  #header { padding: 16px; gap: 16px; }
+  #user-tools { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px; margin: 0; padding: 0; line-height: 1.7; }
+  #user-tools .theme-toggle { margin: 0; flex-shrink: 0; }
+  #content { padding: 20px 16px; }
+  div.breadcrumbs { padding: 12px 16px; }
+  .dashboard #content { padding: 20px 16px; gap: 16px; }
+  .mission-shortcuts { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .mission-shortcut { padding: 18px 28px 18px 14px; }
+  .mission-shortcut strong { font-size: 11px; }
+  .mission-shortcut .mission-eyebrow { font-size: 9px; letter-spacing: .05em; }
+  .mission-shortcut-arrow { right: 10px; font-size: 14px; }
+  .dashboard .module th, .dashboard .module td { padding: 10px; font-size: 11px; }
+  .login #content { padding: 24px; }
+  #footer { padding-inline: 16px; }
+}

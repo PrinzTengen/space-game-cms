@@ -1,0 +1,12 @@
+{% extends "admin/login.html" %}
+
+{% load i18n %}
+
+{% block content %}
+  <div class="mission-login-intro">
+    <p class="mission-eyebrow">{% translate "CREW ACCESS" %}</p>
+    <h1>{% translate "Welcome aboard." %}</h1>
+    <p>{% translate "Sign in to shape the Space Game universe." %}</p>
+  </div>
+  {{ block.super }}
+{% endblock content %}

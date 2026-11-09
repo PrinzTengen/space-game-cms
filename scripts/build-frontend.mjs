@@ -15,16 +15,17 @@ function copy(source, destination) {
 }
 
 function build() {
-  // Bootstrap variables are overridden before importing its SCSS sources.
-  const result = sass.compile(join(scssRoot, "project.scss"), {
-    loadPaths: [join(root, "node_modules")],
-    style: "compressed",
-    sourceMap: false,
-    quietDeps: true,
-    silenceDeprecations: ["import"],
-  });
   mkdirSync(outputRoot, { recursive: true });
-  writeFileSync(join(outputRoot, "project.css"), result.css);
+  for (const entry of ["project", "admin"]) {
+    const result = sass.compile(join(scssRoot, `${entry}.scss`), {
+      loadPaths: [join(root, "node_modules")],
+      style: "compressed",
+      sourceMap: false,
+      quietDeps: true,
+      silenceDeprecations: ["import"],
+    });
+    writeFileSync(join(outputRoot, `${entry}.css`), result.css);
+  }
   copy("bootstrap/dist/js/bootstrap.bundle.min.js", "bootstrap.bundle.min.js");
   copy("bootstrap/dist/js/bootstrap.bundle.min.js.map", "bootstrap.bundle.min.js.map");
   copy("bootstrap/LICENSE", "licenses/bootstrap.txt");
@@ -35,7 +36,7 @@ function build() {
       `fonts/jetbrains-mono-latin-${weight}-normal.woff2`,
     );
   }
-  console.log("Built Bootstrap, Space Game SCSS, JavaScript and local fonts.");
+  console.log("Built website and admin styles, Bootstrap JavaScript and local fonts.");
 }
 
 build();

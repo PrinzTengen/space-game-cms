@@ -4,6 +4,23 @@ website
 
 ## django CMS
 
+### Admin: Mission Control
+
+Der Django-Admin unter `/admin/` verwendet das Space-Game-Design mit lokalem
+JetBrains Mono, dunklen Oberflächen und cyanfarbenen Akzenten. Das Dashboard
+verlinkt auf Seiten, Stories, Medien und Cookie-Einstellungen, soweit der
+angemeldete Benutzer die jeweiligen Berechtigungen besitzt. Djangos Hell-/Dunkel-
+Umschalter und die Sidebar-Suche bleiben verfügbar; beim ersten Besuch wird
+das dunkle Theme gewählt.
+
+Die Anpassung liegt in `space_game/templates/admin/`,
+`space_game/static/scss/admin.scss` und `space_game/theme/admin.py`. Der vorhandene
+`npm run build`-/`npm run watch`-Ablauf erzeugt zusätzlich `build/admin.css`.
+Website und Admin teilen nur die lokalen Fontdateien; Bootstrap wird nicht in
+die Admin-Oberfläche importiert. Django-CMS-Seitenbaum und Filer verwenden
+dieselbe Farbpalette. Die nativen Admin-Formulare, Berechtigungen und Aktionen
+bleiben die Grundlage.
+
 Das Projekt verwendet django CMS **5.1.3** mit Django 6.0.10 und Python 3.14.
 Die CMS-Pakete sind in `pyproject.toml` und `uv.lock` festgehalten:
 
