@@ -62,6 +62,10 @@ Auf `/stories/` lassen sich Vorspann, Überschrift und Untertitel über das
 `logbook_header` bearbeiten, jeweils getrennt für Deutsch und Englisch.
 Änderungen werden als CMS-Entwurf gespeichert und nach Veröffentlichung sichtbar.
 Die Seitenvorlage **Space Game — Logbook** stellt den Header auch im CMS-Editor dar.
+Auf der öffentlichen Logbuchseite verknüpft eine Middleware die Stories-Übersicht
+mit ihrer CMS-Seite, damit die Toolbar **New Draft / Neuer Entwurf** bzw.
+**Edit / Bearbeiten** anbietet. Diesen Button anklicken, dann den Header doppelt
+anklicken. Speichern und anschließend veröffentlichen.
 
 Bestehende Logbuchseiten einmal mit `migrate` und folgendem Befehl überführen:
 

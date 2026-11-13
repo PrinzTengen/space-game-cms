@@ -64,6 +64,40 @@ def test_header_edit_dialog_and_page_editor(logbook_site, client):
     assert f"cms-plugin-{header(draft.content).pk}".encode() in response.content
 
 
+@pytest.mark.parametrize("language", ["en", "de"])
+def test_public_logbook_has_working_versioned_edit_button(language, client):
+    user = UserFactory(is_superuser=True, is_staff=True)
+    call_command("apply_design_system", username=user.username)
+    client.force_login(user)
+    client.post(reverse("set_language"), {"language": language, "next": "/stories/"})
+    response = client.get("/stories/")
+    content = logbook(language)
+    assert response.wsgi_request.toolbar.get_object() == content
+    edit_url = reverse(
+        "admin:djangocms_versioning_pagecontentversion_edit_redirect",
+        args=[Version.objects.get_for_content(content).pk],
+    )
+    assert edit_url.encode() in response.content
+    assert b"cms-versioning-js-edit-btn" in response.content
+    response = client.post(edit_url, follow=True)
+    assert response.status_code == HTTPStatus.OK
+    draft = PageContent.admin_manager.get(
+        page=content.page,
+        language=language,
+        versions__state="draft",
+    )
+    assert f"cms-plugin-{header(draft).pk}".encode() in response.content
+    assert header(draft).config["title"].encode() in response.content
+    assert Version.objects.get_for_content(content).state == "published"
+
+
+def test_staff_without_page_permissions_has_no_edit_button(logbook_site, client):
+    client.force_login(UserFactory(is_staff=True))
+    response = client.get("/stories/")
+    assert response.status_code == HTTPStatus.OK
+    assert b"cms-versioning-js-edit-btn" not in response.content
+
+
 def test_publishing_header_keeps_drafts_private_and_escapes_text(logbook_site, client):
     draft = Version.objects.get_for_content(logbook()).copy(logbook_site)
     instance = header(draft.content)
@@ -114,7 +148,8 @@ def test_installer_protects_edited_drafts(logbook_site):
 
 
 def test_search_contains_full_text_and_tags_without_leaking_drafts(
-    logbook_site, client,
+    logbook_site,
+    client,
 ):
     post = Post.objects.create(
         author=logbook_site,

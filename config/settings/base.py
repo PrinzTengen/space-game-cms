@@ -205,6 +205,7 @@ MIDDLEWARE = [
     "cms.middleware.user.CurrentUserMiddleware",
     "cms.middleware.page.CurrentPageMiddleware",
     "cms.middleware.toolbar.ToolbarMiddleware",
+    "space_game.theme.middleware.LogbookToolbarMiddleware",
     "cms.middleware.language.LanguageCookieMiddleware",
     "cms.middleware.utils.ApphookReloadMiddleware",
 ]
