@@ -17,6 +17,7 @@ from space_game.theme.cards import add_default_cards
 from space_game.theme.cta import add_default_cta
 from space_game.theme.gallery import add_default_gallery
 from space_game.theme.hero import add_default_hero
+from space_game.theme.logbook import add_default_logbook_header
 from space_game.theme.stories import add_default_latest_posts
 
 
@@ -103,7 +104,10 @@ class Command(BaseCommand):
     def create_page(user, site, language, title, slug, body, **kwargs):  # noqa: PLR0913, PLR0917
         page = create_page(
             title,
-            "cms/home.html" if slug == "home" else "cms/default.html",
+            {"home": "cms/home.html", "stories": "cms/logbook.html"}.get(
+                slug,
+                "cms/default.html",
+            ),
             language,
             slug=slug,
             reverse_id=slug,
@@ -119,6 +123,8 @@ class Command(BaseCommand):
             add_default_cta(content)
             add_default_gallery(content)
             add_default_latest_posts(content)
+        elif slug == "stories":
+            add_default_logbook_header(content)
         if body:
             add_plugin(
                 content.get_placeholders().get(slot="content"),

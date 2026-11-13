@@ -1,0 +1,53 @@
+{% load design_tags %}
+
+<div data-logbook data-logbook-results="{{ sg.t.blog.results }}">
+  <div class="sg-logbook-tools">
+    <form class="sg-post-search" role="search" data-post-search-form hidden>
+      <label for="logbook-search">{{ sg.t.blog.searchLabel }}</label>
+      <div class="sg-post-search-controls">
+        <input id="logbook-search"
+               type="search"
+               name="q"
+               placeholder="{{ sg.t.blog.searchPlaceholder }}"
+               autocomplete="off"
+               aria-controls="logbook-posts"
+               aria-describedby="logbook-results"
+               data-post-search />
+        <button type="button" class="btn" data-post-search-clear hidden>{{ sg.t.blog.clearSearch }}</button>
+      </div>
+    </form>
+    <div class="sg-segment sg-post-filter"
+         role="group"
+         aria-label="{{ sg.t.blog.filterLabel }}"
+         data-post-filters
+         hidden>
+      <button type="button"
+              data-post-filter="all"
+              aria-pressed="true">{{ sg.t.blog.all }} <span data-post-count="all"></span></button>
+      <button type="button"
+              data-post-filter="news"
+              aria-pressed="false">{{ sg.t.blog.news }} <span data-post-count="news"></span></button>
+      <button type="button"
+              data-post-filter="devlog"
+              aria-pressed="false">{{ sg.t.blog.devlog }} <span data-post-count="devlog"></span></button>
+    </div>
+  </div>
+  <p id="logbook-results"
+     class="sg-search-results"
+     role="status"
+     aria-live="polite"
+     aria-atomic="true"
+     data-post-results
+     hidden></p>
+  {% design_posts as posts %}
+  <div id="logbook-posts" class="sg-post-grid" data-post-list>
+    {% for post_content in posts %}
+      {% include "theme/post_card.html" with show_more=True %}
+    {% endfor %}
+  </div>
+  <div class="sg-window sg-search-empty" data-post-empty hidden>
+    <h2>{{ sg.t.blog.noResults }}</h2>
+    <p>{{ sg.t.blog.searchHint }}</p>
+    <button type="button" class="btn" data-post-reset>{{ sg.t.blog.resetFilters }}</button>
+  </div>
+</div>

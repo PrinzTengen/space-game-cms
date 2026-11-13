@@ -9,6 +9,28 @@ from djangocms_link.fields import LinkFormField
 
 
 @components.register
+class SpaceGameLogbookHeader(CMSFrontendComponent):
+    class Meta:
+        name = _("Space Game Logbook Header")
+        module = "Space Game"
+        render_template = "theme/components/logbook_header.html"
+        allow_children = False
+        default_config = {
+            "eyebrow": "News & Devlogs",
+            "title": "Logbook",
+            "subtitle": "Announcements, patch notes and a look behind the scenes.",
+        }
+
+    eyebrow = forms.CharField(label=_("Eyebrow"), required=False, max_length=200)
+    title = forms.CharField(label=_("Heading"), max_length=250)
+    subtitle = forms.CharField(
+        label=_("Subtitle"),
+        required=False,
+        widget=forms.Textarea,
+    )
+
+
+@components.register
 class SpaceGameHero(CMSFrontendComponent):
     class Meta:
         name = _("Space Game Hero")
@@ -38,7 +60,9 @@ class SpaceGameHero(CMSFrontendComponent):
         widget=forms.Textarea,
     )
     note = forms.CharField(
-        label=_("Note below buttons"), required=False, max_length=250,
+        label=_("Note below buttons"),
+        required=False,
+        max_length=250,
     )
     image = ImageFormField(
         label=_("Background image"),
@@ -137,8 +161,7 @@ class SpaceGameCTA(CMSFrontendComponent):
             "eyebrow": "",
             "title": "Ready for your first launch?",
             "description": (
-                "Sign in with Discord and download the launcher "
-                "for Windows or Linux."
+                "Sign in with Discord and download the launcher for Windows or Linux."
             ),
             "button_label": "Go to download",
             "button_link": {"external_link": "/download/"},

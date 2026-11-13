@@ -2,7 +2,8 @@
 
 <article class="sg-window sg-post-card"
          data-reveal
-         data-post-kind="{{ post_content|post_kind }}">
+         data-post-kind="{{ post_content|post_kind }}"
+         {% if show_more %}data-post-search="{{ post_content|post_search_text }}"{% endif %}>
   <div class="sg-media">
     {# djlint:off T038 #}
     {% if post_content.post.main_image %}
@@ -21,10 +22,10 @@
     <div class="sg-post-meta">
       <span class="sg-tag">{% firstof post_content.subtitle sg.t.news %}</span>
       <time datetime="{{ post_content.date_published|date:'Y-m-d' }}">{{ post_content.date_published|date:'d M Y' }}</time>
-      {% if show_more %}<span>? {{ post_content|reading_minutes }} {{ sg.t.minRead }}</span>{% endif %}
+      {% if show_more %}<span>· {{ post_content|reading_minutes }} {{ sg.t.minRead }}</span>{% endif %}
     </div>
     <h3><a class="sg-post-link" href="{{ post_content.get_absolute_url }}">{{ post_content.title }}</a></h3>
     <p>{{ post_content.abstract|striptags }}</p>
-    {% if show_more %}<span class="sg-post-more" aria-hidden="true">{{ sg.t.blog.more }} ?</span>{% endif %}
+    {% if show_more %}<span class="sg-post-more" aria-hidden="true">{{ sg.t.blog.more }} →</span>{% endif %}
   </div>
 </article>

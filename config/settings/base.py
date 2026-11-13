@@ -1,5 +1,6 @@
 # ruff: noqa: ERA001, E501
 """Base settings to build other settings files upon."""
+
 import os
 import ssl
 from pathlib import Path
@@ -424,6 +425,7 @@ CMS_TEMPLATES = [
     ("cms/fullwidth.html", "Full width"),
     ("cms/download.html", "Space Game — Download"),
     ("cms/faq.html", "Space Game — System & FAQ"),
+    ("cms/logbook.html", "Space Game — Logbook"),
 ]
 CMS_LANGUAGES = {
     SITE_ID: [
@@ -450,6 +452,12 @@ STORIES_AUTO_SETUP = False  # Set up page/apphook content explicitly after migra
 META_USE_SITES = True  # Stories builds image metadata without passing a request.
 META_SITE_PROTOCOL = env("META_SITE_PROTOCOL", default="https")
 CMS_PAGE_CACHE = False  # Consent and account controls depend on the visitor.
+CMS_PLACEHOLDER_CONF = {
+    "logbook_header": {
+        "plugins": ["SpaceGameLogbookHeaderPlugin"],
+        "limits": {"global": 1},
+    },
+}
 CMS_PLACEHOLDER_CACHE = False
 SG_DISCORD_CLIENT_ID = env("DISCORD_CLIENT_ID", default="")
 SG_DISCORD_CLIENT_SECRET = env("DISCORD_CLIENT_SECRET", default="")

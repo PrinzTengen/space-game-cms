@@ -59,7 +59,14 @@
         "news": "News",
         "devlog": "Devlogs",
         "more": "Weiterlesen",
-        "slot": "Bild ablegen"
+        "slot": "Bild ablegen",
+        "searchLabel": "Beiträge durchsuchen",
+        "searchPlaceholder": "Titel, Text oder Schlagwort",
+        "clearSearch": "Leeren",
+        "results": "Treffer: {count} / {total}",
+        "noResults": "Keine passenden Beiträge.",
+        "searchHint": "Versuche einen anderen Suchbegriff oder wechsle den Filter.",
+        "resetFilters": "Suche und Filter zurücksetzen"
       },
       "art": {
         "back": "Zurück zum Logbuch",
@@ -190,7 +197,14 @@
         "news": "News",
         "devlog": "Devlogs",
         "more": "Read more",
-        "slot": "Drop image"
+        "slot": "Drop image",
+        "searchLabel": "Search posts",
+        "searchPlaceholder": "Title, text or tag",
+        "clearSearch": "Clear",
+        "results": "Results: {count} / {total}",
+        "noResults": "No matching posts.",
+        "searchHint": "Try a different search term or choose another filter.",
+        "resetFilters": "Reset search and filters"
       },
       "art": {
         "back": "Back to logbook",
