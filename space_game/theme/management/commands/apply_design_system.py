@@ -55,14 +55,18 @@ class Command(BaseCommand):
         for lang in ("en", "de"):
             self.install_home(home, lang, user, data["strings"][lang])
             self.ensure_translation(
-                stories, lang, user, data["strings"][lang]["blog"]["title"],
+                stories,
+                lang,
+                user,
+                data["strings"][lang]["blog"]["title"],
             )
         for slug, template, label in [
             ("download", "cms/download.html", "download"),
             ("faq", "cms/faq.html", "faq"),
         ]:
             page = Page.objects.filter(
-                site_id=settings.SITE_ID, reverse_id=slug,
+                site_id=settings.SITE_ID,
+                reverse_id=slug,
             ).first()
             if page is None:
                 page = create_page(
@@ -78,10 +82,14 @@ class Command(BaseCommand):
                 Version.objects.get_for_content(created).publish(user)
             for lang in ("en", "de"):
                 self.ensure_translation(
-                    page, lang, user, data["strings"][lang]["nav"][label],
+                    page,
+                    lang,
+                    user,
+                    data["strings"][lang]["nav"][label],
                 )
         self.install_posts(user, data)
         call_command("install_home_stories", username=user.username)
+        call_command("install_logbook_header", username=user.username)
         self.stdout.write(
             self.style.SUCCESS("F2 Orbit website installed in DE and EN."),
         )
@@ -155,7 +163,9 @@ class Command(BaseCommand):
                 source = original.get_placeholders().get(slot="gallery")
                 target = content.get_placeholders().get(slot="gallery")
                 copy_plugins_to_placeholder(
-                    source.get_plugins().order_by("position"), target, lang,
+                    source.get_plugins().order_by("position"),
+                    target,
+                    lang,
                 )
         home = strings["home"]
         self.configure(

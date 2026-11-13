@@ -55,6 +55,34 @@ Prüfsummen stammen aus der gelieferten Referenz und sind vor echten Releases in
 
 ## django CMS
 
+### Logbuch: bearbeitbarer Header und Live-Suche
+
+Auf `/stories/` lassen sich Vorspann, Überschrift und Untertitel über das
+`djangocms-frontend`-Plugin **Space Game Logbook Header** im Platzhalter
+`logbook_header` bearbeiten, jeweils getrennt für Deutsch und Englisch.
+Änderungen werden als CMS-Entwurf gespeichert und nach Veröffentlichung sichtbar.
+Die Seitenvorlage **Space Game — Logbook** stellt den Header auch im CMS-Editor dar.
+Auf der öffentlichen Logbuchseite verknüpft eine Middleware die Stories-Übersicht
+mit ihrer CMS-Seite, damit die Toolbar **New Draft / Neuer Entwurf** bzw.
+**Edit / Bearbeiten** anbietet. Diesen Button anklicken, dann den Header doppelt
+anklicken. Speichern und anschließend veröffentlichen.
+
+Bestehende Logbuchseiten einmal mit `migrate` und folgendem Befehl überführen:
+
+```bash
+docker compose -f docker-compose.local.yml exec django python manage.py install_logbook_header --username DEIN_ADMIN
+```
+
+Neue Installationen erhalten den Header automatisch. Der Befehl ist wiederholbar
+und schützt bearbeitete, unveröffentlichte Entwürfe.
+
+Die JavaScript-Suche filtert die veröffentlichten Beiträge anhand von Titel,
+Untertitel, Einleitung, vollständigem Text und Schlagwörtern. Mehrere Suchwörter
+müssen gemeinsam vorkommen; Großschreibung und Akzente werden ignoriert.
+News-/Devlog-Filter, Trefferanzeige, Leeren und Zurücksetzen funktionieren ohne
+Seitenneuladen oder zusätzliche Bibliotheken. `q` und `type` in der URL erhalten
+die Auswahl beim Teilen und Neuladen. Ohne JavaScript bleiben alle Beiträge lesbar.
+
 ### Stories auf der Startseite und vollständige Beiträge
 
 **Fresh from development / Neu aus der Entwicklung** ist das native

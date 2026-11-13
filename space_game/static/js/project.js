@@ -92,32 +92,89 @@
       observer.observe(element);
     });
   }
+  let filterController;
+  const normalizeSearch = value => value.normalize("NFKD").replace(/\p{M}/gu, "").toLowerCase().replaceAll("ß", "ss");
+
   function initializeFilters() {
     const controls = document.querySelector("[data-post-filters]");
-    if (!controls) return;
-    const cards = [...document.querySelectorAll("[data-post-list] [data-post-kind]")];
+    const module = controls?.closest("[data-logbook]");
+    const list = module?.querySelector("[data-post-list]");
+    if (!controls || !list) {
+      filterController?.destroy();
+      filterController = null;
+      return;
+    }
+    const cards = [...list.querySelectorAll("[data-post-kind]")];
+    if (filterController?.controls === controls && filterController.list === list
+      && cards.length === filterController.cards.length
+      && cards.every((card, i) => card === filterController.cards[i])) return;
+    filterController?.destroy();
+    const events = new AbortController();
+    const options = {signal: events.signal};
+    const form = module.querySelector("[data-post-search-form]");
+    const input = module.querySelector("[data-post-search]");
+    const clear = module.querySelector("[data-post-search-clear]");
+    const status = module.querySelector("[data-post-results]");
+    const empty = module.querySelector("[data-post-empty]");
+    const corpus = cards.map(card => normalizeSearch(card.dataset.postSearch || card.textContent));
+    let kind = "all";
+    let timer;
     controls.hidden = false;
-    controls.querySelectorAll("[data-post-count]").forEach(node => {
-      node.textContent = cards.filter(card => node.dataset.postCount === "all" || card.dataset.postKind === node.dataset.postCount).length;
-    });
-    function select(kind) {
-      if (!["news", "devlog"].includes(kind)) kind = "all";
-      cards.forEach(card => card.hidden = kind !== "all" && card.dataset.postKind !== kind);
+    form.hidden = false;
+    status.hidden = false;
+
+    function apply(updateURL = true) {
+      clearTimeout(timer);
+      const terms = normalizeSearch(input.value).trim().split(/\s+/).filter(Boolean);
+      const matches = cards.map((card, i) => terms.every(term => corpus[i].includes(term)));
+      let count = 0;
+      cards.forEach((card, i) => {
+        card.hidden = !matches[i] || (kind !== "all" && card.dataset.postKind !== kind);
+        if (!card.hidden) count++;
+      });
+      controls.querySelectorAll("[data-post-count]").forEach(node => {
+        node.textContent = cards.filter((card, i) => matches[i]
+          && (node.dataset.postCount === "all" || card.dataset.postKind === node.dataset.postCount)).length;
+      });
       controls.querySelectorAll("button").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.postFilter === kind)));
+      clear.hidden = input.value.length === 0;
+      empty.hidden = count !== 0;
+      status.textContent = module.dataset.logbookResults.replace("{count}", count).replace("{total}", cards.length);
+      if (!updateURL) return;
       const url = new URL(location.href);
       if (kind === "all") url.searchParams.delete("type"); else url.searchParams.set("type", kind);
+      const query = input.value.trim();
+      if (query) url.searchParams.set("q", query); else url.searchParams.delete("q");
       history.replaceState(null, "", url);
+    }
+    function readURL() {
+      const params = new URL(location.href).searchParams;
+      kind = ["news", "devlog"].includes(params.get("type")) ? params.get("type") : "all";
+      input.value = params.get("q") || "";
+      apply(false);
     }
     controls.addEventListener("click", event => {
       const button = event.target.closest("[data-post-filter]");
-      if (button) select(button.dataset.postFilter);
-    });
-    select(new URL(location.href).searchParams.get("type"));
+      if (button) { kind = button.dataset.postFilter; apply(); }
+    }, options);
+    input.addEventListener("input", () => { clearTimeout(timer); timer = setTimeout(apply, 150); }, options);
+    input.addEventListener("search", () => apply(), options);
+    form.addEventListener("submit", event => { event.preventDefault(); apply(); }, options);
+    clear.addEventListener("click", () => { input.value = ""; apply(); input.focus(); }, options);
+    module.querySelector("[data-post-reset]").addEventListener("click", () => {
+      input.value = ""; kind = "all"; apply(); input.focus();
+    }, options);
+    window.addEventListener("popstate", readURL, options);
+    filterController = {controls, list, cards, destroy() { events.abort(); clearTimeout(timer); }};
+    readURL();
   }
   function start() { initializeDesign(); initializeFilters(); }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start, {once: true}); else start();
   let frame;
-  new MutationObserver(() => { cancelAnimationFrame(frame); frame = requestAnimationFrame(initializeDesign); }).observe(document.documentElement, {childList: true, subtree: true});
+  new MutationObserver(() => {
+    cancelAnimationFrame(frame);
+    frame = requestAnimationFrame(() => { initializeDesign(); initializeFilters(); });
+  }).observe(document.documentElement, {childList: true, subtree: true});
 })();
 
 (() => {

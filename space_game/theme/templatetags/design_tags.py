@@ -1,5 +1,6 @@
 """Published, editable Stories in the supplied marketing layouts."""
 
+from html import unescape
 from math import ceil
 
 from django import template
@@ -21,6 +22,20 @@ def design_posts(limit=None, kind="all"):
 @register.filter
 def post_kind(content):
     return "devlog" if "devlog" in {t.slug for t in content.post.tags.all()} else "news"
+
+
+@register.filter
+def post_search_text(content):
+    text = " ".join(
+        [
+            content.title,
+            content.subtitle,
+            content.abstract,
+            content.post_text,
+            " ".join(tag.name for tag in content.post.tags.all()),
+        ],
+    )
+    return " ".join(unescape(strip_tags(text.replace(">", "> "))).split())
 
 
 @register.filter

@@ -1,33 +1,10 @@
 {% extends "base.html" %}
 
-{% load design_tags %}
+{% load cms_tags %}
 
 {% block title %}{{ sg.t.blog.title }} | Space Game{% endblock title %}
 {% block content %}
-  <div class="sg-page-header">
-    <p class="eyebrow">{{ sg.t.blog.label }}</p>
-    <h1>{{ sg.t.blog.title }}</h1>
-    <p class="sg-lead">{{ sg.t.blog.lead }}</p>
-    <div class="sg-segment sg-post-filter"
-         role="group"
-         aria-label="{{ sg.t.blog.filterLabel }}"
-         data-post-filters
-         hidden>
-      <button type="button"
-              data-post-filter="all"
-              aria-pressed="true">{{ sg.t.blog.all }} <span data-post-count="all"></span></button>
-      <button type="button"
-              data-post-filter="news"
-              aria-pressed="false">{{ sg.t.blog.news }} <span data-post-count="news"></span></button>
-      <button type="button"
-              data-post-filter="devlog"
-              aria-pressed="false">{{ sg.t.blog.devlog }} <span data-post-count="devlog"></span></button>
-    </div>
-  </div>
-  {% design_posts as posts %}
-  <div class="sg-post-grid" data-post-list>
-    {% for post_content in posts %}
-      {% include "theme/post_card.html" with show_more=True %}
-    {% endfor %}
-  </div>
+  {% placeholder "logbook_header" %}
+  {% include "theme/logbook_posts.html" %}
+  {% placeholder "content" %}
 {% endblock content %}

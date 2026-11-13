@@ -1,0 +1,11 @@
+{% extends "cms/default.html" %}
+
+{% load cms_tags i18n %}
+
+{% block content %}
+  {% language current_pagecontent.language %}
+    {% placeholder "logbook_header" %}
+    {% include "theme/logbook_posts.html" %}
+    {% placeholder "content" %}
+  {% endlanguage %}
+{% endblock content %}
