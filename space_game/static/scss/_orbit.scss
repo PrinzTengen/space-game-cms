@@ -172,7 +172,11 @@ button:disabled { cursor: not-allowed; }
 .sg-next-post strong, .sg-next-post small { display: block; }
 .sg-next-post small { color: var(--sg-dim); font-size: 12px; }
 .sg-support-grid, .sg-download-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: 18px; align-items: start; }
-.sg-support-grid h2 { margin: 0 0 18px; font-size: 23px; }
+.sg-support-grid h2, .sg-faq-module h2, .sg-requirements h2 { margin: 0 0 18px; font-size: 23px; }
+.sg-support-grid > * { min-width: 0; }
+.sg-faq-modules { display: grid; gap: 24px; }
+.sg-faq-description { margin-bottom: 18px; }
+.sg-faq-list details > div > p:last-child { margin-bottom: 0; }
 .sg-table-scroll { overflow-x: auto; }
 .sg-table { width: 100%; min-width: 420px; border-collapse: collapse; font-size: 15px; color: var(--sg-title); }
 .sg-table tr { border-bottom: 1px solid var(--sg-line); }

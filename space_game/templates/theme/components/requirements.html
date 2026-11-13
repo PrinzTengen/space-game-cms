@@ -1,0 +1,23 @@
+{% load cms_tags %}
+
+<section class="sg-window sg-window-pad sg-requirements" data-reveal>
+  <h2>{{ instance.title }}</h2>
+  <div class="sg-table-scroll">
+    <table class="sg-table">
+      <caption class="visually-hidden">{{ instance.title }}</caption>
+      <thead>
+        <tr>
+          <th scope="col">{{ instance.component_label }}</th>
+          <th scope="col">{{ instance.minimum_label }}</th>
+          <th scope="col">{{ instance.recommended_label }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in instance.child_plugin_instances %}
+          {% render_plugin row %}
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% if instance.note %}<p class="sg-fineprint">{{ instance.note }}</p>{% endif %}
+</section>

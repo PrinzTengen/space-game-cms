@@ -1,0 +1,8 @@
+<details {% if faq_single_open and not request.toolbar.edit_mode_active %}name="space-game-faq-{{ instance.parent_id }}"{% endif %}
+         {% if request.toolbar.edit_mode_active or instance.initially_open %}open{% endif %}>
+  <summary>
+    <span>{{ instance.question }}</span>
+    <span class="sg-faq-sign" aria-hidden="true"></span>
+  </summary>
+  <div>{{ instance.answer|linebreaks }}</div>
+</details>

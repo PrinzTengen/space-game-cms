@@ -35,13 +35,5 @@ def design_system(request):
             "t": strings,
             "lang": lang,
             "nav": nav,
-            "requirements": [
-                {
-                    key: value.get(lang, "") if isinstance(value, dict) else value
-                    for key, value in row.items()
-                }
-                for row in data["requirements"]
-            ],
-            "faq": data["faq"][lang],
         },
     }

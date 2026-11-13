@@ -1,35 +1,14 @@
 {% extends "cms/default.html" %}
 
-{% load cms_tags %}
+{% load cms_tags i18n %}
 
 {% block content %}
-  <div class="sg-page-header">
-    <p class="eyebrow">{{ sg.t.faq.label }}</p>
-    <h1>{{ sg.t.faq.title }}</h1>
-  </div>
-  <div class="sg-support-grid">
-    <section class="sg-window sg-window-pad" data-reveal>
-      <h2>{{ sg.t.faq.reqTitle }}</h2>
-      <div class="sg-table-scroll">
-        <table class="sg-table">
-          <thead>
-            <tr>
-              <th scope="col">{{ sg.t.faq.comp }}</th>
-              <th scope="col">{{ sg.t.faq.min }}</th>
-              <th scope="col">{{ sg.t.faq.rec }}</th>
-            </tr>
-          </thead>
-          <tbody>{% for row in sg.requirements %}<tr><th scope="row">{{ row.l }}</th><td>{{ row.min }}</td><td>{{ row.rec }}</td></tr>{% endfor %}</tbody>
-        </table>
-      </div>
-      <p class="sg-fineprint">{{ sg.t.faq.reqNote }}</p>
-    </section>
-    <section data-reveal>
-      <h2>{{ sg.t.faq.faqTitle }}</h2>
-      <div class="sg-faq-list">
-        {% for question, answer in sg.faq %}<details name="space-game-faq" {% if forloop.first %}open{% endif %}><summary><span>{{ question }}</span><span class="sg-faq-sign" aria-hidden="true"></span></summary><div>{{ answer }}</div></details>{% endfor %}
-      </div>
-    </section>
-  </div>
-  {% placeholder "content" %}
+  {% language current_pagecontent.language %}
+    {% placeholder "support_header" %}
+    <div class="sg-support-grid">
+      <div>{% placeholder "system_requirements" %}</div>
+      <div class="sg-faq-modules">{% placeholder "faq" %}</div>
+    </div>
+    {% placeholder "content" %}
+  {% endlanguage %}
 {% endblock content %}

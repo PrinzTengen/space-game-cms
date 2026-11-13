@@ -54,6 +54,35 @@ Discord bleibt eine freiwillige Community.
 
 ## django CMS
 
+### FAQ und Systemanforderungen als eigenständige Plugins
+
+**Space Game FAQ** ist ein eigenständiges `djangocms-frontend`-Plugin und kann
+auch auf anderen CMS-Seiten eingefügt werden. Überschrift, Einleitung und die
+Option „Only open one answer at a time“ liegen im Gruppen-Plugin. Darunter werden
+beliebig viele **Space Game FAQ Item**-Plugins mit Frage, Antwort und „Open
+initially“ eingefügt, sortiert oder gelöscht. Antworten unterstützen Absätze und
+werden als Text sicher ausgegeben. Jede FAQ-Gruppe besitzt ihren eigenen
+Akkordeon-Namen; mehrere Gruppen beeinflussen sich nicht gegenseitig. Das
+Akkordeon funktioniert ohne JavaScript. Im CMS-Editor sind alle Antworten offen.
+
+Auf `/faq/` enthält die Vorlage ausschließlich Layout und Platzhalter:
+
+- `support_header`: **Space Game Support Header** mit Vorspann, Titel und Untertitel.
+- `system_requirements`: **Space Game System Requirements** mit einzelnen **System Requirement**-Zeilen.
+- `faq`: **Space Game FAQ** mit den Frage-Antwort-Einträgen.
+- `content`: zusätzliche CMS-Inhalte.
+
+Auch die Tabellenüberschriften, Anforderungen und der Hinweistext sind im CMS
+bearbeitbar. Vorhandene DE-/EN-Texte werden einmalig als versionierte Plugins
+übernommen; spätere Änderungen erfolgen im CMS. Nach `migrate`:
+
+```bash
+docker compose -f docker-compose.local.yml exec django python manage.py install_faq_plugins --username DEIN_ADMIN
+```
+
+Der Installer schützt bearbeitete Entwürfe und bestehende Plugin-Inhalte.
+`apply_design_system` ruft ihn bei neuen Installationen automatisch auf.
+
 ### Downloadseite vollständig als Frontend-Plugins
 
 Die Vorlage `cms/download.html` enthält nur das Layout und CMS-Platzhalter:

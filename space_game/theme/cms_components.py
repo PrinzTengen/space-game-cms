@@ -16,6 +16,110 @@ from space_game.theme.downloads import launcher_url
 
 
 @components.register
+class SpaceGameSupportHeader(CMSFrontendComponent):
+    class Meta:
+        name = _("Space Game Support Header")
+        module = "Space Game"
+        render_template = "theme/components/logbook_header.html"
+        allow_children = False
+
+    eyebrow = forms.CharField(label=_("Eyebrow"), required=False, max_length=200)
+    title = forms.CharField(label=_("Heading"), max_length=250)
+    subtitle = forms.CharField(
+        label=_("Subtitle"), required=False, widget=forms.Textarea,
+    )
+
+
+@components.register
+class SpaceGameFAQ(CMSFrontendComponent):
+    class Meta:
+        name = _("Space Game FAQ")
+        module = "Space Game"
+        render_template = "theme/components/faq.html"
+        child_classes = ["SpaceGameFAQItemPlugin"]
+        default_config = {"title": "Frequently asked questions", "single_open": True}
+
+    class PluginMixin:
+        def render(self, context, instance, placeholder):
+            context = super().render(context, instance, placeholder)
+            context["faq_group"] = instance
+            return context
+
+    title = forms.CharField(label=_("Heading"), required=False, max_length=250)
+    description = forms.CharField(
+        label=_("Description"), required=False, widget=forms.Textarea,
+    )
+    single_open = forms.BooleanField(
+        label=_("Only open one answer at a time"),
+        required=False,
+        initial=True,
+    )
+
+
+@components.register
+class SpaceGameFAQItem(CMSFrontendComponent):
+    class Meta:
+        name = _("Space Game FAQ Item")
+        module = "Space Game"
+        render_template = "theme/components/faq_item.html"
+        allow_children = False
+        require_parent = True
+        parent_classes = ["SpaceGameFAQPlugin"]
+
+    class PluginMixin:
+        def render(self, context, instance, placeholder):
+            group = context.get("faq_group")
+            if group is None or group.pk != instance.parent_id:
+                group = instance.parent.get_plugin_instance()[0]
+            context = super().render(context, instance, placeholder)
+            context["faq_single_open"] = bool(group.config.get("single_open", True))
+            return context
+
+    question = forms.CharField(label=_("Question"), max_length=400)
+    answer = forms.CharField(label=_("Answer"), widget=forms.Textarea)
+    initially_open = forms.BooleanField(label=_("Open initially"), required=False)
+
+    def get_short_description(self):
+        return self.config.get("question", "")
+
+
+@components.register
+class SpaceGameRequirements(CMSFrontendComponent):
+    class Meta:
+        name = _("Space Game System Requirements")
+        module = "Space Game"
+        render_template = "theme/components/requirements.html"
+        child_classes = ["SpaceGameRequirementPlugin"]
+        default_config = {
+            "title": "System requirements",
+            "component_label": "Component",
+            "minimum_label": "Minimum",
+            "recommended_label": "Recommended",
+        }
+
+    title = forms.CharField(label=_("Heading"), max_length=250)
+    component_label = forms.CharField(label=_("Component column"), max_length=100)
+    minimum_label = forms.CharField(label=_("Minimum column"), max_length=100)
+    recommended_label = forms.CharField(label=_("Recommended column"), max_length=100)
+    note = forms.CharField(label=_("Note"), required=False, widget=forms.Textarea)
+
+
+@components.register
+class SpaceGameRequirement(CMSFrontendComponent):
+    class Meta:
+        name = _("Space Game System Requirement")
+        module = "Space Game"
+        render_template = "theme/components/requirement.html"
+        allow_children = False
+        require_parent = True
+        parent_classes = ["SpaceGameRequirementsPlugin"]
+
+    title = forms.CharField(label=_("Component"), max_length=200)
+    minimum = forms.CharField(label=_("Minimum"), widget=forms.Textarea)
+    recommended = forms.CharField(label=_("Recommended"), widget=forms.Textarea)
+
+
+@components.register
 class SpaceGameDownloadHeader(CMSFrontendComponent):
     class Meta:
         name = _("Space Game Download Header")

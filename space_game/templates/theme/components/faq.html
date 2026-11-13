@@ -1,0 +1,11 @@
+{% load cms_tags %}
+
+<section class="sg-faq-module" data-faq data-reveal>
+  {% if instance.title %}<h2>{{ instance.title }}</h2>{% endif %}
+  {% if instance.description %}<div class="sg-faq-description">{{ instance.description|linebreaks }}</div>{% endif %}
+  <div class="sg-faq-list">
+    {% for item in instance.child_plugin_instances %}
+      {% render_plugin item %}
+    {% endfor %}
+  </div>
+</section>
