@@ -1,12 +1,17 @@
 """Editorial components backed by django CMS Frontend's JSON configuration."""
 
 from django import forms
+from django.db.models import ManyToOneRel
 from django.utils.translation import gettext_lazy as _
 from djangocms_frontend.component_base import CMSFrontendComponent
 from djangocms_frontend.component_pool import components
 from djangocms_frontend.contrib.image.fields import ImageFormField
 from djangocms_link.fields import LinkFormField
+from filer.fields.file import AdminFileFormField
+from filer.fields.file import FilerFileField
+from filer.models import File
 
+from space_game.theme.downloads import launcher_file
 from space_game.theme.downloads import launcher_url
 
 
@@ -108,7 +113,18 @@ class SpaceGameLauncherPlatform(CMSFrontendComponent):
         def render(self, context, instance, placeholder):
             context = super().render(context, instance, placeholder)
             context["launcher"] = instance.parent.get_plugin_instance()[0]
-            context["launcher_available"] = bool(launcher_url(instance.config))
+            attached = launcher_file(instance.config)
+            context["launcher_file"] = attached
+            context["launcher_filename"] = (
+                attached.original_filename or attached.file.name.rsplit("/", 1)[-1]
+                if attached
+                else instance.config.get("filename", "")
+            )
+            context["launcher_available"] = (
+                bool(attached)
+                if instance.config.get("launcher_file")
+                else bool(launcher_url(instance.config))
+            )
             return context
 
     platform = forms.ChoiceField(
@@ -121,6 +137,16 @@ class SpaceGameLauncherPlatform(CMSFrontendComponent):
         required=False,
         max_length=250,
     )
+    launcher_file = AdminFileFormField(
+        label=_("Launcher file"),
+        rel=ManyToOneRel(FilerFileField, File, "id"),
+        queryset=File.objects.all(),
+        to_field_name="id",
+        required=False,
+        help_text=_(
+            "Select or upload a public launcher file. Takes priority over the URL.",
+        ),
+    )
     download_url = forms.URLField(
         label=_("Launcher download URL"),
         required=False,
@@ -128,8 +154,18 @@ class SpaceGameLauncherPlatform(CMSFrontendComponent):
             "HTTPS URL. Leave empty to use the environment URL for this platform.",
         ),
     )
-    filename = forms.CharField(label=_("File name"), required=False, max_length=250)
-    size = forms.CharField(label=_("File size"), required=False, max_length=100)
+    filename = forms.CharField(
+        label=_("File name"),
+        required=False,
+        max_length=250,
+        help_text=_("For external URLs. Uploaded files use their original filename."),
+    )
+    size = forms.CharField(
+        label=_("File size"),
+        required=False,
+        max_length=100,
+        help_text=_("For external URLs. Uploaded file sizes are shown automatically."),
+    )
     version = forms.CharField(label=_("Version"), required=False, max_length=100)
     checksum = forms.RegexField(
         label=_("SHA-256 checksum"),
@@ -148,6 +184,14 @@ class SpaceGameLauncherPlatform(CMSFrontendComponent):
         if value and not value.startswith("https://"):
             raise forms.ValidationError(_("Use an HTTPS download URL."))
         return value
+
+    def clean_launcher_file(self):
+        attached = self.cleaned_data["launcher_file"]
+        if attached and not attached.is_public:
+            raise forms.ValidationError(
+                _("Choose a public file for launcher downloads."),
+            )
+        return attached
 
 
 @components.register

@@ -8,16 +8,16 @@
   <h3 id="launcher-platform-title-{{ instance.pk }}">{{ instance.title }}</h3>
   {% if instance.description %}<p>{{ instance.description }}</p>{% endif %}
   <dl class="sg-spec-list">
-    {% if instance.filename %}
+    {% if launcher_filename %}
       <dt>{{ launcher.file_label }}</dt>
       <dd>
-        {{ instance.filename }}
+        {{ launcher_filename }}
       </dd>
     {% endif %}
-    {% if instance.size %}
+    {% if launcher_file or instance.size %}
       <dt>{{ launcher.size_label }}</dt>
       <dd>
-        {{ instance.size }}
+        {% if launcher_file %}{{ launcher_file.size|filesizeformat }}{% else %}{{ instance.size }}{% endif %}
       </dd>
     {% endif %}
     {% if instance.version %}

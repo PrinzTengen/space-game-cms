@@ -34,20 +34,23 @@ ein erneuter Aufruf überschreibt nach der ersten Übernahme keine redaktionelle
 Die Sprachauswahl arbeitet mit Djangos Sprach-Cookie.
 
 Die ZIP enthält keine Launcher-Dateien. Der Download ist öffentlich und benötigt
-weder Anmeldung noch Discord-Konto. Die echten HTTPS-Datei-URLs werden im
-jeweiligen **Space Game Launcher Platform**-Plugin eingetragen. Alternativ lassen
-sich Standard-URLs in der Django-Umgebung konfigurieren:
+weder Anmeldung noch Discord-Konto. Im jeweiligen **Space Game Launcher Platform**-
+Plugin lässt sich unter **Launcher file** eine Datei über django-filer auswählen
+oder direkt per Drag-and-drop hochladen. Alternativ können eine externe HTTPS-URL
+im Plugin oder Standard-URLs in der Django-Umgebung verwendet werden:
 
 ```dotenv
 SPACE_GAME_WINDOWS_DOWNLOAD_URL=
 SPACE_GAME_LINUX_DOWNLOAD_URL=
 ```
 
-Ohne gültige Datei-URL zeigt das Plattform-Plugin den bearbeitbaren
-Verfügbarkeitshinweis. Dateiname und Installationshinweis stammen initial aus
-der Referenz. Größe, Version und vollständige SHA-256-Prüfsumme können passend
-zur echten Datei im Plugin ergänzt werden; es werden keine Beispielwerte als
-tatsächliche Dateidaten ausgegeben. Discord bleibt eine freiwillige Community.
+Die ausgewählte Datei hat Vorrang vor Plugin-URL und Umgebungswert. Dateiname und
+Größe werden bei hochgeladenen Dateien automatisch aus der Datei übernommen;
+der Download erfolgt ohne Anmeldung als Anhang mit dem Originaldateinamen.
+Dateien müssen in django-filer öffentlich sein. Ohne Datei oder gültige URL zeigt
+das Plattform-Plugin den bearbeitbaren Verfügbarkeitshinweis. Version und
+vollständige SHA-256-Prüfsumme können passend zur Datei ergänzt werden.
+Discord bleibt eine freiwillige Community.
 
 ## django CMS
 
@@ -62,8 +65,8 @@ Die Vorlage `cms/download.html` enthält nur das Layout und CMS-Platzhalter:
 - `content`: zusätzliche CMS-Inhalte.
 
 Im Launcher-Plugin werden die Überschrift, Feldbezeichnungen, Buttontexte und
-der Verfügbarkeitshinweis bearbeitet. Im jeweiligen Plattform-Kind liegen URL,
-Dateiname, Größe, Version, Prüfsumme und Installationsanleitung. Alle Inhalte sind
+der Verfügbarkeitshinweis bearbeitet. Im jeweiligen Plattform-Kind liegen Datei,
+alternative URL, Dateiname, Größe, Version, Prüfsumme und Installationsanleitung. Alle Inhalte sind
 versioniert und pro Sprache bearbeitbar; veröffentlichte Download-URLs sind für
 Besucher ohne Login erreichbar. Unveröffentlichte URL-Änderungen bleiben privat.
 Eine leere URL verwendet den Umgebungswert; eine ungültige URL bleibt gesperrt.

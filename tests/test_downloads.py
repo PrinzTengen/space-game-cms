@@ -5,11 +5,13 @@ from http import HTTPStatus
 import pytest
 from cms.models import PageContent
 from cms.toolbar.utils import get_object_edit_url
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.urls import reverse
 from django.utils.html import escape
 from djangocms_versioning.models import Version
+from filer.models import File
 
 from space_game.theme.cms_components import SpaceGameLauncherPlatform
 from space_game.theme.downloads import DOWNLOAD_PLUGIN_TYPES
@@ -45,9 +47,24 @@ def windows(content):
     )
 
 
+@pytest.fixture
+def uploaded_launcher(download_site, settings, tmp_path):
+    settings.MEDIA_ROOT = tmp_path
+    attached = File.objects.create(
+        file=SimpleUploadedFile("real-launcher.exe", b"MZ" + b"upload-check" * 400),
+        original_filename="real-launcher.exe",
+        owner=download_site,
+        is_public=True,
+    )
+    yield attached
+    attached.file.delete(save=False)
+
+
 @pytest.mark.parametrize("lang", ["en", "de"])
 def test_download_content_is_editable_plugins_in_both_languages(
-    download_site, client, lang,
+    download_site,
+    client,
+    lang,
 ):
     content = download_page(lang)
     plugins = [
@@ -82,7 +99,15 @@ def test_all_download_modules_have_native_edit_forms(download_site, client):
         ),
         (
             windows(draft.content),
-            ["download_url", "filename", "size", "version", "checksum", "instructions"],
+            [
+                "launcher_file",
+                "download_url",
+                "filename",
+                "size",
+                "version",
+                "checksum",
+                "instructions",
+            ],
         ),
         (
             instances(draft.content, "download_sidebar")[0],
@@ -104,7 +129,9 @@ def test_all_download_modules_have_native_edit_forms(download_site, client):
 
 
 def test_public_download_uses_published_plugin_url_without_login(
-    download_site, client, settings,
+    download_site,
+    client,
+    settings,
 ):
     settings.SG_LAUNCHER_URLS = {"win": "https://example.com/old.exe"}
     draft = Version.objects.get_for_content(download_page()).copy(download_site)
@@ -130,8 +157,104 @@ def test_public_download_uses_published_plugin_url_without_login(
     assert client.get("/launcher/win/?language=de").url == "https://example.com/old.exe"
 
 
+def test_native_file_picker_saves_reference_and_published_file_is_public(
+    uploaded_launcher,
+    download_site,
+    client,
+    settings,
+):
+    settings.SG_LAUNCHER_URLS = {"win": "https://example.com/old.exe"}
+    draft = Version.objects.get_for_content(download_page()).copy(download_site)
+    platform = windows(draft.content)
+    data = dict(platform.config)
+    data.update(
+        launcher_file=uploaded_launcher.pk,
+        filename="obsolete-filename.exe",
+        size="incorrect size",
+        download_url="https://example.com/external.exe",
+    )
+    client.force_login(download_site)
+    response = client.post(
+        reverse("admin:cms_placeholder_edit_plugin", args=[platform.pk]),
+        data={**data, "_save": "Save"},
+    )
+    assert response.status_code == HTTPStatus.OK
+    platform.refresh_from_db()
+    assert platform.config["launcher_file"] == {
+        "model": "filer.file",
+        "pk": uploaded_launcher.pk,
+    }
+    client.logout()
+    assert client.get("/launcher/win/").url == "https://example.com/old.exe"
+    draft.publish(download_site)
+    response = client.get("/download/")
+    assert b"real-launcher.exe" in response.content
+    assert b"obsolete-filename.exe" not in response.content
+    assert b"incorrect size" not in response.content
+    response = client.get("/launcher/win/")
+    assert response.status_code == HTTPStatus.OK
+    assert response["Content-Type"] == "application/octet-stream"
+    assert response["Content-Disposition"] == 'attachment; filename="real-launcher.exe"'
+    assert b"".join(response.streaming_content) == b"MZ" + b"upload-check" * 400
+    copy = Version.objects.get_for_content(download_page()).copy(download_site)
+    assert (
+        windows(copy.content).config["launcher_file"]
+        == platform.config["launcher_file"]
+    )
+    client.force_login(download_site)
+    response = client.get(
+        reverse("admin:cms_placeholder_edit_plugin", args=[windows(copy.content).pk]),
+    )
+    assert response.status_code == HTTPStatus.OK
+    assert b"real-launcher.exe" in response.content
+
+
+def test_private_file_is_rejected_and_never_served_as_public_download(
+    uploaded_launcher,
+    client,
+):
+    File.objects.filter(pk=uploaded_launcher.pk).update(is_public=False)
+    form = SpaceGameLauncherPlatform(
+        data={
+            "platform": "win",
+            "title": "Windows",
+            "launcher_file": uploaded_launcher.pk,
+        },
+    )
+    assert not form.is_valid()
+    assert "launcher_file" in form.errors
+    platform = windows(download_page())
+    platform.config["launcher_file"] = {
+        "model": "filer.file",
+        "pk": uploaded_launcher.pk,
+    }
+    platform.save()
+    assert client.get("/launcher/win/").status_code == HTTPStatus.NOT_FOUND
+    assert b"/launcher/win/" not in client.get("/download/").content
+
+
+@pytest.mark.parametrize("missing", ["record", "bytes"])
+def test_missing_attached_file_returns_404_without_falling_back_to_another_build(
+    uploaded_launcher,
+    client,
+    missing,
+):
+    platform = windows(download_page())
+    platform.config.update(
+        launcher_file={"model": "filer.file", "pk": uploaded_launcher.pk},
+        download_url="https://example.com/another-build.exe",
+    )
+    platform.save()
+    if missing == "record":
+        File.objects.filter(pk=uploaded_launcher.pk).delete()
+    else:
+        uploaded_launcher.file.storage.delete(uploaded_launcher.file.name)
+    assert client.get("/launcher/win/").status_code == HTTPStatus.NOT_FOUND
+
+
 @pytest.mark.parametrize(
-    "url", ["http://example.com/file", "javascript:alert(1)", "https://"],
+    "url",
+    ["http://example.com/file", "javascript:alert(1)", "https://"],
 )
 def test_unsafe_plugin_urls_are_rejected_by_form_and_route(download_site, client, url):
     form = SpaceGameLauncherPlatform(
@@ -148,7 +271,9 @@ def test_unsafe_plugin_urls_are_rejected_by_form_and_route(download_site, client
 
 
 def test_removing_plugins_does_not_restore_hardcoded_downloads(
-    download_site, client, settings,
+    download_site,
+    client,
+    settings,
 ):
     settings.SG_LAUNCHER_URLS = {"win": "https://example.com/launcher.exe"}
     draft = Version.objects.get_for_content(download_page()).copy(download_site)

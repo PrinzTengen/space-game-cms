@@ -7,6 +7,7 @@ from cms.utils.placeholder import rescan_placeholders_for_obj
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import URLValidator
+from filer.models import File
 
 from space_game.theme.design import catalog
 from space_game.theme.design import language
@@ -33,9 +34,24 @@ def launcher_url(config):
     return destination
 
 
-def published_launcher_url(platform, lang=None):
+def launcher_file(config):
+    reference = config.get("launcher_file")
+    if not isinstance(reference, dict) or reference.get("model") not in {
+        "filer.file",
+        "filer.image",
+    }:
+        return None
+    try:
+        file_id = int(reference.get("pk"))
+    except ValueError, TypeError:
+        return None
+    attached = File.objects.filter(pk=file_id, is_public=True).first()
+    return attached if attached and attached.file else None
+
+
+def published_launcher_config(platform, lang=None):
     if platform not in {"win", "linux"}:
-        return ""
+        return None
     pages = PageContent.objects.filter(
         page__reverse_id="download",
         page__site_id=settings.SITE_ID,
@@ -43,7 +59,7 @@ def published_launcher_url(platform, lang=None):
     content = pages.filter(language=lang or language()).first()
     content = content or pages.filter(language="en").first()
     if content is None:
-        return launcher_url({"platform": platform})
+        return {"platform": platform}
     for placeholder in content.placeholders.all():
         for plugin in (
             placeholder.get_plugins()
@@ -56,8 +72,8 @@ def published_launcher_url(platform, lang=None):
         ):
             instance = plugin.get_plugin_instance()[0]
             if instance.config.get("platform") == platform:
-                return launcher_url(instance.config)
-    return ""
+                return instance.config
+    return None
 
 
 def add_default_download_plugins(content):
@@ -120,6 +136,7 @@ def add_default_download_plugins(content):
                 "title": platform["label"],
                 "description": platform["sub"],
                 "download_url": "",
+                "launcher_file": None,
                 "filename": platform["file"],
                 "size": "",
                 "version": "",
