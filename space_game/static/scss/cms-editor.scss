@@ -1,4 +1,6 @@
 @use "fonts";
+@use "design-tokens/colors";
+@use "design-tokens/effects";
 
 // Only the CMS UI consumes these tokens. The page being edited keeps its theme.
 :root {
@@ -138,3 +140,4 @@ div.cms {
   #cms-top .mission-cms-logo a span { display: none; }
   #cms-top .cms-structure .cms-dragarea { margin-inline: 8px; padding-inline: 10px; }
 }
+@import "editor-orbit";

@@ -66,11 +66,36 @@ body {
   border: 1px solid $border-color;
   background: #0a151c;
   overflow: hidden;
+  transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease;
 
-  img { aspect-ratio: 16 / 9; width: 100%; height: auto; object-fit: cover; }
+  .feature-media { overflow: hidden; }
+  img {
+    display: block;
+    aspect-ratio: 16 / 9;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    transition: transform .6s cubic-bezier(.2, .7, .2, 1);
+  }
   .feature-copy { padding: 1.75rem; }
   p { color: $body-secondary-color; margin: 0; }
-  h3 { font-size: 1.15rem; }
+  h3 { font-size: 1.15rem; transition: color .3s ease; }
+
+  &:focus-within {
+    border-color: $primary;
+    box-shadow: 0 0 0 1px rgba($primary, .2), 0 .75rem 2rem rgba($primary, .08);
+    h3 { color: $primary; }
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .feature-card:hover {
+    transform: translateY(-6px);
+    border-color: $primary;
+    box-shadow: 0 0 0 1px rgba($primary, .2), 0 .75rem 2rem rgba($primary, .08);
+    img { transform: scale(1.04); }
+    h3 { color: $primary; }
+  }
 }
 
 .space-callout { border-block: 1px solid $border-color; background: #0a151c; }
@@ -80,4 +105,5 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; }
+  .feature-card, .feature-card img, .feature-card h3 { transition: none !important; transform: none !important; }
 }

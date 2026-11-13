@@ -1,0 +1,22 @@
+// Native editor controls retain their behaviour and use the F2 Orbit surfaces.
+html, body { font-variant-ligatures: none; font-feature-settings: "liga" 0, "calt" 0; }
+.sg-brand-orb { display: inline-block; width: 28px; height: 28px; flex: none; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #ffe0b0 0, #e39b36 30%, #5a3a14 62%, #0b1020 64%); box-shadow: 0 0 14px rgba(227, 155, 54, .55); }
+html[data-theme="dark"] {
+  --body-bg: #040a0e;
+  --body-fg: #c3d5d9;
+  --body-quiet-color: #80a3ad;
+  --darkened-bg: #12181b;
+  --hairline-color: #17262c;
+  --border-color: rgba(90, 124, 129, .6);
+  --mission-cms-panel: #12181b;
+  --mission-cms-elevated: #0d242b;
+  --mission-cms-muted: #80a3ad;
+  --mission-cms-text: #c3d5d9;
+  --mission-cms-border: rgba(90, 124, 129, .6);
+}
+html[data-theme="dark"] body { background: #040a0e url("design-system/bg-stars.png") center top / cover fixed; }
+#header, .module, fieldset, .submit-row, #changelist, .mission-card, .mission-panel, input, select, textarea, .button, input[type="submit"] { border-radius: 0 !important; box-shadow: none; }
+html[data-theme="dark"] :is(.module, .mission-card, .mission-panel) { background: var(--sg-window-corners), var(--sg-scanlines), var(--sg-glass); border: 1px solid var(--sg-border-soft); }
+.cms :is(.cms-btn, .cms-dragitem, .cms-dragbar, .cms-modal, .cms-submenu, .cms-submenu-item, .cms-quicksearch input) { border-radius: 0 !important; box-shadow: none; }
+.cms :is(.cms-dragitem, .cms-modal) { background-image: var(--sg-scanlines); }
+@media (prefers-reduced-motion: reduce) { .cms *, .cms *::before, .cms *::after { animation: none !important; transition: none !important; } }

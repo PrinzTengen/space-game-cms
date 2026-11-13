@@ -2,7 +2,99 @@
 
 website
 
+## F2 Orbit: übernommenes Designsystem
+
+Die ZIP **Gestaltungsrichtlinien und Spielprojekt.zip** ist unverändert unter
+`design/space-game-design-system/` abgelegt. Ihre Tokens, Motive und das Website-
+UI-Kit sind die Referenz für die Django-Umsetzung. Die Original-React-Dateien
+bleiben als Referenz erhalten; die Website rendert native Django-/CMS-Templates.
+
+Übernommen sind Sternenhintergrund, Key-Art, CTA-Bild, Farb- und Typografiewerte,
+der Planet-Orb, Glasfenster mit Eckwinkeln und Scanlines, der Galaxy-Button mit
+Sternen und Umlaufbahn sowie Scroll-Reveals. JetBrains Mono 400/500/600/700 bleibt
+lokal über npm eingebunden. `npm run build` kopiert die drei Originalmotive nach
+`static/build/design-system/`; es werden keine Font- oder React-CDNs geladen.
+
+Das UI-Kit ist auf Startseite, Logbuch, Beitragsseite, Download und System & FAQ
+übertragen. Die zuletzt ergänzte Galerie bleibt als CMS-Erweiterung unter dem
+CTA erhalten und verwendet die neuen Fenster- und Bedienelemente. Admin und
+CMS-Toolbar übernehmen Schrift, Farben, eckige Flächen und die neue Wortmarke.
+
+Nach Installation der Abhängigkeiten und `migrate`:
+
+```bash
+docker compose -f docker-compose.local.yml exec django python manage.py apply_design_system --username DEIN_ADMIN
+```
+
+Der Befehl übernimmt die gelieferten DE-/EN-Inhalte, die fünf Beiträge, die
+Download- und FAQ-Seiten. Änderungen an bestehenden Startseiten werden als neue
+Version veröffentlicht. Geänderte unveröffentlichte Entwürfe werden geschützt;
+ein erneuter Aufruf überschreibt nach der ersten Übernahme keine redaktionellen
+Änderungen. Die Quellen der Texte liegen in `space_game/theme/design_content.json`.
+Die Sprachauswahl arbeitet mit Djangos Sprach-Cookie.
+
+Die ZIP enthält simulierte Anmelde-/Download-Zustände, keine OAuth-Zugangsdaten
+und keine Launcher-Dateien. Die Umsetzung verwendet django-allauth mit Discord
+(`identify`) und prüft den Zugang serverseitig. Zur Aktivierung in der
+Django-Umgebung konfigurieren:
+
+```dotenv
+DISCORD_CLIENT_ID=
+DISCORD_CLIENT_SECRET=
+SPACE_GAME_WINDOWS_DOWNLOAD_URL=
+SPACE_GAME_LINUX_DOWNLOAD_URL=
+```
+
+Alternativ kann Discord über eine Social Application im Admin konfiguriert
+werden. Der OAuth-Callback ist `/accounts/discord/login/callback/` auf der eigenen
+Domain. Die Launcher-URLs müssen HTTPS verwenden. Ohne Konfiguration zeigt die
+Seite den entsprechenden Verfügbarkeitsstatus; Anmeldung und erfolgreicher
+Download werden nicht simuliert. Dateiname, Größe, Version und die gekürzten
+Prüfsummen stammen aus der gelieferten Referenz und sind vor echten Releases in
+`design_content.json` an die bereitgestellten Dateien anzupassen.
+
 ## django CMS
+
+### Stories auf der Startseite und vollständige Beiträge
+
+**Fresh from development / Neu aus der Entwicklung** ist das native
+`djangocms-stories`-Plugin **Latest entries** (`BlogLatestEntriesPlugin`) im
+Platzhalter `latest`. Im CMS können Anzahl (standardmäßig drei), App-Konfiguration,
+Tags und Kategorien eingestellt werden. Das Template
+`djangocms_stories/plugins/latest_entries.html` übernimmt das F2-Orbit-Design und
+verwendet ausschließlich die Beiträge, die das Stories-Plugin liefert.
+
+Bestehende Startseiten einmal überführen:
+
+```bash
+docker compose -f docker-compose.local.yml exec django python manage.py install_home_stories --username DEIN_ADMIN
+```
+
+Neue Startseiten erhalten das Plugin automatisch. Der Installer ergänzt auch
+den neuen Platzhalter und schützt bearbeitete Entwürfe. Vorhandene native
+Stories-Einstellungen und ihre Tag-/Kategoriebeziehungen bleiben beim Kopieren
+und Veröffentlichen von Seitenversionen erhalten.
+
+Der redaktionelle Datensatz enthält **fünf Devlogs und fünf News**, jeweils in
+Deutsch und Englisch mit Einleitung, vier Abschnitten, Metabeschreibung,
+Autor, Kategorie und Titelbild. Die vorhandenen fünf Kurzvorlagen werden zu
+vollständigen Beiträgen erweitert; fünf weitere Beiträge kommen hinzu.
+
+```bash
+docker compose -f docker-compose.local.yml exec django python manage.py seed_stories --username DEIN_ADMIN
+```
+
+Die Bilder werden aus den vorhandenen Spielmotiven in django-filer importiert
+und direkt am Stories-Beitrag referenziert. Karten verwenden 768×432-Thumbnails.
+Die Texte liegen in `space_game/theme/story_content.json`. Der Befehl ist
+wiederholbar, verwendet vorhandene Medien erneut und bewahrt nach der ersten
+Übernahme spätere redaktionelle Änderungen. Geänderte unveröffentlichte
+Beitragsentwürfe werden vor dem ersten Import geschützt. Bearbeitet werden die
+Inhalte anschließend über **Stories → Posts** im Admin.
+
+Für die Bild-Metadaten verwendet django-meta die Domain der aktuellen Django-Site
+und `META_SITE_PROTOCOL` (Standard `https`). Damit funktionieren bebilderte
+Beitragsseiten auch unter Uvicorn ohne threadlokales Request-Objekt.
 
 ### Admin: Mission Control
 
@@ -63,7 +155,8 @@ npm run build
 `npm run watch` baut das CSS bei SCSS-Änderungen neu. Unter Windows bei gesperrten
 PowerShell-Skripten `npm.cmd` anstelle von `npm` verwenden.
 `space_game/static/scss/project.scss` enthält die Bootstrap-Variablen und importiert
-die Bootstrap-SCSS-Quellen; `_theme.scss` enthält das Layout und die lokalen Fonts.
+die Bootstrap-SCSS-Quellen; `_orbit.scss` enthält das aktuelle F2-Orbit-Layout,
+`_fonts.scss` die lokalen Fonts. `_theme.scss` ist die frühere Theme-Referenz.
 Der Build schreibt CSS, Bootstrap-JavaScript, Fonts und Lizenzen nach
 `space_game/static/build/`. Dieses Verzeichnis und `node_modules/` sind gitignored;
 `package.json`, `package-lock.json`, SCSS und Bildquellen werden versioniert.
@@ -100,8 +193,7 @@ Der Befehl erzeugt eine neue veröffentlichte Version und lässt vorhandene Hero
 Plugins unverändert. Gibt es bereits einen unveröffentlichten Seitenentwurf,
 den Hero dort über das CMS hinzufügen und den Entwurf regulär veröffentlichen.
 Die Komponente ist in `space_game/theme/cms_components.py` definiert; ihr Template
-liegt in `space_game/templates/theme/components/hero.html`. Community und Galerie
-verwenden weiterhin die bestehenden Template-Vorgaben.
+liegt in `space_game/templates/theme/components/hero.html`.
 
 ### Kartenmodul unter dem Hero
 
@@ -128,6 +220,64 @@ docker compose -f docker-compose.local.yml exec django python manage.py install_
 Vorhandene Plugins und geänderte Entwürfe bleiben erhalten. Ein unveränderter
 Frontend-Entwurf kann für die Übernahme verwendet werden; bei eigenen Änderungen
 das Modul im bestehenden Entwurf ergänzen und regulär veröffentlichen.
+
+### Call to Action unter den Karten
+
+Im Platzhalter `community` liegt **Space Game → Space Game CTA**, ebenfalls eine
+`CMSFrontendComponent` von **djangocms-frontend**. Vorspann, Überschrift,
+Beschreibung, Button-Text und Button-Ziel lassen sich im CMS bearbeiten. Der
+Button unterstützt CMS-Seiten, externe URLs, Dateien und Anker. Das responsive
+Space-Game-Layout bleibt erhalten; entfernte CTA-Plugins werden nicht durch
+fest eingebauten Inhalt ersetzt.
+
+Neue Startseiten erhalten den CTA automatisch. Bestehende Startseiten nach
+`migrate` einmal überführen:
+
+```bash
+docker compose -f docker-compose.local.yml exec django python manage.py install_home_cta --username DEIN_ADMIN
+```
+
+Vorhandene Inhalte und geänderte Entwürfe bleiben erhalten. Bei einem eigenen
+Entwurf den CTA dort ergänzen und regulär veröffentlichen. Die Komponente liegt
+in `space_game/theme/cms_components.py`, ihr Template in
+`space_game/templates/theme/components/cta.html`.
+
+### Galerie unter dem CTA
+
+Im Platzhalter `gallery` liegt **Space Game → Space Game Gallery** mit beliebig
+vielen **Space Game Gallery Image**-Plugins als Kindern. Am Modul werden Vorspann,
+Überschrift und Beschreibung bearbeitet. Pro Bild stehen django-filer, ein
+Alternativtext und eine optionale Caption zur Verfügung; die beiden bisherigen
+Motive lassen sich auch ohne Medienimport als Standardbild auswählen. Bilder
+können im CMS hinzugefügt, umsortiert und entfernt werden.
+
+Der Slider kombiniert eine gleitende Bewegung mit sanftem Zoom und eingeblendeten
+Captions. Links steht das große Bild, rechts eine senkrechte Vorschauleiste.
+Beide Bereiche blenden ihre Scrollleisten aus; Touch-Scrolling bleibt möglich.
+Vor-/Zurück-Pfeile und der Vollbild-Button liegen direkt im großen Bild. Der
+Vollbildmodus enthält auch die Vorschauen und lässt sich über den Schließen-
+Button oder Escape verlassen. Ohne Browser-Vollbild-Unterstützung öffnet sich
+stattdessen eine bildschirmfüllende Dialogansicht.
+Die Tastatursteuerung unterstützt Pfeil links/rechts sowie Pos1/Ende.
+Es gibt keinen automatischen Bildwechsel. Die Systemeinstellung für reduzierte
+Bewegung schaltet Animationen und weiches Scrollen ab. Bei nur einem Bild sind
+die Navigationspfeile und Vorschauen ausgeblendet; Vollbild bleibt verfügbar.
+Ohne JavaScript bleibt die Galerie horizontal
+scrollbar; im CMS-Bearbeitungsmodus stehen alle Bilder untereinander, damit sie
+direkt bearbeitet werden können. Mehrere Galerien funktionieren unabhängig.
+
+Neue Startseiten erhalten automatisch die zwei bisherigen Motive als Plugins.
+Bestehende Startseiten nach `migrate` einmal überführen:
+
+```bash
+docker compose -f docker-compose.local.yml exec django python manage.py install_home_gallery --username DEIN_ADMIN
+```
+
+Vorhandene Galerie-Inhalte und geänderte Entwürfe bleiben erhalten. Bei einem
+eigenen Entwurf die Galerie dort ergänzen und regulär veröffentlichen. Templates
+liegen in `space_game/templates/theme/components/gallery*.html`, Styles in
+`space_game/static/scss/_gallery.scss` und die Steuerung in
+`space_game/static/js/project.js`. Der vorhandene npm-Build erstellt das CSS.
 
 ### Start mit Docker
 

@@ -2,28 +2,32 @@
 
 <section class="space-hero">
   <img class="hero-image"
-       src="{% if instance.image %}{{ instance.image.url }}{% else %}{% static 'images/theme/website-bilder/hero_scirocco.png' %}{% endif %}"
+       src="{% if instance.image %}{{ instance.image.url }}{% else %}{% static 'build/design-system/hero-keyart.png' %}{% endif %}"
        alt="{{ instance.image_alt }}"
        width="{% if instance.image %}{{ instance.image.width|floatformat:"0u" }}{% else %}3840{% endif %}"
        height="{% if instance.image %}{{ instance.image.height|floatformat:"0u" }}{% else %}2160{% endif %}"
        fetchpriority="high" />
-  <div class="container">
-    {% if instance.eyebrow %}<p class="eyebrow mb-4">{{ instance.eyebrow }}</p>{% endif %}
-    <h1 class="mb-4">{{ instance.title }}</h1>
-    {% if instance.description %}<p class="hero-description mb-4">{{ instance.description }}</p>{% endif %}
+  <div class="hero-limb" aria-hidden="true"></div>
+  <div class="container hero-content">
+    {% if instance.eyebrow %}<p class="eyebrow">{{ instance.eyebrow }}</p>{% endif %}
+    <h1>{{ instance.title }}</h1>
+    {% if instance.description %}<p class="hero-description">{{ instance.description }}</p>{% endif %}
     {% with primary_url=instance.primary_link|to_url secondary_url=instance.secondary_link|to_url %}
       {% if instance.primary_label and primary_url or instance.secondary_label and secondary_url %}
         <div class="d-flex flex-wrap gap-3">
           {% if instance.primary_label and primary_url %}
-            <a class="btn btn-primary" href="{{ primary_url }}" rel="noopener">{{ instance.primary_label }} ↗</a>
+            <a class="btn btn-primary btn-galaxy"
+               href="{{ primary_url }}"
+               rel="noopener"><span>{{ instance.primary_label }}</span> <span aria-hidden="true">→</span></a>
           {% endif %}
           {% if instance.secondary_label and secondary_url %}
-            <a class="btn btn-outline-light"
+            <a class="btn btn-outline-light btn-lg"
                href="{{ secondary_url }}"
-               rel="noopener">{{ instance.secondary_label }} ↓</a>
+               rel="noopener">{{ instance.secondary_label }}</a>
           {% endif %}
         </div>
       {% endif %}
     {% endwith %}
+    {% if instance.note %}<p class="hero-note">{{ instance.note }}</p>{% endif %}
   </div>
 </section>

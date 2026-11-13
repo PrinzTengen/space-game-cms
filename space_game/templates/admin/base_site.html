@@ -13,10 +13,7 @@
 {% endblock responsive %}
 {% block branding %}
   <a class="mission-brand" href="{% url 'admin:index' %}">
-    <img src="{% static 'images/theme/logo/space-game-logo.png' %}"
-         alt=""
-         width="44"
-         height="44" />
+    <span class="sg-brand-orb" aria-hidden="true"></span>
     <span><strong>SPACE GAME</strong><small>MISSION CONTROL</small></span>
   </a>
   {% if user.is_anonymous %}

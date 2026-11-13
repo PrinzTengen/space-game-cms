@@ -126,6 +126,7 @@ THIRD_PARTY_APPS = [
     "allauth.account",
     "allauth.mfa",
     "allauth.socialaccount",
+    "allauth.socialaccount.providers.discord",
     "django_celery_beat",
     "rest_framework",
     "rest_framework.authtoken",
@@ -251,6 +252,7 @@ TEMPLATES = [
                 "django.template.context_processors.tz",
                 "django.contrib.messages.context_processors.messages",
                 "space_game.users.context_processors.allauth_settings",
+                "space_game.theme.context_processors.design_system",
                 "cms.context_processors.cms_settings",
                 "sekizai.context_processors.sekizai",
                 "djangocms_cookie_love.context_processors.cookie_consent",
@@ -420,6 +422,8 @@ CMS_TEMPLATES = [
     ("cms/home.html", "Space Game — Landingpage"),
     ("cms/default.html", "Standard"),
     ("cms/fullwidth.html", "Full width"),
+    ("cms/download.html", "Space Game — Download"),
+    ("cms/faq.html", "Space Game — System & FAQ"),
 ]
 CMS_LANGUAGES = {
     SITE_ID: [
@@ -443,6 +447,21 @@ THUMBNAIL_PROCESSORS = (
     "easy_thumbnails.processors.filters",
 )
 STORIES_AUTO_SETUP = False  # Set up page/apphook content explicitly after migration.
+META_USE_SITES = True  # Stories builds image metadata without passing a request.
+META_SITE_PROTOCOL = env("META_SITE_PROTOCOL", default="https")
 CMS_PAGE_CACHE = False  # Consent and account controls depend on the visitor.
 CMS_PLACEHOLDER_CACHE = False
+SG_DISCORD_CLIENT_ID = env("DISCORD_CLIENT_ID", default="")
+SG_DISCORD_CLIENT_SECRET = env("DISCORD_CLIENT_SECRET", default="")
+SOCIALACCOUNT_PROVIDERS = {"discord": {"SCOPE": ["identify"]}}
+if SG_DISCORD_CLIENT_ID and SG_DISCORD_CLIENT_SECRET:
+    SOCIALACCOUNT_PROVIDERS["discord"]["APP"] = {
+        "client_id": SG_DISCORD_CLIENT_ID,
+        "secret": SG_DISCORD_CLIENT_SECRET,
+        "key": "",
+    }
+SG_LAUNCHER_URLS = {
+    "win": env("SPACE_GAME_WINDOWS_DOWNLOAD_URL", default=""),
+    "linux": env("SPACE_GAME_LINUX_DOWNLOAD_URL", default=""),
+}
 COOKIE_LOVE_COOKIE_SECURE = env.bool("COOKIE_LOVE_COOKIE_SECURE", default=True)

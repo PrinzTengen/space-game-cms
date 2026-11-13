@@ -1,18 +1,23 @@
 @use "fonts";
+@use "design-tokens/colors";
+@use "design-tokens/effects";
+@use "design-tokens/spacing";
+@use "design-tokens/typography";
 
-// Visual direction from space-game-pack/LIESMICH.txt.
+// F2 Orbit: supplied design/space-game-design-system is the source of truth.
 $primary: #8be0ec;
 $warning: #ffab26;
 $body-bg: #040a0e;
-$body-color: #e3edf0;
-$body-secondary-color: #a1b7bf;
+$body-color: #c3d5d9;
+$body-secondary-color: #80a3ad;
 $border-color: #263c45;
 $font-family-sans-serif: "JetBrains Mono", monospace;
-$font-size-base: .9375rem;
-$headings-font-weight: 600;
-$line-height-base: 1.7;
-$border-radius: .25rem;
-$border-radius-lg: .4rem;
+$font-size-base: 1rem;
+$headings-font-weight: 700;
+$line-height-base: 1.6;
+$border-radius: 0;
+$border-radius-lg: 0;
+$border-radius-sm: 0;
 $enable-shadows: false;
 $enable-dark-mode: true;
 $body-bg-dark: $body-bg;
@@ -24,4 +29,5 @@ $border-color-dark: $border-color;
 $link-color-dark: $primary;
 
 @import "bootstrap/scss/bootstrap";
-@import "theme";
+@import "orbit";
+@import "gallery";

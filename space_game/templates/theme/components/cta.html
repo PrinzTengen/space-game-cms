@@ -1,0 +1,24 @@
+{% load static djangocms_link_tags %}
+
+<section class="space-section container">
+  <div class="space-callout" data-reveal>
+    <img class="callout-image"
+         src="{% if instance.image %}{{ instance.image.url }}{% else %}{% static 'build/design-system/cta-station.png' %}{% endif %}"
+         alt=""
+         width="3840"
+         height="2160"
+         loading="lazy" />
+    <div class="sg-callout-copy">
+      {% if instance.eyebrow %}<p class="eyebrow">{{ instance.eyebrow }}</p>{% endif %}
+      <h2>{{ instance.title }}</h2>
+      {% if instance.description %}<p class="text-body-secondary mb-0">{{ instance.description }}</p>{% endif %}
+      {% with button_url=instance.button_link|to_url %}
+        {% if instance.button_label and button_url %}
+          <a class="btn btn-outline-primary btn-lg sg-caps"
+             href="{{ button_url }}"
+             rel="noopener">{{ instance.button_label }} →</a>
+        {% endif %}
+      {% endwith %}
+    </div>
+  </div>
+</section>

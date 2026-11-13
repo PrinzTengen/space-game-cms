@@ -1,0 +1,19 @@
+<!-- @dsCard group="Components" viewport="700x140" name="Forms" -->
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<style>body{padding:20px;background:var(--sg-bg)}</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+<script src="../ds-loader.js"></script>
+</head><body><div id="root"></div>
+<script type="text/babel">
+(async () => {
+const NS = await window.getSpaceGameDS("../../");
+const { RadioCardGroup } = NS;
+function Demo() { const [v,setV] = React.useState('win'); return (
+  <RadioCardGroup label="Betriebssystem" value={v} onChange={setV} options={[{value:'win',label:'Windows',sub:'Windows 10 / 11 · 64-bit'},{value:'linux',label:'Linux',sub:'x86_64 · AppImage'}]} />); }
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo />);
+})();
+</script></body></html>

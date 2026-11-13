@@ -36,10 +36,10 @@ def test_default_cards_are_saved_as_children(card_site, client):
     assert {card.plugin_type for card in cards} == {"SpaceGameCardPlugin"}
     response = client.get("/")
     assert response.status_code == HTTPStatus.OK
-    assert response.content.count(b'class="feature-card"') == 3  # noqa: PLR2004
-    assert b"Make your own way." in response.content
-    assert b"Connect distant worlds." in response.content
-    assert b"Follow your curiosity." in response.content
+    assert response.content.count(b'class="feature-card sg-window"') == 3  # noqa: PLR2004
+    assert b"Explore" in response.content
+    assert b"Mine" in response.content
+    assert b"Trade" in response.content
 
 
 @pytest.mark.parametrize("count", [1, 6, 7, 10])
@@ -59,7 +59,7 @@ def test_any_card_count_is_preserved_and_rendered(card_site, client, count):
     draft.publish(card_site)
     response = client.get("/")
     assert response.status_code == HTTPStatus.OK
-    assert response.content.count(b'class="feature-card"') == count
+    assert response.content.count(b'class="feature-card sg-window"') == count
     assert f"Card {count}".encode() in response.content
     assert b"data-load-all-cards" in response.content
 

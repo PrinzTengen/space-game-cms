@@ -1,0 +1,647 @@
+{
+  "strings": {
+    "de": {
+      "topbar": "Space Game · Pre-Alpha · Build 0.4.2",
+      "langLabel": "Sprache wählen",
+      "navLabel": "Hauptnavigation",
+      "nav": {
+        "home": "Start",
+        "blog": "Logbuch",
+        "download": "Download",
+        "faq": "System & FAQ"
+      },
+      "signIn": "Anmelden",
+      "badge": "Pre-Alpha",
+      "news": "News",
+      "devlog": "Devlog",
+      "minRead": "Min. Lesezeit",
+      "home": {
+        "kicker": "Erkundung · Handel · Ressourcenabbau",
+        "h1": "Kartiere das Unbekannte.",
+        "lead": "Ein ruhiges, technisches Weltraumspiel. Fliege in unerforschte Systeme, baue Rohstoffe ab und handle sie zwischen Stationen – in deinem eigenen Tempo.",
+        "cta": "Launcher herunterladen",
+        "cta2": "Devlogs lesen",
+        "note": "Pre-Alpha für Windows & Linux · Anmeldung über Discord",
+        "fig": "Abb. 1 — Key-Art",
+        "slot": "Key-Art hier ablegen",
+        "pillarsLabel": "Das Spiel in drei Teilen",
+        "pillarsTitle": "Erkunden. Abbauen. Handeln.",
+        "latestLabel": "Logbuch",
+        "latestTitle": "Neu aus der Entwicklung",
+        "all": "Alle Beiträge",
+        "ctaTitle": "Bereit für den ersten Start?",
+        "ctaText": "Melde dich mit Discord an und lade den Launcher für Windows oder Linux herunter.",
+        "ctaBtn": "Zum Download"
+      },
+      "pillars": [
+        {
+          "n": "01",
+          "title": "Erkunden",
+          "text": "Springe in Systeme, die noch niemand kartiert hat. Jeder Scan füllt deine Sternkarte."
+        },
+        {
+          "n": "02",
+          "title": "Abbauen",
+          "text": "Analysiere Asteroiden, bevor du bohrst. Jeder Brocken hat eine eigene Zusammensetzung."
+        },
+        {
+          "n": "03",
+          "title": "Handeln",
+          "text": "Stationen haben unterschiedlichen Bedarf. Wer Wege und Preise kennt, verdient am meisten."
+        }
+      ],
+      "blog": {
+        "label": "News & Devlogs",
+        "title": "Logbuch",
+        "lead": "Ankündigungen, Patch-Notes und Einblicke in die Entwicklung.",
+        "filterLabel": "Beiträge filtern",
+        "all": "Alle",
+        "news": "News",
+        "devlog": "Devlogs",
+        "more": "Weiterlesen",
+        "slot": "Bild ablegen"
+      },
+      "art": {
+        "back": "Zurück zum Logbuch",
+        "next": "Nächster Beitrag",
+        "slot": "Beitragsbild ablegen"
+      },
+      "dl": {
+        "label": "Download",
+        "title": "Launcher",
+        "lead": "Der Launcher installiert das Spiel und hält es aktuell. Für den Pre-Alpha-Zugang meldest du dich einmalig mit Discord an.",
+        "steps": [
+          "Mit Discord anmelden",
+          "Plattform wählen",
+          "Herunterladen & installieren"
+        ],
+        "done": "Erledigt",
+        "current": "Aktuell",
+        "pending": "Offen",
+        "step": "Schritt",
+        "loginTitle": "Mit Discord anmelden",
+        "loginText": "Der Download ist für angemeldete Tester freigeschaltet. Du wirst zu Discord weitergeleitet und kommst danach direkt hierher zurück.",
+        "loginBtn": "Mit Discord anmelden",
+        "connecting": "Verbinde mit Discord …",
+        "privacy": "Wir erhalten nur deinen Benutzernamen und dein Avatar-Bild.",
+        "signedIn": "Angemeldet als",
+        "logout": "Abmelden",
+        "osTitle": "Plattform wählen",
+        "osLabel": "Betriebssystem",
+        "file": "Datei",
+        "size": "Größe",
+        "version": "Version",
+        "sha": "SHA-256",
+        "dlBtn": "Herunterladen",
+        "preparing": "Download wird vorbereitet …",
+        "startedTitle": "Download gestartet",
+        "startedText": "Startet der Download nicht automatisch, versuche es erneut.",
+        "again": "Erneut herunterladen",
+        "installLabel": "Installation",
+        "install": {
+          "win": "Setup-Datei ausführen und den Anweisungen folgen.",
+          "linux": "Datei ausführbar machen (chmod +x) und starten."
+        },
+        "whyTitle": "Warum Discord?",
+        "why": [
+          "Pre-Alpha-Zugang ohne zusätzliches Konto",
+          "Feedback und Bug-Reports an einem Ort",
+          "Ankündigungen zu neuen Builds"
+        ],
+        "reqTitle": "Läuft es bei dir?",
+        "reqText": "Mindestens 8 GB RAM und eine Grafikkarte mit Vulkan 1.2.",
+        "reqBtn": "Systemanforderungen ansehen",
+        "msgIn": "Erfolgreich mit Discord angemeldet.",
+        "msgOut": "Du wurdest abgemeldet.",
+        "msgDl": "Download gestartet."
+      },
+      "faq": {
+        "label": "Support",
+        "title": "System & FAQ",
+        "reqTitle": "Systemanforderungen",
+        "comp": "Komponente",
+        "min": "Minimum",
+        "rec": "Empfohlen",
+        "reqNote": "Pre-Alpha: Die Anforderungen können sich bis zum Release noch ändern.",
+        "faqTitle": "Häufige Fragen"
+      },
+      "foot": {
+        "line": "Ein Weltraumspiel über Erkundung, Handel und Ressourcenabbau.",
+        "pages": "Seiten",
+        "rights": "© 2026 Space Game · Pre-Alpha"
+      }
+    },
+    "en": {
+      "topbar": "Space Game · Pre-Alpha · Build 0.4.2",
+      "langLabel": "Choose language",
+      "navLabel": "Main navigation",
+      "nav": {
+        "home": "Home",
+        "blog": "Logbook",
+        "download": "Download",
+        "faq": "System & FAQ"
+      },
+      "signIn": "Sign in",
+      "badge": "Pre-Alpha",
+      "news": "News",
+      "devlog": "Devlog",
+      "minRead": "min read",
+      "home": {
+        "kicker": "Exploration · Trade · Mining",
+        "h1": "Chart the unknown.",
+        "lead": "A calm, technical space game. Fly into uncharted systems, mine resources and trade them between stations – at your own pace.",
+        "cta": "Download launcher",
+        "cta2": "Read devlogs",
+        "note": "Pre-Alpha for Windows & Linux · Sign in with Discord",
+        "fig": "Fig. 1 — Key art",
+        "slot": "Drop key art here",
+        "pillarsLabel": "The game in three parts",
+        "pillarsTitle": "Explore. Mine. Trade.",
+        "latestLabel": "Logbook",
+        "latestTitle": "Fresh from development",
+        "all": "All posts",
+        "ctaTitle": "Ready for your first launch?",
+        "ctaText": "Sign in with Discord and download the launcher for Windows or Linux.",
+        "ctaBtn": "Go to download"
+      },
+      "pillars": [
+        {
+          "n": "01",
+          "title": "Explore",
+          "text": "Jump into systems nobody has charted yet. Every scan fills in your star map."
+        },
+        {
+          "n": "02",
+          "title": "Mine",
+          "text": "Analyse asteroids before you drill. Every rock has its own composition."
+        },
+        {
+          "n": "03",
+          "title": "Trade",
+          "text": "Stations need different things. Know the routes and prices, and you earn the most."
+        }
+      ],
+      "blog": {
+        "label": "News & Devlogs",
+        "title": "Logbook",
+        "lead": "Announcements, patch notes and a look behind the scenes.",
+        "filterLabel": "Filter posts",
+        "all": "All",
+        "news": "News",
+        "devlog": "Devlogs",
+        "more": "Read more",
+        "slot": "Drop image"
+      },
+      "art": {
+        "back": "Back to logbook",
+        "next": "Next post",
+        "slot": "Drop cover image"
+      },
+      "dl": {
+        "label": "Download",
+        "title": "Launcher",
+        "lead": "The launcher installs the game and keeps it up to date. For Pre-Alpha access, sign in once with Discord.",
+        "steps": [
+          "Sign in with Discord",
+          "Choose platform",
+          "Download & install"
+        ],
+        "done": "Done",
+        "current": "Current",
+        "pending": "Pending",
+        "step": "Step",
+        "loginTitle": "Sign in with Discord",
+        "loginText": "The download is unlocked for signed-in testers. You will be redirected to Discord and brought straight back here.",
+        "loginBtn": "Sign in with Discord",
+        "connecting": "Connecting to Discord …",
+        "privacy": "We only receive your username and avatar.",
+        "signedIn": "Signed in as",
+        "logout": "Sign out",
+        "osTitle": "Choose platform",
+        "osLabel": "Operating system",
+        "file": "File",
+        "size": "Size",
+        "version": "Version",
+        "sha": "SHA-256",
+        "dlBtn": "Download",
+        "preparing": "Preparing download …",
+        "startedTitle": "Download started",
+        "startedText": "If the download does not start automatically, try again.",
+        "again": "Download again",
+        "installLabel": "Installation",
+        "install": {
+          "win": "Run the setup file and follow the instructions.",
+          "linux": "Make the file executable (chmod +x) and run it."
+        },
+        "whyTitle": "Why Discord?",
+        "why": [
+          "Pre-Alpha access without another account",
+          "Feedback and bug reports in one place",
+          "Announcements for new builds"
+        ],
+        "reqTitle": "Will it run?",
+        "reqText": "At least 8 GB RAM and a graphics card with Vulkan 1.2.",
+        "reqBtn": "View system requirements",
+        "msgIn": "Signed in with Discord.",
+        "msgOut": "You have been signed out.",
+        "msgDl": "Download started."
+      },
+      "faq": {
+        "label": "Support",
+        "title": "System & FAQ",
+        "reqTitle": "System requirements",
+        "comp": "Component",
+        "min": "Minimum",
+        "rec": "Recommended",
+        "reqNote": "Pre-Alpha: requirements may still change before release.",
+        "faqTitle": "Frequently asked questions"
+      },
+      "foot": {
+        "line": "A space game about exploration, trade and mining.",
+        "pages": "Pages",
+        "rights": "© 2026 Space Game · Pre-Alpha"
+      }
+    }
+  },
+  "posts": [
+    {
+      "id": "devlog-7",
+      "type": "devlog",
+      "num": 7,
+      "date": "2026-10-30",
+      "read": 6,
+      "de": {
+        "title": "Prozedurale Asteroidenfelder",
+        "excerpt": "Wie wir Felder erzeugen, die dicht wirken und trotzdem navigierbar bleiben – und warum jeder Brocken jetzt eine echte Zusammensetzung hat.",
+        "body": [
+          [
+            "p",
+            "Asteroidenfelder sind der Ort, an dem Erkundung und Abbau zusammenkommen. In früheren Builds waren sie reine Kulisse. Mit 0.4 ändert sich das."
+          ],
+          [
+            "h",
+            "Dichte ohne Chaos"
+          ],
+          [
+            "p",
+            "Jedes Feld entsteht aus wenigen Clustern mit klaren Korridoren dazwischen. So bleibt Platz zum Manövrieren, während das Feld aus der Ferne dicht wirkt."
+          ],
+          [
+            "img",
+            "Abb. — Cluster und Korridore im Testfeld"
+          ],
+          [
+            "h",
+            "Was im Gestein steckt"
+          ],
+          [
+            "p",
+            "Jeder Asteroid enthält bis zu drei Rohstoffe. Der Scanner zeigt sie an, bevor du bohrst – Abbau wird zur Entscheidung, nicht zur Fleißarbeit."
+          ]
+        ]
+      },
+      "en": {
+        "title": "Procedural asteroid fields",
+        "excerpt": "How we generate fields that feel dense yet stay navigable – and why every rock now has a real composition.",
+        "body": [
+          [
+            "p",
+            "Asteroid fields are where exploration and mining meet. In earlier builds they were scenery. With 0.4 that changes."
+          ],
+          [
+            "h",
+            "Density without chaos"
+          ],
+          [
+            "p",
+            "Each field is built from a few clusters with clear corridors in between. That leaves room to manoeuvre while the field still looks dense from afar."
+          ],
+          [
+            "img",
+            "Fig. — Clusters and corridors in the test field"
+          ],
+          [
+            "h",
+            "What is inside the rock"
+          ],
+          [
+            "p",
+            "Every asteroid holds up to three resources. The scanner shows them before you drill – mining becomes a decision, not a chore."
+          ]
+        ]
+      }
+    },
+    {
+      "id": "news-0-4",
+      "type": "news",
+      "date": "2026-10-22",
+      "read": 3,
+      "de": {
+        "title": "Pre-Alpha 0.4 ist verfügbar",
+        "excerpt": "Neue Asteroidenfelder, überarbeiteter Handel und ein Launcher, der Updates selbst einspielt.",
+        "body": [
+          [
+            "p",
+            "Build 0.4.2 steht ab sofort im Launcher bereit. Ist das Spiel bereits installiert, aktualisiert es sich beim nächsten Start automatisch."
+          ],
+          [
+            "h",
+            "Die wichtigsten Änderungen"
+          ],
+          [
+            "p",
+            "Prozedurale Asteroidenfelder mit Rohstoff-Zusammensetzung, eine neue Preisberechnung an Stationen, überarbeitete Cockpit-Anzeigen und zahlreiche Fehlerbehebungen."
+          ],
+          [
+            "p",
+            "Fehler meldest du am besten im Discord-Kanal #bug-reports – gern mit der Logdatei aus dem Launcher."
+          ]
+        ]
+      },
+      "en": {
+        "title": "Pre-Alpha 0.4 is available",
+        "excerpt": "New asteroid fields, reworked trading and a launcher that installs updates by itself.",
+        "body": [
+          [
+            "p",
+            "Build 0.4.2 is now available in the launcher. If the game is already installed, it updates automatically on next launch."
+          ],
+          [
+            "h",
+            "Key changes"
+          ],
+          [
+            "p",
+            "Procedural asteroid fields with resource composition, new price calculation at stations, reworked cockpit displays and many bug fixes."
+          ],
+          [
+            "p",
+            "Please report bugs in the Discord channel #bug-reports – ideally with the log file from the launcher."
+          ]
+        ]
+      }
+    },
+    {
+      "id": "devlog-6",
+      "type": "devlog",
+      "num": 6,
+      "date": "2026-10-09",
+      "read": 8,
+      "de": {
+        "title": "Wie Preise zwischen Stationen entstehen",
+        "excerpt": "Angebot, Nachfrage und Entfernung: ein Blick in das Wirtschaftsmodell hinter dem Handel.",
+        "body": [
+          [
+            "p",
+            "Handel soll sich lohnen, ohne berechenbar zu werden. Jede Station hat deshalb einen eigenen Bedarf, der sich mit der Zeit verschiebt."
+          ],
+          [
+            "h",
+            "Drei Faktoren"
+          ],
+          [
+            "p",
+            "Der Preis eines Rohstoffs ergibt sich aus dem Lagerbestand der Station, ihrem Verbrauch und der Entfernung zur nächsten Quelle. Wer weite Wege fliegt, wird belohnt."
+          ],
+          [
+            "p",
+            "In der Pre-Alpha sind die Werte bewusst grob eingestellt. Euer Feedback hilft uns, die Balance zu finden."
+          ]
+        ]
+      },
+      "en": {
+        "title": "How prices form between stations",
+        "excerpt": "Supply, demand and distance: a look at the economic model behind trading.",
+        "body": [
+          [
+            "p",
+            "Trading should pay off without becoming predictable. That is why every station has its own demand, which shifts over time."
+          ],
+          [
+            "h",
+            "Three factors"
+          ],
+          [
+            "p",
+            "A resource price depends on the station’s stock, its consumption and the distance to the nearest source. Long hauls are rewarded."
+          ],
+          [
+            "p",
+            "In the Pre-Alpha the values are deliberately rough. Your feedback helps us find the balance."
+          ]
+        ]
+      }
+    },
+    {
+      "id": "news-discord",
+      "type": "news",
+      "date": "2026-09-25",
+      "read": 2,
+      "de": {
+        "title": "Unser Discord-Server ist offen",
+        "excerpt": "Der Pre-Alpha-Zugang läuft ab sofort über Discord. So kommst du rein.",
+        "body": [
+          [
+            "p",
+            "Für die Pre-Alpha nutzen wir Discord als zentralen Ort für Zugang, Feedback und Ankündigungen."
+          ],
+          [
+            "p",
+            "Melde dich auf der Download-Seite mit deinem Discord-Konto an, um den Launcher herunterzuladen. Danach findest du uns in den Kanälen #feedback und #bug-reports."
+          ]
+        ]
+      },
+      "en": {
+        "title": "Our Discord server is open",
+        "excerpt": "Pre-Alpha access now runs through Discord. Here is how to get in.",
+        "body": [
+          [
+            "p",
+            "For the Pre-Alpha we use Discord as the central place for access, feedback and announcements."
+          ],
+          [
+            "p",
+            "Sign in with your Discord account on the download page to get the launcher. Afterwards, find us in #feedback and #bug-reports."
+          ]
+        ]
+      }
+    },
+    {
+      "id": "devlog-5",
+      "type": "devlog",
+      "num": 5,
+      "date": "2026-09-11",
+      "read": 5,
+      "de": {
+        "title": "Instrumente im Cockpit",
+        "excerpt": "Analoge Anzeigen, klare Skalen: warum unser HUD aussieht wie aus einem Handbuch von 1975.",
+        "body": [
+          [
+            "p",
+            "Im Cockpit verbringst du die meiste Zeit. Deshalb soll jede Anzeige auf einen Blick lesbar sein."
+          ],
+          [
+            "h",
+            "Weniger, aber deutlicher"
+          ],
+          [
+            "p",
+            "Wir haben die Zahl der Anzeigen halbiert und setzen auf große Skalen, feste Positionen und eine einzige Warnfarbe."
+          ],
+          [
+            "img",
+            "Abb. — Entwurf der Treibstoffanzeige"
+          ]
+        ]
+      },
+      "en": {
+        "title": "Instruments in the cockpit",
+        "excerpt": "Analogue gauges, clear scales: why our HUD looks like it came from a 1975 manual.",
+        "body": [
+          [
+            "p",
+            "You spend most of your time in the cockpit, so every display should be readable at a glance."
+          ],
+          [
+            "h",
+            "Fewer, but clearer"
+          ],
+          [
+            "p",
+            "We halved the number of displays and rely on large scales, fixed positions and a single warning colour."
+          ],
+          [
+            "img",
+            "Fig. — Draft of the fuel gauge"
+          ]
+        ]
+      }
+    }
+  ],
+  "requirements": [
+    {
+      "l": {
+        "de": "Betriebssystem",
+        "en": "Operating system"
+      },
+      "min": "Windows 10 64-bit / Ubuntu 22.04",
+      "rec": "Windows 11 / Ubuntu 24.04"
+    },
+    {
+      "l": {
+        "de": "Prozessor",
+        "en": "Processor"
+      },
+      "min": {
+        "de": "4 Kerne, 3,0 GHz",
+        "en": "4 cores, 3.0 GHz"
+      },
+      "rec": {
+        "de": "6 Kerne, 3,6 GHz",
+        "en": "6 cores, 3.6 GHz"
+      }
+    },
+    {
+      "l": {
+        "de": "Arbeitsspeicher",
+        "en": "Memory"
+      },
+      "min": "8 GB",
+      "rec": "16 GB"
+    },
+    {
+      "l": {
+        "de": "Grafik",
+        "en": "Graphics"
+      },
+      "min": "GTX 1060 / RX 580 · Vulkan 1.2",
+      "rec": "RTX 2070 / RX 6600"
+    },
+    {
+      "l": {
+        "de": "Speicher",
+        "en": "Storage"
+      },
+      "min": "20 GB SSD",
+      "rec": "20 GB NVMe SSD"
+    },
+    {
+      "l": {
+        "de": "Internet",
+        "en": "Internet"
+      },
+      "min": {
+        "de": "Für Anmeldung & Updates",
+        "en": "For sign-in & updates"
+      },
+      "rec": {
+        "de": "Für Anmeldung & Updates",
+        "en": "For sign-in & updates"
+      }
+    }
+  ],
+  "faq": {
+    "de": [
+      [
+        "Warum brauche ich ein Discord-Konto?",
+        "Über Discord vergeben wir den Pre-Alpha-Zugang und sammeln Feedback. So brauchst du kein weiteres Konto bei uns."
+      ],
+      [
+        "Gibt es eine macOS-Version?",
+        "Aktuell unterstützt der Launcher Windows und Linux."
+      ],
+      [
+        "Wie installiere ich den Launcher unter Linux?",
+        "Lade die AppImage-Datei herunter, mache sie mit „chmod +x“ ausführbar und starte sie. Eine Installation ist nicht nötig."
+      ],
+      [
+        "Bleibt mein Spielstand bei Updates erhalten?",
+        "In der Pre-Alpha können Spielstände bei größeren Updates zurückgesetzt werden. Wir kündigen das vorher im Logbuch an."
+      ],
+      [
+        "Wo melde ich Fehler?",
+        "Im Discord-Kanal #bug-reports. Hänge am besten die Logdatei an, die du im Launcher unter „Hilfe“ findest."
+      ]
+    ],
+    "en": [
+      [
+        "Why do I need a Discord account?",
+        "We grant Pre-Alpha access and collect feedback through Discord, so you don’t need another account with us."
+      ],
+      [
+        "Is there a macOS version?",
+        "The launcher currently supports Windows and Linux."
+      ],
+      [
+        "How do I install the launcher on Linux?",
+        "Download the AppImage, make it executable with “chmod +x” and run it. No installation required."
+      ],
+      [
+        "Will my save survive updates?",
+        "During Pre-Alpha, saves may be reset with larger updates. We announce this in the logbook beforehand."
+      ],
+      [
+        "Where do I report bugs?",
+        "In the Discord channel #bug-reports. Please attach the log file found in the launcher under “Help”."
+      ]
+    ]
+  },
+  "platforms": [
+    {
+      "key": "win",
+      "label": "Windows",
+      "sub": "Windows 10 / 11 · 64-bit",
+      "file": "SpaceGame-Launcher-Setup-0.4.2.exe",
+      "size": "84 MB",
+      "sha": "9c1f 3b7a … e47a"
+    },
+    {
+      "key": "linux",
+      "label": "Linux",
+      "sub": "x86_64 · AppImage",
+      "file": "SpaceGame-Launcher-0.4.2.AppImage",
+      "size": "91 MB",
+      "sha": "4d8e a012 … 7c3b"
+    }
+  ]
+}

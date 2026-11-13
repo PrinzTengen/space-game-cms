@@ -1,0 +1,4 @@
+/* JetBrains Mono 400/600/700 – vorerst über Google Fonts.
+   Für Produktion: WOFF2 aus github.com/JetBrains/JetBrainsMono (v2.304) nach assets/fonts/ legen
+   und durch @font-face-Regeln ersetzen. */
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap");

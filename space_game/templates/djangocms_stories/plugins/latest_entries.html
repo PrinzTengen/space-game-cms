@@ -1,0 +1,18 @@
+{% load cms_tags %}
+
+{% page_url "stories" as logbook_url %}
+<section class="space-section container" data-stories-latest>
+  <div class="sg-section-header">
+    <div>
+      <p class="eyebrow">{{ sg.t.home.latestLabel }}</p>
+      <h2 class="section-heading">{{ sg.t.home.latestTitle }}</h2>
+    </div>
+    <a class="btn"
+       href="{{ logbook_url|default:'/stories/' }}">{{ sg.t.home.all }} <span aria-hidden="true">→</span></a>
+  </div>
+  <div class="sg-post-grid">
+    {% for post_content in postcontent_list %}
+      {% include "theme/post_card.html" %}
+    {% endfor %}
+  </div>
+</section>

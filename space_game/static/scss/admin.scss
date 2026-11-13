@@ -1,4 +1,6 @@
 @use "fonts";
+@use "design-tokens/colors";
+@use "design-tokens/effects";
 
 // Keep the native Django/CMS layout and widgets; theme their existing variables.
 :root, html[data-theme="light"] {
@@ -238,3 +240,4 @@ body.login { background: radial-gradient(ellipse at 75% 10%, rgba(139, 224, 236,
   .login #content { padding: 24px; }
   #footer { padding-inline: 16px; }
 }
+@import "editor-orbit";

@@ -1,0 +1,27 @@
+<!-- @dsCard group="Components" viewport="700x400" name="Content" -->
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<style>body{padding:20px;background:var(--sg-bg)}</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+<script src="../ds-loader.js"></script>
+</head><body><div id="root"></div>
+<script type="text/babel">
+(async () => {
+const NS = await window.getSpaceGameDS("../../");
+const { PostCard, FeatureCard, Tag, Eyebrow, SpecList, Accordion, DataTable, SectionHeader } = NS;
+function Demo() { return (
+  <div style={{display:'grid',gridTemplateColumns:'240px minmax(0,1fr)',gap:18}}>
+    <PostCard typeLabel="Devlog #7" date="30. Okt. 2026" title="Prozedurale Asteroidenfelder" excerpt="Felder, die dicht wirken und navigierbar bleiben." more="Weiterlesen" />
+    <div style={{display:'flex',flexDirection:'column',gap:14}}>
+      <div style={{display:'flex',gap:10,alignItems:'center'}}><Eyebrow>Logbuch</Eyebrow><Tag>News</Tag><Tag tone="good">Online</Tag><Tag tone="muted">Archiv</Tag></div>
+      <FeatureCard as="div" title="Erkunden" text="Jeder Scan füllt deine Sternkarte." />
+      <SpecList items={[['Datei','SpaceGame-Launcher-0.4.2.AppImage'],['Größe','91 MB']]} />
+      <Accordion items={[{q:'Gibt es eine macOS-Version?',a:'Aktuell unterstützt der Launcher Windows und Linux.'}]} />
+    </div>
+  </div>); }
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo />);
+})();
+</script></body></html>

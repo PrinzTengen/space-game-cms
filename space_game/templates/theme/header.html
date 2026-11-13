@@ -1,0 +1,42 @@
+{% load i18n cms_tags %}
+
+{% page_url "download" as download_url %}
+<header class="site-header">
+  <div class="sg-navbar">
+    <a class="sg-brand" href="/">
+      {% include "theme/brand.html" %}
+      <span class="sg-badge">{{ sg.t.badge }}</span>
+    </a>
+    <nav aria-label="{{ sg.t.navLabel }}">
+      <ul class="sg-nav">
+        {% for item in sg.nav %}
+          <li><a href="{{ item.url }}"
+                 {% if item.active %}aria-current="page"{% endif %}>{{ item.label }}</a></li>
+        {% endfor %}
+      </ul>
+    </nav>
+    <div class="sg-nav-right">
+      <form action="{% url 'set_language' %}"
+            method="post"
+            class="sg-segment"
+            aria-label="{{ sg.t.langLabel }}">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.get_full_path }}" />
+        <button type="submit"
+                name="language"
+                value="de"
+                aria-pressed="{% if sg.lang == 'de' %}true{% else %}false{% endif %}">DE</button>
+        <button type="submit"
+                name="language"
+                value="en"
+                aria-pressed="{% if sg.lang == 'en' %}true{% else %}false{% endif %}">EN</button>
+      </form>
+      {% if request.user.is_authenticated %}
+        <a class="sg-user" href="{% url 'users:detail' request.user.username %}">{{ request.user.username }}</a>
+      {% else %}
+        <a class="btn sg-caps sg-signin"
+           href="{{ download_url|default:'/download/' }}">{{ sg.t.signIn }}</a>
+      {% endif %}
+    </div>
+  </div>
+</header>
