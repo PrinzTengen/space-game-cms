@@ -1,32 +1,36 @@
 {% load static djangocms_link_tags %}
 
 <article class="feature-card">
-  {% if instance.image %}
-    <img src="{{ instance.image.url }}"
-         alt="{{ instance.image_alt }}"
-         width="{{ instance.image.width|floatformat:'0u' }}"
-         height="{{ instance.image.height|floatformat:'0u' }}"
-         loading="lazy" />
-  {% elif instance.default_image %}
-    {% if instance.default_image == "resources" %}
-      <img src="{% static 'images/theme/website-bilder/mine_guertel.png' %}"
-           alt="{{ instance.image_alt }}"
-           width="3840"
-           height="2160"
-           loading="lazy" />
-    {% elif instance.default_image == "trade" %}
-      <img src="{% static 'images/theme/website-bilder/trade_levante.png' %}"
-           alt="{{ instance.image_alt }}"
-           width="3840"
-           height="2160"
-           loading="lazy" />
-    {% elif instance.default_image == "exploration" %}
-      <img src="{% static 'images/theme/website-bilder/explore_skycity.png' %}"
-           alt="{{ instance.image_alt }}"
-           width="3840"
-           height="2160"
-           loading="lazy" />
-    {% endif %}
+  {% if instance.image or instance.default_image %}
+    <div class="feature-media">
+      {% if instance.image %}
+        <img src="{{ instance.image.url }}"
+             alt="{{ instance.image_alt }}"
+             width="{{ instance.image.width|floatformat:'0u' }}"
+             height="{{ instance.image.height|floatformat:'0u' }}"
+             loading="lazy" />
+      {% elif instance.default_image %}
+        {% if instance.default_image == "resources" %}
+          <img src="{% static 'images/theme/website-bilder/mine_guertel.png' %}"
+               alt="{{ instance.image_alt }}"
+               width="3840"
+               height="2160"
+               loading="lazy" />
+        {% elif instance.default_image == "trade" %}
+          <img src="{% static 'images/theme/website-bilder/trade_levante.png' %}"
+               alt="{{ instance.image_alt }}"
+               width="3840"
+               height="2160"
+               loading="lazy" />
+        {% elif instance.default_image == "exploration" %}
+          <img src="{% static 'images/theme/website-bilder/explore_skycity.png' %}"
+               alt="{{ instance.image_alt }}"
+               width="3840"
+               height="2160"
+               loading="lazy" />
+        {% endif %}
+      {% endif %}
+    </div>
   {% endif %}
   <div class="feature-copy">
     {% if instance.eyebrow %}<p class="eyebrow mb-3">{{ instance.eyebrow }}</p>{% endif %}
