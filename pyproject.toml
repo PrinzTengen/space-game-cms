@@ -28,6 +28,7 @@ dependencies = [
   "django-filer>=3.6.0",
   "django-meta>=2.5.1",
   "django-model-utils==5.0.0",
+  "django-oauth-toolkit==3.4.1",
   "django-parler>=2.4",
   "django-redis==7.0.0",
   "django-sekizai>=4.1.0",
@@ -46,6 +47,7 @@ dependencies = [
   "flower==2.2.0",
   "gunicorn==26.2.0",
   "hiredis==3.5.0",
+  "mcp==2.3.0",
   "pillow==13.0.0",
   "psycopg[binary]==3.3.8; sys_platform == 'win32'",
   "psycopg[c]==3.3.8; sys_platform != 'win32'",
@@ -170,6 +172,7 @@ keep_full_version = true
 
 # ==== pytest ====
 [tool.pytest]
+markers = ["real_mfa: use the actual staff MFA authentication flow"]
 addopts = [
   "--ds=config.settings.test",
   "--reuse-db",

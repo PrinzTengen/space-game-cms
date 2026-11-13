@@ -1,0 +1,10 @@
+{% extends "mfa/recovery_codes/index.html" %}
+
+{% block content %}
+  {{ block.super }}
+  {% if request.user.is_staff %}
+    <a class="btn" href="{% url 'security-continue' %}">
+      {% if sg.lang == "de" %}Codes gesichert – weiter{% else %}Codes saved – continue{% endif %}
+    </a>
+  {% endif %}
+{% endblock content %}

@@ -276,5 +276,6 @@ space_game/media/
 .pytest_cache/
 .ipython/
 .env
+/.mcp_uploads/
 .envs/*
 !.envs/.local/

@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "space-game": {
+      "command": "cmd",
+      "args": [
+        "/c",
+        "npx",
+        "-y",
+        "mcp-remote@0.16.6",
+        "http://localhost:8000/mcp",
+        "--transport",
+        "http-only"
+      ]
+    }
+  }
+}

@@ -522,6 +522,109 @@ You must set the DSN url in production.
 
 ## Deployment
 
+### MCP mit Claude und verpflichtende Admin-2FA
+
+Der ASGI-Server stellt unter `http://localhost:8000/mcp` einen Streamable-HTTP-MCP
+bereit. Nach Änderungen an den Python-Abhängigkeiten lokal einmal ausführen:
+
+```powershell
+docker compose -f docker-compose.local.yml build django
+docker compose -f docker-compose.local.yml up -d django
+```
+
+Die Anmeldung verwendet den vorhandenen Django-Admin-Benutzer. Beim ersten Login
+unter `/admin/` muss jeder aktive Staff-Benutzer den QR-Code mit einer
+Authenticator-App scannen und einen gültigen TOTP-Code eingeben. Anschließend die
+einmal angezeigten Wiederherstellungscodes sichern. Bestehende Sitzungen ohne
+2FA-Nachweis werden ebenfalls zur Einrichtung bzw. zweiten Prüfung geleitet.
+Staff-Passwörter und die bisherigen DRF-API-Tokens allein erlauben keinen
+Verwaltungszugriff mehr. Normale Spieler-Accounts behalten ihre Anmeldung.
+
+**Claude Code:** Die eingecheckte `.mcp.json` enthält bereits den lokalen Endpunkt.
+Das Projekt in Claude Code öffnen, den Projektserver aktivieren und unter `/mcp`
+für `space-game` die Browser-Anmeldung starten. Alternativ ohne Projektdatei:
+
+```powershell
+claude mcp add --transport http space-game http://localhost:8000/mcp
+```
+
+**Claude Desktop unter Windows:** Den Eintrag aus
+[`config/mcp/claude_desktop_config.windows.example.json`](config/mcp/claude_desktop_config.windows.example.json)
+in `%APPDATA%\Claude\claude_desktop_config.json` übernehmen und Claude vollständig
+neu starten. Vorhandene `mcpServers`-Einträge beibehalten. Node.js 24/npm müssen
+verfügbar sein. Die fest versionierte `mcp-remote`-Bridge läuft auf deinem Rechner
+und öffnet bei Bedarf die Anmeldung im Browser. Ein Cloud-Connector kann den
+lokalen `localhost`-Server nicht erreichen.
+
+Beide Clients verwenden OAuth mit PKCE, dynamischer Client-Registrierung und
+Zustimmung im Browser nach der 2FA-Prüfung. In den JSON-Dateien stehen keine
+Passwörter oder Tokens. Die Zustimmung umfasst `mcp:read`, `mcp:write` und
+`mcp:publish`; zusätzlich gelten bei jedem Aufruf die aktuellen Django- und
+CMS-Berechtigungen des Benutzers. Nur Lesezugriff lässt sich durch die angefragten
+Scopes begrenzen. Access-Tokens gelten eine Stunde; Refresh-Tokens rotieren und
+werden spätestens nach sieben Tagen ungültig. Passwortänderung, Staff-Entzug,
+Deaktivierung oder Zurücksetzen des TOTP-Faktors widerrufen die Tokens.
+
+Verfügbare Werkzeuge:
+
+| Werkzeuge | Verwaltung |
+| --- | --- |
+| `whoami`, `management_catalog` | Benutzer, Scopes und verfügbare Admin-Modelle |
+| `records_read`, `records_write` | Admin-Formularschema und CRUD, einschließlich Gruppen und Einstellungen; Benutzeränderungen nur für Superuser |
+| `pages_read`, `pages_write` | CMS-Seiten anlegen, lesen, als Entwurf bearbeiten, übersetzen und löschen |
+| `plugins_read`, `plugins_write` | Plugin-Typen mit Formularfeldern, Platzhalter, Plugin-Baum und Konfiguration; hinzufügen, bearbeiten, verschieben und löschen |
+| `stories_read`, `stories_write` | News/Devlogs, Übersetzungen und Artikel-Metadaten wie Titelbild, Kategorien und Tags |
+| `content_versions` | Entwurf erstellen, veröffentlichen, zurückziehen, archivieren und verwerfen |
+| `media_read`, `media_write`, `media_upload` | Filer-Bilder/Dateien, Metadaten, Upload und Löschen |
+
+Seiten- und Artikeltexte werden als Entwurf bearbeitet. Vor Plugin-Änderungen mit
+`content_versions(action="draft", ...)` den Entwurf bestimmen, danach dessen
+Plugin-IDs mit `plugins_read(action="list", content_id=...)` lesen. Die
+Formularfelder zuerst mit `plugins_read(action="types")` prüfen. Veröffentlichen
+und das Löschen ganzer Seiten/Artikel erfordern zusätzlich `mcp:publish`.
+Artikel-Metadaten (`stories_write`, Aktion `metadata`) gelten wie im nativen Admin
+für alle Sprachfassungen und Versionen sofort und benötigen ebenfalls diesen
+Scope. Sicherheitsdaten wie Passwort-Hashes, OAuth-Tokens und TOTP-Schlüssel sind
+vom MCP-Lesezugriff ausgeschlossen. Änderungen erscheinen unter **Control →
+Audit events** im Admin; dort werden keine Inhaltsdaten oder Geheimnisse geloggt.
+
+Uploads: `media_upload(action="begin", filename=..., size=..., kind="image"|"file")`
+starten, anschließend Base64-Blöcke mit höchstens 1 MiB Rohdaten und passendem
+`offset` über `chunk` senden, mit `finish` abschließen. `status`/`list` zeigen die
+eigenen laufenden Uploads; `abort` verwirft sie. Optional einen SHA-256-Hash beim
+Start angeben. Das Limit beträgt standardmäßig 512 MiB. Der Abschluss prüft Bilder
+und die nativen Filer-Dateiregeln. Die zurückgegebene `reference`, z. B.
+`{"model": "filer.image", "pk": 42}`, kann einem Plugin-Feld wie `image` oder
+`launcher_file` zugewiesen werden. Neue Assets sind öffentlich abrufbar.
+
+Für den Produktivbetrieb `MCP_BASE_URL=https://deine-domain.example` setzen und
+denselben Ursprung in den Client-Dateien verwenden. Die URL muss dem von außen
+erreichbaren Ursprung entsprechen; MCP prüft Host, Origin und Token-Zieladresse.
+Der vorhandene Produktionsstart verwendet bereits Gunicorn mit ASGI/Uvicorn.
+`DJANGO_SECRET_KEY` und bisherige Schlüssel in `SECRET_KEY_FALLBACKS` sicher
+aufbewahren: Sie schützen auch die verschlüsselten 2FA-Geheimnisse. Das Staging
+unter `.mcp_uploads/` wird nicht eingecheckt. Regelmäßig serverseitig bereinigen:
+
+```bash
+python manage.py cleanup_mcp_uploads
+python manage.py cleartokens
+```
+
+Bei verlorenem zweiten Faktor zuerst einen Wiederherstellungscode nutzen. Nur
+mit Serverzugriff kann die Einrichtung erzwungen zurückgesetzt werden:
+
+```bash
+python manage.py reset_staff_mfa --username ADMINNAME
+```
+
+Das beendet alle Sitzungen und widerruft alle MCP-Tokens dieses Benutzers; beim
+nächsten Login ist eine neue 2FA-Einrichtung erforderlich.
+
+Protokoll- und Client-Dokumentation: [Claude Code MCP](https://code.claude.com/docs/en/mcp),
+[mcp-remote](https://github.com/punkpeye/mcp-remote),
+[Django OAuth Toolkit](https://django-oauth-toolkit.readthedocs.io/en/stable/),
+[django-allauth MFA](https://docs.allauth.org/en/latest/mfa/).
+
 The following details how to deploy this application.
 
 ### Docker

@@ -131,11 +131,13 @@ THIRD_PARTY_APPS = [
     "django_celery_beat",
     "rest_framework",
     "rest_framework.authtoken",
+    "oauth2_provider",
     "corsheaders",
     "drf_spectacular",
 ]
 
 LOCAL_APPS = [
+    "space_game.control",
     "space_game.users",
     "space_game.theme",
     # Your stuff: custom apps go here
@@ -202,6 +204,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "allauth.account.middleware.AccountMiddleware",
+    "space_game.control.middleware.StaffMFAMiddleware",
     "cms.middleware.user.CurrentUserMiddleware",
     "cms.middleware.page.CurrentPageMiddleware",
     "cms.middleware.toolbar.ToolbarMiddleware",
@@ -304,7 +307,61 @@ ADMINS = ['"Nölp Max" <space-game@mail.gg>']
 MANAGERS = ADMINS
 # https://cookiecutter-django.readthedocs.io/en/latest/settings.html#other-environment-settings
 # Force the `admin` sign in process to go through the `django-allauth` workflow
-DJANGO_ADMIN_FORCE_ALLAUTH = env.bool("DJANGO_ADMIN_FORCE_ALLAUTH", default=False)
+DJANGO_ADMIN_FORCE_ALLAUTH = True
+MFA_ADAPTER = "space_game.control.security.StaffMFAAdapter"
+MFA_SUPPORTED_TYPES = ["totp", "recovery_codes"]
+MFA_TOTP_ISSUER = "Space Game Admin"
+MFA_ALLOW_UNVERIFIED_EMAIL = True
+MFA_TRUST_ENABLED = False
+MFA_RECOVERY_CODES_SHOW_ONCE = True
+
+MCP_BASE_URL = env("MCP_BASE_URL", default="http://localhost:8000").rstrip("/")
+MCP_RESOURCE_URL = MCP_BASE_URL + "/mcp"
+MCP_UPLOAD_ROOT = BASE_DIR / ".mcp_uploads"
+FILER_REMOVE_FILE_VALIDATORS = ["application/octet-stream"]
+FILER_ADD_FILE_VALIDATORS = {
+    "application/octet-stream": [
+        "space_game.control.validators.validate_binary_download",
+    ],
+}
+MCP_MAX_UPLOAD_BYTES = env.int("MCP_MAX_UPLOAD_BYTES", default=512 * 1024 * 1024)
+OAUTH2_PROVIDER = {
+    "OAUTH2_VALIDATOR_CLASS": "space_game.control.oauth.ManagementOAuthValidator",
+    "DCR_ENABLED": True,
+    "DCR_REGISTRATION_PERMISSION_CLASSES": [
+        "space_game.control.oauth.LimitedRegistration",
+    ],
+    "PKCE_REQUIRED": True,
+    "COMPLIANT_BCP_RFC9700_PKCE_METHOD": True,
+    "COMPLIANT_BCP_RFC9700_PASSWORD_GRANT": True,
+    "COMPLIANT_BCP_RFC9700_IMPLICIT_GRANT": True,
+    "COMPLIANT_BCP_RFC9700_ACCESS_TOKEN_TRANSPORT": True,
+    "COMPLIANT_BCP_RFC9700_TOKEN_STORAGE": True,
+    "ACCESS_TOKEN_EXPIRE_SECONDS": 3600,
+    "ROTATE_REFRESH_TOKEN": True,
+    "REFRESH_TOKEN_REUSE_PROTECTION": True,
+    "REFRESH_TOKEN_EXPIRE_SECONDS": 7 * 24 * 3600,
+    "SCOPES": {
+        "mcp:read": "Inhalte lesen",
+        "mcp:write": "Inhalte erstellen, bearbeiten und löschen",
+        "mcp:publish": "Entwürfe veröffentlichen",
+    },
+    "DEFAULT_SCOPES": ["mcp:read"],
+    "OAUTH2_RESPONSE_TYPES_SUPPORTED": ["code"],
+    "OAUTH2_GRANT_TYPES_SUPPORTED": ["authorization_code", "refresh_token"],
+    "OAUTH2_TOKEN_ENDPOINT_AUTH_METHODS_SUPPORTED": [
+        "none",
+        "client_secret_post",
+        "client_secret_basic",
+    ],
+    "OAUTH2_PROTECTED_RESOURCE_IDENTIFIER": MCP_RESOURCE_URL,
+    "OAUTH2_PROTECTED_RESOURCE_AUTHORIZATION_SERVERS": [MCP_BASE_URL],
+    "ALLOWED_REDIRECT_URI_SCHEMES": [
+        "https",
+        "http",
+    ],  # Custom validator permits HTTP only for loopback callbacks.
+    "ALLOW_LOCALHOST_LOOPBACK": True,
+}
 
 # LOGGING
 # ------------------------------------------------------------------------------
@@ -399,8 +456,8 @@ STATICFILES_FINDERS += ["compressor.finders.CompressorFinder"]
 # django-rest-framework - https://www.django-rest-framework.org/api-guide/settings/
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework.authentication.SessionAuthentication",
-        "rest_framework.authentication.TokenAuthentication",
+        "space_game.control.rest.StaffSessionAuthentication",
+        "space_game.control.rest.StaffTokenAuthentication",
     ),
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",

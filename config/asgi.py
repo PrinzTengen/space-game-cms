@@ -26,14 +26,51 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.local")
 django_application = get_asgi_application()
 
 # Import websocket application here, so apps from django_application are loaded first
+from contextlib import asynccontextmanager  # noqa: E402
+from urllib.parse import urlsplit  # noqa: E402
+
+from django.conf import settings  # noqa: E402
+from mcp.server.transport_security import TransportSecuritySettings  # noqa: E402
+from starlette.applications import Starlette  # noqa: E402
+from starlette.routing import Mount  # noqa: E402
+
 from config.websocket import websocket_application  # noqa: E402
+from space_game.control.mcp import create_server  # noqa: E402
+
+management_server = create_server()
+origin = urlsplit(settings.MCP_BASE_URL)
+mcp_application = management_server.streamable_http_app(
+    streamable_http_path="/mcp",
+    json_response=True,
+    stateless_http=True,
+    transport_security=TransportSecuritySettings(
+        enable_dns_rebinding_protection=True,
+        allowed_hosts=[origin.netloc],
+        allowed_origins=[settings.MCP_BASE_URL],
+    ),
+)
 
 
-async def application(scope, receive, send):
+async def dispatch(scope, receive, send):
     if scope["type"] == "http":
-        await django_application(scope, receive, send)
+        if scope["path"] in {
+            "/mcp",
+            "/mcp/",
+        }:
+            await mcp_application(scope, receive, send)
+        else:
+            await django_application(scope, receive, send)
     elif scope["type"] == "websocket":
         await websocket_application(scope, receive, send)
     else:
         msg = f"Unknown scope type {scope['type']}"
         raise NotImplementedError(msg)
+
+
+@asynccontextmanager
+async def lifespan(app):
+    async with mcp_application.router.lifespan_context(mcp_application):
+        yield
+
+
+application = Starlette(routes=[Mount("/", app=dispatch)], lifespan=lifespan)

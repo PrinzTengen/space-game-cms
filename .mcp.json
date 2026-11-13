@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "space-game": {
+      "type": "http",
+      "url": "http://localhost:8000/mcp"
+    }
+  }
+}

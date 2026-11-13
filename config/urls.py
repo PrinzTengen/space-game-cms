@@ -7,12 +7,17 @@ from django.urls import path
 from django.views import defaults as default_views
 from drf_spectacular.views import SpectacularAPIView
 from drf_spectacular.views import SpectacularSwaggerView
-from rest_framework.authtoken.views import obtain_auth_token
+from oauth2_provider.urls import metadata_urlpatterns
 
+from space_game.control.token_views import PublicUserAuthToken
+from space_game.control.views import continue_after_setup
 from space_game.theme.views import launcher_download
 from space_game.theme.views import switch_language
 
 urlpatterns = [
+    path("security/continue/", continue_after_setup, name="security-continue"),
+    *metadata_urlpatterns,
+    path("oauth/", include("space_game.control.urls")),
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
     # User management
@@ -35,7 +40,7 @@ urlpatterns += [
     # API base url
     path("api/", include("config.api_router")),
     # DRF auth token
-    path("api/auth-token/", obtain_auth_token, name="obtain_auth_token"),
+    path("api/auth-token/", PublicUserAuthToken.as_view(), name="obtain_auth_token"),
     path("api/schema/", SpectacularAPIView.as_view(), name="api-schema"),
     path(
         "api/docs/",

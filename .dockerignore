@@ -10,6 +10,8 @@
 venv
 .git
 .envs/
+.env
+.mcp_uploads/
 .venv/
 node_modules/
 space_game/static/build/
