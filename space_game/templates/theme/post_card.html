@@ -1,25 +1,30 @@
-{% load design_tags %}
+{% load design_tags easy_thumbnails_tags %}
 
 <article class="sg-window sg-post-card"
          data-reveal
          data-post-kind="{{ post_content|post_kind }}">
   <div class="sg-media">
+    {# djlint:off T038 #}
     {% if post_content.post.main_image %}
-      <img src="{{ post_content.post.main_image.url }}"
+      {% thumbnail post_content.post.main_image "768x432" crop=True upscale=False as cover %}
+      <img src="{{ cover.url }}"
            alt="{{ post_content.post.main_image.default_alt_text }}"
+           width="{{ cover.width }}"
+           height="{{ cover.height }}"
            loading="lazy" />
     {% else %}
       <span>{{ sg.t.blog.slot }}</span>
     {% endif %}
+    {# djlint:on #}
   </div>
   <div class="sg-post-copy">
     <div class="sg-post-meta">
       <span class="sg-tag">{% firstof post_content.subtitle sg.t.news %}</span>
       <time datetime="{{ post_content.date_published|date:'Y-m-d' }}">{{ post_content.date_published|date:'d M Y' }}</time>
-      {% if show_more %}<span>· {{ post_content|reading_minutes }} {{ sg.t.minRead }}</span>{% endif %}
+      {% if show_more %}<span>? {{ post_content|reading_minutes }} {{ sg.t.minRead }}</span>{% endif %}
     </div>
     <h3><a class="sg-post-link" href="{{ post_content.get_absolute_url }}">{{ post_content.title }}</a></h3>
     <p>{{ post_content.abstract|striptags }}</p>
-    {% if show_more %}<span class="sg-post-more" aria-hidden="true">{{ sg.t.blog.more }} →</span>{% endif %}
+    {% if show_more %}<span class="sg-post-more" aria-hidden="true">{{ sg.t.blog.more }} ?</span>{% endif %}
   </div>
 </article>

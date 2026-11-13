@@ -447,6 +447,8 @@ THUMBNAIL_PROCESSORS = (
     "easy_thumbnails.processors.filters",
 )
 STORIES_AUTO_SETUP = False  # Set up page/apphook content explicitly after migration.
+META_USE_SITES = True  # Stories builds image metadata without passing a request.
+META_SITE_PROTOCOL = env("META_SITE_PROTOCOL", default="https")
 CMS_PAGE_CACHE = False  # Consent and account controls depend on the visitor.
 CMS_PLACEHOLDER_CACHE = False
 SG_DISCORD_CLIENT_ID = env("DISCORD_CLIENT_ID", default="")

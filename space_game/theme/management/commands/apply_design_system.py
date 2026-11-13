@@ -81,6 +81,7 @@ class Command(BaseCommand):
                     page, lang, user, data["strings"][lang]["nav"][label],
                 )
         self.install_posts(user, data)
+        call_command("install_home_stories", username=user.username)
         self.stdout.write(
             self.style.SUCCESS("F2 Orbit website installed in DE and EN."),
         )

@@ -1,0 +1,342 @@
+[
+  {
+    "id": "devlog-9", "type": "devlog", "num": 9, "date": "2026-11-13",
+    "cover": "fotoshooting/08_skycity_nebel_links.png", "alt": "Sky City station silhouetted against a bright nebula",
+    "de": {
+      "title": "Stationen im richtigen Licht",
+      "excerpt": "Eine Station soll auch vor einem hellen Nebel erkennbar bleiben. Wie Silhouetten, Licht und Blickrichtung die Orientierung im All unterstützen.",
+      "body": [
+        ["p", "Eine Station ist mehr als ein Zielpunkt. Beim Anflug gibt sie Richtung, Entfernung und Maßstab vor. Gleichzeitig liegt sie häufig vor einem Hintergrund, der selbst viel Aufmerksamkeit verlangt: Sterne, beleuchtete Planeten und helle Nebel. In diesem Devlog geht es darum, diese Bildteile so zu ordnen, dass Orientierung und Atmosphäre zusammenarbeiten."],
+        ["h", "Die Silhouette kommt zuerst"],
+        ["p", "Aus großer Entfernung muss die Grundform lesbar sein. Einzelne Fenster helfen dabei kaum; entscheidend sind die Abstände zwischen Türmen, die Kontur der Außenhülle und freie Bereiche um markante Bauteile. Wir betrachten deshalb unterschiedliche Anflugrichtungen. Eine Ansicht, die im Standbild funktioniert, kann während einer langsamen Drehung ihre Orientierungspunkte verlieren."],
+        ["h", "Helligkeit ist nicht gleich Information"],
+        ["p", "Mehr Licht macht eine Szene nicht automatisch verständlicher. Wenn Hintergrund und Stationsoberfläche ähnlich hell sind, verschwinden ihre Grenzen. Ein dunkler Rand vor einem beleuchteten Nebel kann deutlicher wirken als eine zusätzliche Lampe. Warme Lichtquellen gehören zur Spielwelt; funktionale Anzeigen müssen sich davon durch eine ruhige, konsistente Darstellung abheben."],
+        ["h", "Bewegung verändert den Eindruck"],
+        ["p", "Beim Vorbeiflug verschieben sich nahe und entfernte Bauteile unterschiedlich schnell. Das hilft, Tiefe zu erkennen, kann aber wichtige Formen kurz verdecken. Deshalb vergleichen wir nahe Ansichten mit dem Fernbild und achten auf Übergänge. Die Station soll nicht nur aus einem bevorzugten Kamerawinkel verständlich sein, sondern während eines ganzen Anflugs zusammenhängend wirken."],
+        ["h", "Worauf du beim Testen achten kannst"],
+        ["p", "Wenn du beim Anflug die Orientierung verlierst, beschreibe Blickrichtung, Entfernungseindruck und Hintergrund. Ein Screenshot mit der kompletten Szene ist hilfreicher als ein enger Ausschnitt eines einzelnen Bauteils. Besonders interessant sind Situationen, in denen eine Station zunächst gut sichtbar ist und beim Weiterflug unerwartet mit dem Hintergrund verschmilzt. Solche Rückmeldungen helfen uns, konkrete Ansichten zu vergleichen."]
+      ]
+    },
+    "en": {
+      "title": "Stations in the right light",
+      "excerpt": "A station needs to remain readable against a bright nebula. How silhouettes, lighting and viewing direction support orientation in space.",
+      "body": [
+        ["p", "A station is more than a destination marker. On approach it provides direction, distance and a sense of scale. It often sits in front of a background that demands attention itself: stars, illuminated planets and bright nebulae. This devlog looks at arranging those elements so that atmosphere and orientation support each other."],
+        ["h", "Start with the silhouette"],
+        ["p", "The overall shape needs to read from a distance. Individual windows contribute little at that scale. The gaps between towers, the outer contour and clear space around distinctive structures matter much more. We therefore consider different approach directions. A composition that works in a still image can lose its landmarks during a slow turn."],
+        ["h", "Brightness is not information"],
+        ["p", "Adding light does not automatically make a scene easier to understand. When the background and station surface share similar brightness, their boundaries disappear. A dark edge against an illuminated nebula can be clearer than an extra lamp. Warm lights belong in the game world; functional information needs a calm and consistent presentation that remains distinct."],
+        ["h", "Movement changes the picture"],
+        ["p", "During a fly-by, nearby and distant structures move across the view at different speeds. This reveals depth but can briefly hide useful shapes. We compare close views with the distant silhouette and pay particular attention to transitions. A station should make sense throughout an approach rather than only from one preferred camera position."],
+        ["h", "What to look for when testing"],
+        ["p", "If you lose orientation, describe the viewing direction, apparent distance and background. A screenshot showing the entire scene is more useful than a tight crop of one structure. We are especially interested in stations that initially stand out but unexpectedly merge into the background as you continue flying. That feedback helps us compare specific views rather than guess at the cause."]
+      ]
+    }
+  },
+  {
+    "id": "devlog-8", "type": "devlog", "num": 8, "date": "2026-11-06",
+    "cover": "fotoshooting/06_linse_nah_schild.png", "alt": "A close view of a station structure and its identifying sign",
+    "de": {
+      "title": "Vom Scan zur Abbauentscheidung",
+      "excerpt": "Ein Scan soll eine Entscheidung ermöglichen. Warum Zusammensetzung, Vergleichbarkeit und der nächste sinnvolle Schritt wichtiger sind als möglichst viele Messwerte.",
+      "body": [
+        ["p", "Der Scanner verbindet Erkundung und Ressourcenabbau. Du findest ein interessantes Objekt, untersuchst es und entscheidest anschließend, ob sich der nächste Arbeitsschritt lohnt. Damit dieser Ablauf verständlich bleibt, muss die Anzeige eine konkrete Frage beantworten. Eine lange Liste von Zahlen allein macht aus einer Entdeckung noch keine sinnvolle Abbauentscheidung."],
+        ["h", "Erst verstehen, dann bohren"],
+        ["p", "Die Zusammensetzung eines Asteroiden gehört zu den Informationen, die vor dem Abbau relevant sind. Sie hilft dir, einen Fund mit deinem aktuellen Ziel zu vergleichen. Wer gezielt einen Rohstoff sucht, bewertet denselben Brocken anders als jemand, der zunächst verschiedene Materialien kennenlernen möchte. Die Anzeige soll diese Entscheidung unterstützen, ohne dir einen einzigen richtigen Weg vorzuschreiben."],
+        ["h", "Werte müssen vergleichbar bleiben"],
+        ["p", "Beim Vergleich zweier Funde dürfen gleiche Informationen nicht an völlig unterschiedlichen Stellen stehen. Eine feste Reihenfolge und verständliche Bezeichnungen sparen Sucharbeit. Wir betrachten dabei nicht nur einzelne Anzeigen, sondern auch mehrere Scans hintereinander. Wiederkehrende Informationen müssen wiedererkennbar bleiben, während tatsächlich wichtige Unterschiede deutlich genug hervortreten, um eine neue Entscheidung zu begründen."],
+        ["h", "Der Fund gehört zu einer Route"],
+        ["p", "Ein interessantes Material ist nicht automatisch die beste Wahl für jede Reise. Entfernung und die Bedürfnisse der Stationen gehören ebenfalls zum Zusammenhang. Der Scan liefert einen Teil dieser Überlegung; er ersetzt nicht deine Planung. Genau daraus entsteht die Verbindung zwischen Erkundung, Abbau und Handel: Eine Beobachtung verändert, was du als Nächstes sinnvollerweise tun möchtest."],
+        ["h", "Feedback zur Anzeige"],
+        ["p", "Hilfreich sind Rückmeldungen, die eine konkrete Entscheidung beschreiben. Welche Information hast du gesucht, welche Anzeige war tatsächlich sichtbar und warum war der nächste Schritt unklar? Wenn möglich, füge zwei vergleichbare Scans bei. So können wir erkennen, ob die Begriffe, die Reihenfolge oder die Darstellung selbst die Orientierung erschweren und die betreffende Stelle gezielt überprüfen."]
+      ]
+    },
+    "en": {
+      "title": "From a scan to a mining decision",
+      "excerpt": "A scan should enable a decision. Why composition, consistent comparisons and a useful next step matter more than displaying every possible measurement.",
+      "body": [
+        ["p", "The scanner connects exploration with resource extraction. You discover an interesting object, examine it and decide whether the next step is worth taking. To keep that sequence understandable, the display needs to answer a specific question. A long list of measurements does not, by itself, turn a discovery into a useful mining decision."],
+        ["h", "Understand the find before drilling"],
+        ["p", "An asteroid's composition matters before extraction begins. It lets you compare a find with your current objective. Someone seeking a particular resource will judge the same rock differently from someone getting to know several materials. The display should support both decisions without suggesting that there is only one correct way to explore an asteroid field."],
+        ["h", "Keep comparisons consistent"],
+        ["p", "Equivalent information should not appear in completely different positions when you compare two finds. A stable order and understandable labels reduce unnecessary searching. We consider sequences of scans as well as individual displays. Familiar information needs to remain recognisable, while meaningful differences must stand out clearly enough to explain why you might choose a different target."],
+        ["h", "A discovery is part of a route"],
+        ["p", "An interesting material is not automatically the best choice for every journey. Distance and the needs of stations also provide context. The scan supplies one part of that judgement rather than replacing your planning. This is where exploration, mining and trading connect: an observation changes what you consider a useful next action, rather than simply adding another number to a list."],
+        ["h", "Feedback about the display"],
+        ["p", "The most useful feedback describes a particular decision. Which information were you looking for, what was actually visible and why was the next step unclear? Include two comparable scans if possible. That lets us distinguish problems with terminology or ordering from problems in the visual presentation, and investigate the relevant part of the interface directly."]
+      ]
+    }
+  },
+  {
+    "id": "devlog-7", "type": "devlog", "num": 7, "date": "2026-10-30",
+    "cover": "website-bilder/mine_guertel.png", "alt": "Asteroids and a ship crossing a resource field in deep space",
+    "de": {
+      "title": "Prozedurale Asteroidenfelder",
+      "excerpt": "Wie wir Felder erzeugen, die dicht wirken und trotzdem navigierbar bleiben – und warum jeder Brocken eine echte Zusammensetzung braucht.",
+      "body": [
+        ["p", "Asteroidenfelder sind der Ort, an dem Erkundung und Abbau zusammenkommen. Aus der Ferne sollen sie wie ein zusammenhängender Bereich wirken. Aus der Nähe brauchst du jedoch Platz, um dich zu orientieren und einzelne Ziele zu untersuchen. Diese beiden Anforderungen bestimmen, wie wir die Felder aufbauen und ihre Zusammensetzung betrachten."],
+        ["h", "Dichte ohne Chaos"],
+        ["p", "Ein Feld entsteht aus mehreren Clustern mit freien Korridoren dazwischen. Die Verteilung soll nicht überall gleich aussehen, aber nachvollziehbare Wege offenlassen. Ein dichter Hintergrund allein reicht deshalb nicht als Qualitätsmaßstab. Wichtig ist auch, wie sich ein Bereich beim Durchflug liest und ob du interessante Gruppen erkennst, ohne ständig den Überblick über deine Flugrichtung zu verlieren."],
+        ["h", "Was im Gestein steckt"],
+        ["p", "Ein Asteroid kann mehrere Rohstoffe enthalten. Der Scanner macht seine Zusammensetzung vor dem Bohren sichtbar. Dadurch beginnt Abbau mit einer Auswahl: Du prüfst einen Fund und entscheidest, ob er zu deinem Vorhaben passt. Die einzelnen Brocken brauchen deshalb mehr als unterschiedliche Formen. Ihre Inhalte müssen sinnvolle Vergleiche ermöglichen und unterschiedliche Gründe zum Weiterfliegen oder Verweilen liefern."],
+        ["h", "Ein Feld ist kein einzelnes Standbild"],
+        ["p", "Wir betrachten die Verteilung aus unterschiedlichen Entfernungen und Richtungen. Kleine Abstände können aus der Ferne unauffällig wirken und beim Anflug zu engen Situationen werden. Umgekehrt kann ein großzügiger Korridor ein Feld optisch auseinanderreißen. Entscheidend ist der Übergang zwischen Fernwirkung, Orientierung und dem konkreten Arbeitsplatz an einem einzelnen Asteroiden, nicht nur die Wirkung eines ausgewählten Screenshots."],
+        ["h", "Worauf wir in der Pre-Alpha achten"],
+        ["p", "Melde uns Stellen, an denen ein Feld schwer lesbar wird oder eine interessante Zusammensetzung keinen sinnvollen nächsten Schritt ergibt. Beschreibe möglichst, ob du gerade erkundet, gescannt oder abgebaut hast. Ein Überblicksbild und eine zweite Aufnahme aus der Nähe helfen, die Situation nachzuvollziehen. So lässt sich unterscheiden, ob Verteilung, Darstellung oder die Informationen zum Fund verbessert werden müssen."]
+      ]
+    },
+    "en": {
+      "title": "Procedural asteroid fields",
+      "excerpt": "How we generate fields that feel dense yet stay navigable, and why each rock needs a meaningful resource composition.",
+      "body": [
+        ["p", "Asteroid fields are where exploration and mining come together. From a distance they should read as a coherent area. Up close, you need space to orient yourself and examine individual targets. Those two requirements guide how we arrange the fields and think about the resources contained in each rock, rather than treating the field as background scenery."],
+        ["h", "Density without chaos"],
+        ["p", "A field consists of several clusters with open corridors between them. The distribution should vary without closing every understandable route. A dense background is therefore not enough to judge its quality. We also need to consider how the area reads while you fly through it, and whether you can identify promising groups without repeatedly losing track of your heading."],
+        ["h", "What is inside the rock"],
+        ["p", "An asteroid can contain several resources. The scanner reveals its composition before drilling begins. Mining therefore starts with a choice: examine a find and decide whether it suits your objective. Rocks need more than varied shapes to make that worthwhile. Their contents must support meaningful comparisons and provide different reasons either to move on or to stay and work."],
+        ["h", "A field is not a still image"],
+        ["p", "We examine the distribution from several directions and distances. Small gaps can appear harmless from far away yet become cramped on approach. Conversely, an overly generous corridor can visually split a field apart. What matters is the transition between the distant view, local orientation and the working space around one asteroid, rather than the appearance of a single selected screenshot."],
+        ["h", "What we look for in Pre-Alpha"],
+        ["p", "Tell us where a field becomes difficult to read or where an interesting composition fails to suggest a useful next step. Explain whether you were exploring, scanning or mining at the time. An overview and a closer screenshot help us understand the situation. That distinction lets us investigate distribution, presentation or information about the find instead of treating every report as the same problem."]
+      ]
+    }
+  },
+  {
+    "id": "devlog-6", "type": "devlog", "num": 6, "date": "2026-10-09",
+    "cover": "fotoshooting/04_linse_levante_goldnebel.png", "alt": "A station and observation structure against a golden nebula",
+    "de": {
+      "title": "Wie Preise zwischen Stationen entstehen",
+      "excerpt": "Angebot, Nachfrage und Entfernung: ein Blick auf die Entscheidungen hinter Handelsrouten und die Balance in der Pre-Alpha.",
+      "body": [
+        ["p", "Handel soll sich lohnen, ohne jede Reise auf dieselbe optimale Strecke zu reduzieren. Dafür brauchen Stationen unterschiedliche Bedürfnisse und eine nachvollziehbare Beziehung zu ihren Beständen. In diesem Devlog beschreiben wir die drei Überlegungen hinter dem Handelsmodell: Was ist vorhanden, was wird gebraucht und wie aufwendig ist der Weg zwischen zwei Orten?"],
+        ["h", "Bestand und Bedarf"],
+        ["p", "Ein Rohstoff ist nicht allein deshalb wertvoll, weil er selten klingt. Entscheidend ist auch, ob eine Station ihn gerade benötigt. Lagerbestand und Verbrauch geben einem Angebot seinen Zusammenhang. Zwei Stationen können denselben Fund deshalb unterschiedlich bewerten. Diese Unterschiede sollen sich erschließen lassen, statt wie voneinander unabhängige Zufallszahlen zu wirken, die du nur durch wiederholtes Ausprobieren verstehen kannst."],
+        ["h", "Entfernung gehört zur Rechnung"],
+        ["p", "Ein hoher Preis am Ziel ist nur ein Teil einer Handelsentscheidung. Eine längere Strecke beansprucht mehr Zeit und verändert den Ablauf deiner Reise. Ein nahe gelegenes Angebot kann darum ebenso sinnvoll sein wie eine weitere Fahrt mit besserem Erlös. Das Modell soll verschiedene Routen interessant machen, ohne jede zusätzliche Entfernung automatisch zur besten Wahl zu erklären."],
+        ["h", "Balance braucht konkrete Situationen"],
+        ["p", "In der Pre-Alpha sind die Werte bewusst noch Gegenstand von Tests. Ein einzelner guter Verkauf sagt wenig darüber aus, ob das Gesamtsystem ausgewogen ist. Wir betrachten wiederholte Fahrten, die Verständlichkeit der Angebote und die Frage, ob sich mehrere Handlungsoptionen ergeben. Besonders wichtig sind Situationen, in denen ein scheinbar sinnvoller Plan an einer unerwarteten Preisreaktion scheitert."],
+        ["h", "So hilft dein Feedback"],
+        ["p", "Notiere bei einem auffälligen Handel den Rohstoff, die beteiligten Stationen und die sichtbaren Angebote. Beschreibe außerdem, welche Entscheidung du auf dieser Grundlage getroffen hast. So können wir Preiswirkung und tatsächlichen Reiseaufwand zusammen betrachten. Allgemeine Eindrücke sind willkommen; konkrete Beispiele helfen uns jedoch besonders dabei, verständliche Unterschiede von schwer nachvollziehbaren Ergebnissen zu trennen."]
+      ]
+    },
+    "en": {
+      "title": "How prices form between stations",
+      "excerpt": "Supply, demand and distance: a look at the decisions behind trading routes and how we approach balance during Pre-Alpha.",
+      "body": [
+        ["p", "Trading should be worthwhile without reducing every journey to one optimal route. Stations therefore need different requirements and an understandable relationship with their stocks. This devlog describes the three questions behind the trading model: what is available, what is needed and how much effort does it take to travel between two places?"],
+        ["h", "Stock and demand"],
+        ["p", "A resource is not valuable simply because its name sounds rare. Its value also depends on whether a station currently needs it. Stock and consumption give an offer context, so two stations can judge the same find differently. Those differences should be understandable rather than appearing as unrelated random numbers that only make sense after repeated trial and error."],
+        ["h", "Distance is part of the calculation"],
+        ["p", "A high price at the destination is only one part of a trading decision. A longer route takes more time and changes the shape of your journey. A nearby offer can therefore make as much sense as a longer trip with a better return. The model should keep several routes interesting without automatically making every additional kilometre the best possible choice."],
+        ["h", "Balancing needs specific situations"],
+        ["p", "During Pre-Alpha, these values are deliberately still subject to testing. One profitable sale tells us little about the balance of the whole system. We consider repeated journeys, how understandable the offers are and whether they create several viable options. Situations where a seemingly sensible plan runs into an unexpected price response are particularly useful to investigate."],
+        ["h", "How your feedback helps"],
+        ["p", "For an unusual trade, note the resource, the stations involved and the offers you could see. Explain which decision you made using that information. This lets us compare the apparent price advantage with the actual travel involved. General impressions are welcome too, but concrete examples are especially helpful for separating meaningful differences from results that are difficult to understand."]
+      ]
+    }
+  },
+  {
+    "id": "devlog-5", "type": "devlog", "num": 5, "date": "2026-09-11",
+    "cover": "fotoshooting/10_maerzbach_seite_nebel.png", "alt": "Side view of the Märzbach spacecraft against a nebula",
+    "de": {
+      "title": "Instrumente im Cockpit",
+      "excerpt": "Klare Skalen, feste Positionen und wenige Auszeichnungsfarben: Wie das Cockpit Informationen vermittelt, ohne deine Aufmerksamkeit ständig umzulenken.",
+      "body": [
+        ["p", "Im Cockpit verbringst du einen großen Teil deiner Reise. Anzeigen müssen dort auch dann verständlich bleiben, wenn du gerade manövrierst oder ein Ziel im Blick behältst. Unser Ausgangspunkt ist deshalb nicht die größtmögliche Menge an Information, sondern eine klare Ordnung. Was brauchst du sofort, was genügt auf Nachfrage und was lenkt im entscheidenden Moment nur ab?"],
+        ["h", "Weniger, aber deutlicher"],
+        ["p", "Eine zusätzliche Anzeige ist nur dann hilfreich, wenn sie eine konkrete Entscheidung unterstützt. Wir bevorzugen große, verständliche Skalen und eine feste Zuordnung von Informationen. Wenn ein Wert wichtig ist, sollte er ohne längere Suche auffindbar sein. Wiederkehrende Positionen helfen dabei mehr als wechselnde Hervorhebungen, die bei jeder Zustandsänderung an einer anderen Stelle Aufmerksamkeit verlangen."],
+        ["h", "Farbe hat eine Aufgabe"],
+        ["p", "Die Spielwelt darf starke Lichtkontraste haben. Instrumente brauchen dagegen eine sparsame Auszeichnung, damit eine Warnung erkennbar bleibt. Nicht jede Abweichung ist ein Alarm und nicht jede aktive Funktion braucht eine eigene Farbe. Beschriftung, Reihenfolge und Form tragen einen Teil der Information, bevor ein auffälliger Signalton im visuellen Sinn überhaupt notwendig wird."],
+        ["h", "Lesbarkeit während der Bewegung"],
+        ["p", "Eine Oberfläche, die auf einem großen Standbild funktioniert, kann während des Flugs anstrengend werden. Wir achten deshalb auf Größenverhältnisse, den Abstand zusammengehöriger Werte und den Blickwechsel zwischen Welt und Instrumenten. Eine Anzeige darf dich nicht zwingen, die gesamte Situation aus dem Auge zu verlieren, nur um einen einzelnen Wert sicher zu erkennen."],
+        ["h", "Was wir von Tests wissen möchten"],
+        ["p", "Wenn eine Anzeige unklar ist, beschreibe deine aktuelle Aufgabe und den Wert, den du gesucht hast. Bildschirmauflösung und ein vollständiger Screenshot helfen, die Lesbarkeit einzuordnen. Interessant ist auch, ob du dieselbe Information nach mehreren Flügen schneller findest oder weiterhin suchen musst. So können wir zwischen Gewöhnung, unverständlichen Begriffen und einem tatsächlichen Problem in der Anordnung unterscheiden."]
+      ]
+    },
+    "en": {
+      "title": "Instruments in the cockpit",
+      "excerpt": "Clear scales, stable positions and restrained colour: how the cockpit communicates information without constantly pulling your attention away from flying.",
+      "body": [
+        ["p", "You spend a large part of each journey in the cockpit. Its displays need to remain understandable while you manoeuvre or keep a destination in view. We therefore start with a clear hierarchy rather than the greatest possible quantity of information. What do you need immediately, what can wait and what simply distracts you at an important moment?"],
+        ["h", "Fewer, but clearer"],
+        ["p", "An additional display is only useful if it supports a specific decision. We favour large, understandable scales and a stable arrangement of information. An important value should be easy to find without prolonged searching. Familiar positions contribute more to that goal than changing highlights that demand attention in a different place whenever the state changes."],
+        ["h", "Colour has a job"],
+        ["p", "The game world can contain strong lighting contrasts. Instruments, however, need restrained emphasis so that warnings stay recognisable. Not every deviation is an alarm, and not every active function needs its own colour. Labels, ordering and shape carry some of the information before a conspicuous visual signal becomes necessary. That also helps keep ordinary operation calm."],
+        ["h", "Readability while moving"],
+        ["p", "An interface that works in a large still image can become tiring during flight. We consider relative sizes, spacing between related values and the movement of your attention between the world and the instruments. Reading a single value should not force you to lose track of the larger situation or repeatedly re-establish your orientation."],
+        ["h", "What we want to learn from tests"],
+        ["p", "When a display is unclear, describe your current task and the value you were looking for. Your screen resolution and a complete screenshot help us judge readability. It is also useful to know whether the same information becomes easier to find after several flights. That lets us distinguish familiarity from unclear terminology and actual problems in the arrangement of the cockpit."]
+      ]
+    }
+  },
+  {
+    "id": "news-first-flight", "type": "news", "date": "2026-11-12",
+    "cover": "fotoshooting/09_maerzbach_vor_nebel_sonne.png", "alt": "The Märzbach spacecraft in front of a sunlit nebula",
+    "de": {
+      "title": "Orientierung für deinen ersten Flug",
+      "excerpt": "Ein überschaubares Ziel, ein genauer Blick auf die Instrumente und Zeit für einen Scan: So kannst du die Pre-Alpha Schritt für Schritt kennenlernen.",
+      "body": [
+        ["p", "Space Game verbindet Erkundung, Ressourcenabbau und Handel. Für den Einstieg musst du diese Bereiche nicht sofort gleichzeitig meistern. Ein kleiner, nachvollziehbarer Plan ist hilfreicher als eine lange Aufgabenliste. Diese Orientierung richtet sich an neue Tester und beschreibt, wie du deine ersten Eindrücke sammeln kannst, ohne aus dem ersten Flug gleich eine möglichst effiziente Handelsroute machen zu müssen."],
+        ["h", "Nimm dir ein überschaubares Ziel vor"],
+        ["p", "Wähle für den Anfang eine Aufgabe, deren Ergebnis du gut beobachten kannst. Das kann die Orientierung an einer Station oder die Untersuchung eines einzelnen Fundes sein. Achte dabei darauf, welche Informationen du tatsächlich benutzt. Wenn ein Schritt unklar bleibt, ist das bereits eine wertvolle Beobachtung für die Pre-Alpha und kein Grund, möglichst schnell zum nächsten Bereich zu wechseln."],
+        ["h", "Lerne Welt und Instrumente gemeinsam kennen"],
+        ["p", "Beobachte, wie sich deine Ansicht beim Anflug verändert und welche Anzeigen dir dabei helfen. Eine Station sieht aus der Nähe anders aus als aus großer Entfernung. Lass dir Zeit, Orientierungspunkte wiederzuerkennen. Ein kurzer Blick auf die Instrumente soll eine konkrete Frage beantworten, etwa ob du deine Situation richtig einschätzt, statt nur zusätzliche Informationen neben der Spielwelt zu liefern."],
+        ["h", "Vom Fund zur nächsten Entscheidung"],
+        ["p", "Bei einem interessanten Asteroiden beginnt die Überlegung mit seiner Zusammensetzung. Ein Scan hilft dir einzuschätzen, ob du bleiben oder weitersuchen möchtest. Für Handel kommen anschließend die Bedürfnisse der Stationen und der Reiseweg hinzu. Du musst nicht jede Möglichkeit direkt nutzen. Wichtig ist zunächst, die Verbindung zwischen Beobachtung, Auswahl und dem folgenden Arbeitsschritt zu verstehen."],
+        ["h", "Erste Eindrücke sind willkommen"],
+        ["p", "Teile im Discord, an welcher Stelle du dich gut orientieren konntest und wo dir Informationen fehlten. Beschreibe möglichst die Aufgabe, die du gerade lösen wolltest. Auch kleine Unklarheiten sind interessant, weil erfahrene Tester sie leicht übersehen. Bei technischen Fehlern ergänze Build, Betriebssystem und Schritte zur Wiederholung, damit aus deinem ersten Eindruck ein nachvollziehbarer Bericht wird."]
+      ]
+    },
+    "en": {
+      "title": "Finding your bearings on a first flight",
+      "excerpt": "A manageable objective, a careful look at the instruments and time for a scan: a step-by-step introduction to exploring the Pre-Alpha.",
+      "body": [
+        ["p", "Space Game brings together exploration, mining and trading. You do not need to master all three at once when you start. A small, understandable plan is more useful than a long checklist. This introduction helps new testers collect their first impressions without turning the first flight into an attempt to find the most efficient possible trading route."],
+        ["h", "Choose a manageable objective"],
+        ["p", "Start with a task whose outcome you can observe clearly, such as finding your bearings around a station or examining one discovery. Notice which information you actually use along the way. If a step remains unclear, that is already useful Pre-Alpha feedback. There is no need to rush into the next activity before you have had time to understand the current one."],
+        ["h", "Learn the world and instruments together"],
+        ["p", "Watch how your view changes on approach and which displays help you interpret it. A station looks different nearby than it does from a distance. Take time to recognise landmarks again. A glance at the instruments should answer a particular question about your situation rather than simply add another stream of information beside the game world."],
+        ["h", "From a find to a decision"],
+        ["p", "An interesting asteroid starts a question about its composition. Scanning helps you decide whether to stay or keep searching. Trading adds the needs of stations and the journey between them. You do not have to use every opportunity immediately. The first goal is to understand how an observation leads to a choice, and how that choice affects the next practical step."],
+        ["h", "First impressions are welcome"],
+        ["p", "Tell us on Discord where orientation felt clear and where information seemed to be missing. Explain what you were trying to accomplish at the time. Small uncertainties matter because experienced testers can easily overlook them. For technical issues, add the build, operating system and steps needed to repeat the problem so that a first impression becomes a report we can investigate."]
+      ]
+    }
+  },
+  {
+    "id": "news-feedback", "type": "news", "date": "2026-11-10",
+    "cover": "fotoshooting/05_linse_nebel_oben.png", "alt": "An observation structure viewed against a broad field of stars and nebulae",
+    "de": {
+      "title": "So wird aus einem Fehler ein hilfreicher Bericht",
+      "excerpt": "Build, Betriebssystem, Wiederholungsschritte und die passende Logdatei: Welche Informationen uns beim Eingrenzen von Pre-Alpha-Problemen helfen.",
+      "body": [
+        ["p", "In einer Pre-Alpha gehören Fehler und unklare Abläufe zum Testen dazu. Damit wir einen Bericht bearbeiten können, brauchen wir jedoch mehr als die Information, dass etwas nicht funktioniert hat. Diese kurze Anleitung erklärt, welche Angaben besonders hilfreich sind und wie du technische Fehler von allgemeinen Eindrücken zu Darstellung, Verständlichkeit oder Spielablauf unterscheiden kannst."],
+        ["h", "Die Ausgangslage festhalten"],
+        ["p", "Nenne zunächst deinen Build und dein Betriebssystem. Beschreibe anschließend, in welcher Situation der Fehler auftrat: beim Start des Launchers, während einer Reise oder nach einer bestimmten Aktion. Du musst dafür keine Vermutung über die Ursache aufstellen. Eine genaue Beschreibung dessen, was du gesehen hast, ist hilfreicher als eine technische Erklärung, die sich später möglicherweise als falsch herausstellt."],
+        ["h", "Erwartung und Ergebnis trennen"],
+        ["p", "Schreibe auf, was du tun wolltest und welches Ergebnis du erwartet hast. Beschreibe danach, was tatsächlich passiert ist. Diese Trennung ist wichtig, weil eine Fehlermeldung, ein unklarer Begriff und ein nicht reagierendes Bedienelement unterschiedliche Probleme sein können. Wenn du Schritte zur Wiederholung kennst, liste sie in der Reihenfolge auf, in der du sie ausgeführt hast."],
+        ["h", "Bilder und Logdateien sinnvoll ergänzen"],
+        ["p", "Ein Screenshot sollte genügend Zusammenhang zeigen, damit die Situation erkennbar bleibt. Für technische Fehler ist außerdem die Logdatei aus dem Launcher hilfreich; die entsprechende Möglichkeit findest du unter Hilfe. Prüfe vor dem Hochladen, ob die Datei oder Aufnahme private Informationen enthält. Zugangsdaten und andere Geheimnisse gehören nicht in einen öffentlichen Bericht oder einen Screenshot."],
+        ["h", "Der passende Ort im Discord"],
+        ["p", "Technische Fehler gehören in den Kanal #bug-reports. Für allgemeine Eindrücke zum Spielablauf ist #feedback der passendere Ort. Sieh kurz nach, ob jemand dasselbe Problem bereits beschrieben hat, und ergänze dann deine Beobachtung. Wenn wir Rückfragen stellen, helfen konkrete Antworten und neue Informationen mehr als mehrere gleichlautende Meldungen ohne zusätzliche Angaben. Danke, dass du dir dafür Zeit nimmst."]
+      ]
+    },
+    "en": {
+      "title": "Turning a bug into a useful report",
+      "excerpt": "Build, operating system, reproduction steps and the right log file: the information that helps us investigate Pre-Alpha problems.",
+      "body": [
+        ["p", "Bugs and unclear interactions are part of testing a Pre-Alpha. To investigate them, however, we need more than a statement that something failed. This short guide explains which details help most and how to distinguish a technical fault from general feedback about presentation, clarity or the flow of an activity inside the game."],
+        ["h", "Record the starting point"],
+        ["p", "Begin with the build and operating system you were using. Then describe the situation: launching the game, travelling or performing a particular action. You do not need to guess the underlying cause. An accurate account of what you observed is more useful than a technical explanation that might later turn out to be incorrect."],
+        ["h", "Separate expectations from results"],
+        ["p", "Explain what you wanted to do and what result you expected. Then describe what actually happened. This distinction matters because an error message, an unclear label and a control that does not respond may be different problems. If you can reproduce the issue, list the steps in the order you performed them, including any relevant starting conditions."],
+        ["h", "Add useful screenshots and logs"],
+        ["p", "A screenshot should include enough context to make the situation recognisable. For technical problems, the launcher's log file is useful as well; look under Help for the relevant option. Before uploading, check whether the file or image contains private information. Credentials and other secrets should never be included in a public report or visible in a screenshot."],
+        ["h", "Use the right Discord channel"],
+        ["p", "Technical issues belong in #bug-reports, while general impressions about playing fit better in #feedback. Check briefly whether someone has already reported the same problem and add your observations there if appropriate. When we ask follow-up questions, specific answers and new evidence help more than several identical reports with no additional detail. Thank you for taking the time to make your feedback useful."]
+      ]
+    }
+  },
+  {
+    "id": "news-launcher", "type": "news", "date": "2026-11-08",
+    "cover": "fotoshooting/02_meridian_ueber_planet.png", "alt": "Meridian station above a planet's illuminated horizon",
+    "de": {
+      "title": "Der Launcher auf Windows und Linux",
+      "excerpt": "Von der Plattformwahl bis zum ersten Start: Hinweise zur Installation, zu Updates und zu den Grenzen des Pre-Alpha-Zugangs.",
+      "body": [
+        ["p", "Der Launcher ist der Einstieg in die Pre-Alpha von Space Game. Er installiert das Spiel und hält die bereitgestellte Version aktuell. Unterstützt werden Windows und Linux. Auf der Download-Seite findest du die Plattformwahl und die Angaben zur jeweiligen Datei. Dieser Beitrag erklärt den Ablauf und die Informationen, auf die du vor dem ersten Start achten solltest."],
+        ["h", "Die richtige Plattform auswählen"],
+        ["p", "Verwende die Datei, die zu deinem Betriebssystem passt. Die Windows-Variante ist eine Setup-Datei, die Linux-Variante ein AppImage für x86_64. Bevor du eine Datei ausführst, vergleiche ihren Namen und die ausgewiesene Version mit den Angaben der Download-Seite. Lade den Launcher nur über den dafür vorgesehenen Zugang und nicht aus unbekannten Weiterleitungen oder privaten Nachrichten herunter."],
+        ["h", "Installation unter Windows und Linux"],
+        ["p", "Unter Windows startest du die Setup-Datei und folgst den angezeigten Schritten. Unter Linux machst du das heruntergeladene AppImage ausführbar, beispielsweise mit chmod +x, und startest anschließend diese Datei. Der konkrete Dateiname gehört dabei in den Befehl. Allgemeine Voraussetzungen wie Arbeitsspeicher, Betriebssystem und Grafikunterstützung findest du getrennt auf der Seite System & FAQ."],
+        ["h", "Version und Verfügbarkeit prüfen"],
+        ["p", "Für den Pre-Alpha-Zugang ist die Anmeldung über Discord vorgesehen. Ein verfügbarer Download wird auf der Download-Seite angezeigt. Falls dort noch keine Datei freigegeben ist, meldet die Seite diesen Zustand ausdrücklich. Ein erfolgreicher Anmeldevorgang allein ist kein Beleg dafür, dass bereits eine neue Spielversion bereitsteht. Maßgeblich bleiben die sichtbaren Angaben zur Datei und die Ankündigungen im Logbuch."],
+        ["h", "Wenn der Start nicht gelingt"],
+        ["p", "Notiere Betriebssystem, Launcher-Version und den genauen Wortlaut einer Fehlermeldung. Prüfe zuerst, ob du die passende Plattformdatei verwendest und ob die Systemanforderungen erfüllt sind. Wenn das Problem bestehen bleibt, beschreibe im Discord-Kanal #bug-reports deine Schritte und ergänze die Logdatei aus dem Launcher. So können wir zwischen Installation, Aktualisierung und dem eigentlichen Spielstart unterscheiden."]
+      ]
+    },
+    "en": {
+      "title": "Using the launcher on Windows and Linux",
+      "excerpt": "From choosing a platform to the first launch: installation notes, updates and the limits of Pre-Alpha availability.",
+      "body": [
+        ["p", "The launcher is your entry point into the Space Game Pre-Alpha. It installs the game and keeps the available version up to date. Windows and Linux are supported. The download page provides platform selection and details about each file. This article explains the process and the information worth checking before you attempt a first launch."],
+        ["h", "Choose the correct platform"],
+        ["p", "Use the file intended for your operating system. Windows uses a setup executable, while Linux uses an AppImage for x86_64. Before running anything, compare the filename and stated version with the details on the download page. Obtain the launcher through the intended access route rather than from unfamiliar redirects or files sent in private messages."],
+        ["h", "Installing on Windows and Linux"],
+        ["p", "On Windows, run the setup file and follow the instructions it displays. On Linux, make the downloaded AppImage executable, for example using chmod +x, and then run that file. Include the actual filename in the command. General requirements for memory, operating systems and graphics support are listed separately on the System & FAQ page."],
+        ["h", "Check version and availability"],
+        ["p", "Pre-Alpha access is intended to use Discord sign-in. An available download is shown on the download page. If no file has been released there yet, the page states that explicitly. Completing sign-in does not itself mean that a new game build is available. The visible file information and announcements in the logbook remain the reference for what you can currently obtain."],
+        ["h", "When the launcher will not start"],
+        ["p", "Record your operating system, launcher version and the exact wording of any error. First check that you selected the correct platform file and meet the system requirements. If the issue persists, describe your steps in the Discord #bug-reports channel and attach the launcher's log file. Those details help us distinguish installation, updating and starting the game itself instead of treating them as one problem."]
+      ]
+    }
+  },
+  {
+    "id": "news-0-4", "type": "news", "date": "2026-10-22",
+    "cover": "fotoshooting/03_meridian_sonne_planet.png", "alt": "Meridian station near a planet and a bright star",
+    "de": {
+      "title": "Pre-Alpha 0.4 ist verfügbar",
+      "excerpt": "Asteroidenfelder, Handel und Cockpit-Anzeigen stehen im Mittelpunkt der 0.4-Entwicklung. Was du beim Testen des Builds beachten solltest.",
+      "body": [
+        ["p", "Die 0.4-Entwicklung führt die drei Bereiche von Space Game enger zusammen: Erkundung, Ressourcenabbau und Handel. Als Referenz ist Build 0.4.2 ausgewiesen. Neue Asteroidenfelder, die Preisberechnung an Stationen und die Lesbarkeit im Cockpit bilden die wichtigsten Themen. Dieser Überblick ordnet die Schwerpunkte ein und erklärt, welche Rückmeldungen während der Pre-Alpha besonders hilfreich sind."],
+        ["h", "Erkundung und Ressourcenabbau"],
+        ["p", "Asteroidenfelder werden als Gruppen mit erkennbaren Zwischenräumen betrachtet. Die Zusammensetzung eines Fundes soll dabei eine echte Auswahl ermöglichen. Ein Scan vor dem Abbau hilft dir, einen Asteroiden im Zusammenhang mit deinem Vorhaben zu bewerten. Achte beim Testen sowohl auf die Orientierung im Feld als auch darauf, ob die Informationen zu einem Fund deine nächste Entscheidung verständlich unterstützen."],
+        ["h", "Handel zwischen Stationen"],
+        ["p", "Angebote hängen mit Bestand, Bedarf und dem Weg zwischen Stationen zusammen. Ziel ist ein Handelsmodell, in dem mehrere Routen nachvollziehbar interessant bleiben. Die Balance wird in der Pre-Alpha weiter geprüft. Wenn ein Preis unverständlich wirkt, notiere Rohstoff, Station und die konkrete Situation. So lässt sich ein auffälliger Einzelfall besser einordnen als mit einer allgemeinen Aussage über zu hohe oder zu niedrige Erlöse."],
+        ["h", "Anzeigen und Spielstand"],
+        ["p", "Auch die Cockpit-Anzeigen gehören zu den Schwerpunkten. Feste Positionen und klare Skalen sollen das Lesen während des Flugs erleichtern. Die Pre-Alpha bleibt jedoch ein Entwicklungsstand: Abläufe, Werte und die Kompatibilität von Spielständen können sich bei größeren Änderungen verändern. Hinweise zu solchen Änderungen gehören ins Logbuch; verlasse dich deshalb nicht auf langfristig unveränderte Bedingungen zwischen unterschiedlichen Builds."],
+        ["h", "Zugang und Rückmeldungen"],
+        ["p", "Die Download-Seite zeigt, welche Launcher-Datei für deine Plattform bereitsteht. Prüfe dort die Version und lies die Systemanforderungen vor dem Start. Fehler kannst du im Discord-Kanal #bug-reports melden, allgemeine Eindrücke in #feedback. Nenne den verwendeten Build und ergänze bei technischen Problemen eine Logdatei. Deine Rückmeldungen helfen dabei, die beschriebenen Systeme anhand tatsächlicher Spielsituationen weiterzuentwickeln."]
+      ]
+    },
+    "en": {
+      "title": "Pre-Alpha 0.4 is available",
+      "excerpt": "Asteroid fields, trading and cockpit displays are central to the 0.4 development cycle. What to keep in mind when testing the build.",
+      "body": [
+        ["p", "The 0.4 development cycle brings Space Game's three activities closer together: exploration, resource extraction and trading. Build 0.4.2 is the stated reference. Asteroid fields, station pricing and cockpit readability are the principal themes. This overview explains those priorities and the feedback that is particularly useful while the game remains in Pre-Alpha."],
+        ["h", "Exploration and resource extraction"],
+        ["p", "Asteroid fields are considered as clusters with recognisable gaps between them. The composition of a find should support a real choice. Scanning before extraction lets you judge an asteroid against your current objective. While testing, consider both navigation through the field and whether the information about a find helps you understand what a sensible next decision might be."],
+        ["h", "Trading between stations"],
+        ["p", "Offers relate to stock, demand and the journey between stations. The aim is a trading model in which several routes remain interesting for understandable reasons. Balance continues to be tested during Pre-Alpha. If a price seems confusing, record the resource, station and circumstances. A concrete example is easier to investigate than a general statement that returns are too high or too low."],
+        ["h", "Displays and saved games"],
+        ["p", "Cockpit displays are another focus. Stable positions and clear scales should make them easier to read in flight. Pre-Alpha is still a development state, however: interactions, values and save compatibility can change when larger adjustments are made. Notices about those changes belong in the logbook, so do not assume that conditions will remain identical across different builds."],
+        ["h", "Access and feedback"],
+        ["p", "The download page shows which launcher file is available for your platform. Check its version there and read the system requirements before starting. Report technical issues in Discord's #bug-reports channel and general impressions in #feedback. Include the build you used and attach a log for technical problems. Your reports help us develop these systems using actual situations encountered while playing."]
+      ]
+    }
+  },
+  {
+    "id": "news-discord", "type": "news", "date": "2026-09-25",
+    "cover": "fotoshooting/07_skycity_von_unten.png", "alt": "Sky City space station viewed from below",
+    "de": {
+      "title": "Unser Discord-Server ist offen",
+      "excerpt": "Ein gemeinsamer Ort für Pre-Alpha-Zugang, Rückmeldungen und Ankündigungen. So findest du die passende Stelle für Fragen und Fehlerberichte.",
+      "body": [
+        ["p", "Für die Pre-Alpha nutzen wir Discord als gemeinsamen Ort für Zugang, Feedback und Ankündigungen. Dort kannst du deine Beobachtungen mit uns und anderen Testern teilen. Du musst dafür kein Experte für Raumschiffe oder Spieleentwicklung sein. Besonders hilfreich sind konkrete Eindrücke dazu, welche Abläufe verständlich wirken und an welcher Stelle Orientierung oder Informationen fehlen."],
+        ["h", "Zugang zur Pre-Alpha"],
+        ["p", "Die Website führt dich über die Download-Seite zum vorgesehenen Discord-Zugang. Dort wird auch angezeigt, ob die Anmeldung und eine Launcher-Datei bereits verfügbar sind. Der Server selbst ist unabhängig davon ein Ort für Fragen und Austausch. Eine Anmeldung ist keine Zusage über einen bestimmten neuen Build; maßgeblich sind die Angaben zum Download und die veröffentlichten Ankündigungen im Logbuch."],
+        ["h", "Feedback und Fehler trennen"],
+        ["p", "Für allgemeine Eindrücke zum Spielablauf verwenden wir #feedback. Technische Probleme gehören in #bug-reports. Diese Trennung hilft uns, Berichte wiederzufinden und Rückfragen an der passenden Stelle zu stellen. Beschreibe möglichst, was du tun wolltest und was du tatsächlich gesehen hast. Eine genaue Beobachtung ist wertvoller als eine Vermutung über einen Fehler im Hintergrund."],
+        ["h", "Gemeinsam nachvollziehbar bleiben"],
+        ["p", "Sieh vor einer neuen Meldung kurz nach, ob es bereits einen passenden Bericht gibt. Ergänze dort eigene Details, wenn sie die Situation klarer machen. Achte beim Teilen von Bildern und Logdateien auf private Informationen. Zugangsdaten gehören nicht in öffentliche Nachrichten. Ein ruhiger und sachlicher Austausch hilft allen Beteiligten, auch dann, wenn ein Problem wiederholt auftritt oder zunächst schwer einzugrenzen ist."],
+        ["h", "Wo du Neuigkeiten findest"],
+        ["p", "Längere Einblicke und Hinweise zu Entwicklungsständen veröffentlichen wir im Logbuch der Website. Discord ergänzt diese Beiträge um Rückfragen und Diskussionen. So bleiben die wichtigsten Informationen an einem festen Ort lesbar, während Beobachtungen aus der Community im Zusammenhang besprochen werden können. Wenn du neu dazukommst, schau zunächst auf die Download-Seite und in System & FAQ und erzähle uns anschließend von deinem ersten Flug."]
+      ]
+    },
+    "en": {
+      "title": "Our Discord server is open",
+      "excerpt": "A shared place for Pre-Alpha access, feedback and announcements. Find the right channel for questions and technical reports.",
+      "body": [
+        ["p", "For the Pre-Alpha, Discord is our shared place for access, feedback and announcements. You can discuss observations with us and other testers there. You do not need to be an expert on spacecraft or game development. Concrete impressions about which activities feel understandable, and where orientation or information seems to be missing, are particularly useful."],
+        ["h", "Pre-Alpha access"],
+        ["p", "The website's download page leads to the intended Discord access route. It also states whether sign-in and a launcher file are available. The server itself remains a place for questions and conversation independently of that status. Signing in is not a promise of a particular new build; the file details and published logbook announcements are the reference for availability."],
+        ["h", "Separate feedback from technical reports"],
+        ["p", "Use #feedback for general impressions about playing, and #bug-reports for technical issues. Keeping those conversations separate helps us find reports and ask follow-up questions in the right place. Explain what you wanted to do and what you actually observed. A precise account of the situation is more valuable than a guess about an unseen problem behind it."],
+        ["h", "Keep discussions easy to follow"],
+        ["p", "Before posting a new issue, check briefly whether a related report already exists. Add your own details there when they help explain the situation. Watch for private information in screenshots and logs, and never post credentials in public messages. Calm, factual discussion helps everyone, including when an issue occurs repeatedly or initially proves difficult to reproduce."],
+        ["h", "Where to find development news"],
+        ["p", "Longer development updates and information about builds are published in the website's logbook. Discord complements them with questions and discussion. This keeps essential information readable in a stable location while allowing the community's observations to be discussed in context. If you have just joined, start with the download page and System & FAQ, then tell us how your first flight went."]
+      ]
+    }
+  }
+]

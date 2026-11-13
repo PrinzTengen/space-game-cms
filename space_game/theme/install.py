@@ -1,26 +1,38 @@
 """Compare frontend content before publishing an automatically created draft."""
 
 from djangocms_frontend.models import FrontendUIItem
+from djangocms_stories.models import LatestPostsPlugin
 
 
 def frontend_snapshot(content):
     snapshot = {}
-    for placeholder in content.get_placeholders():
+    for placeholder in content.placeholders.all():
         plugins = list(placeholder.get_plugins().order_by("position", "pk"))
         positions = {plugin.pk: index for index, plugin in enumerate(plugins)}
         rows = []
         for plugin in plugins:
             instance, _ = plugin.get_plugin_instance()
-            if not isinstance(instance, FrontendUIItem):
+            if isinstance(instance, FrontendUIItem):
+                config = (instance.ui_item, instance.tag_type, instance.config)
+            elif isinstance(instance, LatestPostsPlugin):
+                config = (
+                    instance.app_config_id,
+                    instance.latest_posts,
+                    instance.current_site,
+                    instance.template_folder,
+                    tuple(instance.tags.order_by("pk").values_list("pk", flat=True)),
+                    tuple(
+                        instance.categories.order_by("pk").values_list("pk", flat=True),
+                    ),
+                )
+            else:
                 return None
             rows.append(
                 (
                     plugin.plugin_type,
                     plugin.language,
                     positions.get(plugin.parent_id),
-                    instance.ui_item,
-                    instance.tag_type,
-                    instance.config,
+                    config,
                 ),
             )
         snapshot[placeholder.slot] = rows

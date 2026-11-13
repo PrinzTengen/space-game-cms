@@ -1,8 +1,7 @@
-{% load design_tags cms_tags %}
+{% load cms_tags %}
 
-{% design_posts 3 as latest_posts %}
 {% page_url "stories" as logbook_url %}
-<section class="space-section container">
+<section class="space-section container" data-stories-latest>
   <div class="sg-section-header">
     <div>
       <p class="eyebrow">{{ sg.t.home.latestLabel }}</p>
@@ -12,7 +11,7 @@
        href="{{ logbook_url|default:'/stories/' }}">{{ sg.t.home.all }} <span aria-hidden="true">→</span></a>
   </div>
   <div class="sg-post-grid">
-    {% for post_content in latest_posts %}
+    {% for post_content in postcontent_list %}
       {% include "theme/post_card.html" %}
     {% endfor %}
   </div>

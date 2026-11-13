@@ -1,9 +1,10 @@
 """Published, editable Stories in the supplied marketing layouts."""
 
+from math import ceil
+
 from django import template
 from django.utils.html import strip_tags
 
-from space_game.theme.design import catalog
 from space_game.theme.design import published_posts
 
 register = template.Library()
@@ -24,10 +25,7 @@ def post_kind(content):
 
 @register.filter
 def reading_minutes(content):
-    for entry in catalog()["posts"]:
-        if entry["id"] == content.slug:
-            return entry["read"]
-    return max(1, round(len(strip_tags(content.post_text).split()) / 200))
+    return max(1, ceil(len(strip_tags(content.post_text).split()) / 200))
 
 
 @register.simple_tag

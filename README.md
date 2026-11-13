@@ -55,6 +55,47 @@ Prüfsummen stammen aus der gelieferten Referenz und sind vor echten Releases in
 
 ## django CMS
 
+### Stories auf der Startseite und vollständige Beiträge
+
+**Fresh from development / Neu aus der Entwicklung** ist das native
+`djangocms-stories`-Plugin **Latest entries** (`BlogLatestEntriesPlugin`) im
+Platzhalter `latest`. Im CMS können Anzahl (standardmäßig drei), App-Konfiguration,
+Tags und Kategorien eingestellt werden. Das Template
+`djangocms_stories/plugins/latest_entries.html` übernimmt das F2-Orbit-Design und
+verwendet ausschließlich die Beiträge, die das Stories-Plugin liefert.
+
+Bestehende Startseiten einmal überführen:
+
+```bash
+docker compose -f docker-compose.local.yml exec django python manage.py install_home_stories --username DEIN_ADMIN
+```
+
+Neue Startseiten erhalten das Plugin automatisch. Der Installer ergänzt auch
+den neuen Platzhalter und schützt bearbeitete Entwürfe. Vorhandene native
+Stories-Einstellungen und ihre Tag-/Kategoriebeziehungen bleiben beim Kopieren
+und Veröffentlichen von Seitenversionen erhalten.
+
+Der redaktionelle Datensatz enthält **fünf Devlogs und fünf News**, jeweils in
+Deutsch und Englisch mit Einleitung, vier Abschnitten, Metabeschreibung,
+Autor, Kategorie und Titelbild. Die vorhandenen fünf Kurzvorlagen werden zu
+vollständigen Beiträgen erweitert; fünf weitere Beiträge kommen hinzu.
+
+```bash
+docker compose -f docker-compose.local.yml exec django python manage.py seed_stories --username DEIN_ADMIN
+```
+
+Die Bilder werden aus den vorhandenen Spielmotiven in django-filer importiert
+und direkt am Stories-Beitrag referenziert. Karten verwenden 768×432-Thumbnails.
+Die Texte liegen in `space_game/theme/story_content.json`. Der Befehl ist
+wiederholbar, verwendet vorhandene Medien erneut und bewahrt nach der ersten
+Übernahme spätere redaktionelle Änderungen. Geänderte unveröffentlichte
+Beitragsentwürfe werden vor dem ersten Import geschützt. Bearbeitet werden die
+Inhalte anschließend über **Stories → Posts** im Admin.
+
+Für die Bild-Metadaten verwendet django-meta die Domain der aktuellen Django-Site
+und `META_SITE_PROTOCOL` (Standard `https`). Damit funktionieren bebilderte
+Beitragsseiten auch unter Uvicorn ohne threadlokales Request-Objekt.
+
 ### Admin: Mission Control
 
 Der Django-Admin unter `/admin/` verwendet das Space-Game-Design mit lokalem

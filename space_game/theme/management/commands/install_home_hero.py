@@ -1,6 +1,7 @@
 """Convert the former template hero into a versioned frontend component."""
 
 from cms.models import PageContent
+from cms.utils.placeholder import rescan_placeholders_for_obj
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
@@ -48,7 +49,7 @@ class Command(BaseCommand):
             version = Version.objects.get_for_content(content)
             if version.state != PUBLISHED:
                 continue
-            placeholder = content.get_placeholders().get(slot=self.slot)
+            placeholder = rescan_placeholders_for_obj(content)[self.slot]
             if placeholder.get_plugins(language=content.language).exists():
                 continue
             draft = contents.filter(
@@ -57,6 +58,7 @@ class Command(BaseCommand):
                 versions__state=DRAFT,
             ).first()
             if draft:
+                rescan_placeholders_for_obj(draft)
                 # Opening the editor creates a draft even before anything changes.
                 if not unchanged_frontend_draft(content, draft):
                     msg = (

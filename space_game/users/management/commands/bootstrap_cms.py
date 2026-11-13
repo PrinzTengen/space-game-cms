@@ -17,6 +17,7 @@ from space_game.theme.cards import add_default_cards
 from space_game.theme.cta import add_default_cta
 from space_game.theme.gallery import add_default_gallery
 from space_game.theme.hero import add_default_hero
+from space_game.theme.stories import add_default_latest_posts
 
 
 class Command(BaseCommand):
@@ -117,6 +118,7 @@ class Command(BaseCommand):
             add_default_cards(content)
             add_default_cta(content)
             add_default_gallery(content)
+            add_default_latest_posts(content)
         if body:
             add_plugin(
                 content.get_placeholders().get(slot="content"),
