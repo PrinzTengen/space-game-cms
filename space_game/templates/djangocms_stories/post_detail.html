@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% load cms_tags design_tags %}
+
+{% block title %}{{ post_content.title }} | Space Game{% endblock title %}
+{% block content %}
+  {% page_url "stories" as logbook_url %}
+  <a class="btn mb-4" href="{{ logbook_url|default:'/stories/' }}">← {{ sg.t.art.back }}</a>
+  <article class="sg-window sg-article">
+    <header>
+      <div class="sg-post-meta"><span class="sg-tag">{% firstof post_content.subtitle sg.t.news %}</span><time datetime="{{ post_content.date_published|date:'Y-m-d' }}">{{ post_content.date_published|date:'d M Y' }}</time><span>· {{ post_content|reading_minutes }} {{ sg.t.minRead }}</span></div>
+      <h1>{% render_model post_content "title" %}</h1>
+      <p>{{ post_content.abstract|striptags }}</p>
+    </header>
+    <div class="sg-media sg-article-cover">{% if post_content.post.main_image %}<img src="{{ post_content.post.main_image.url }}"
+                                                                                     alt="{{ post_content.post.main_image.default_alt_text }}" />{% else %}<span>{{ sg.t.art.slot }}</span>{% endif %}</div>
+    <div class="sg-article-body">
+      {% if post_content.post_text %}
+        {% render_model post_content "post_text" "post_text" "" "safe" %}
+      {% else %}
+        {% placeholder "content" %}
+      {% endif %}
+    </div>
+  </article>
+  {% next_post post_content as next %}
+  {% if next %}<a class="sg-next-post" href="{{ next.get_absolute_url }}"><span><small>{{ sg.t.art.next }} · {% firstof next.subtitle sg.t.news %}</small><strong>{{ next.title }}</strong></span><span class="btn" aria-hidden="true">→</span></a>{% endif %}
+{% endblock content %}

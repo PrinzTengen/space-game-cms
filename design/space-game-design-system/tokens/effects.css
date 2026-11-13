@@ -1,0 +1,49 @@
+/* Kein border-radius. Fenster = 1px Rand + Eckwinkel + Scanlines. */
+:root {
+  --sg-radius: 0;
+  --sg-corner: 14px;
+  --sg-chamfer: 14px;
+  --sg-chamfer-sm: 10px;
+
+  --sg-window-corners:
+    linear-gradient(var(--sg-accent), var(--sg-accent)) top left / 14px 1px no-repeat,
+    linear-gradient(var(--sg-accent), var(--sg-accent)) top left / 1px 14px no-repeat,
+    linear-gradient(var(--sg-accent), var(--sg-accent)) top right / 14px 1px no-repeat,
+    linear-gradient(var(--sg-accent), var(--sg-accent)) top right / 1px 14px no-repeat,
+    linear-gradient(var(--sg-accent), var(--sg-accent)) bottom left / 14px 1px no-repeat,
+    linear-gradient(var(--sg-accent), var(--sg-accent)) bottom left / 1px 14px no-repeat,
+    linear-gradient(var(--sg-accent), var(--sg-accent)) bottom right / 14px 1px no-repeat,
+    linear-gradient(var(--sg-accent), var(--sg-accent)) bottom right / 1px 14px no-repeat;
+  --sg-scanlines: repeating-linear-gradient(to bottom, transparent 0 2px, rgba(139, 224, 236, .025) 2px 3px);
+  --sg-chamfer-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
+
+  --sg-shadow: 0 12px 30px -14px rgba(0, 0, 0, .9);
+  --sg-glow: 0 0 26px -6px hsl(187 85% 70% / .4);
+  --sg-glow-good: 0 0 8px rgba(80, 248, 131, .6);
+  --sg-media-vignette: inset 0 0 50px rgba(0, 0, 0, .45), inset 0 1px 0 rgba(255, 255, 255, .14);
+  --sg-inset-well: inset 0 2px 8px rgba(0, 0, 0, .5);
+  --sg-text-shadow: 0 2px 24px rgba(0, 0, 0, .6);
+  --sg-blur: 12px;
+
+  --sg-galaxy-bg:
+    radial-gradient(120% 120% at 126% 126%, hsl(187 80% 96% / .3) 40%, transparent 52%),
+    radial-gradient(120% 120% at 120% 120%, hsl(187 90% 75% / .32) 30%, transparent 70%),
+    hsl(187 35% 9%);
+  --sg-galaxy-bg-hover:
+    radial-gradient(120% 120% at 126% 126%, hsl(187 80% 96% / .65) 40%, transparent 52%),
+    radial-gradient(120% 120% at 120% 120%, hsl(187 90% 75% / .7) 30%, transparent 70%),
+    hsl(187 35% 8%);
+
+  --sg-scrim-hero:
+    linear-gradient(90deg, rgba(5, 7, 13, .9) 0%, rgba(5, 7, 13, .72) 38%, rgba(5, 7, 13, .25) 68%, rgba(5, 7, 13, .05) 100%),
+    linear-gradient(180deg, rgba(5, 7, 13, .5) 0%, rgba(5, 7, 13, 0) 28%, rgba(5, 7, 13, 0) 55%, rgba(5, 7, 13, .94) 100%);
+  --sg-scrim-panel: linear-gradient(180deg, rgba(5, 7, 13, .55) 0%, rgba(5, 7, 13, .35) 40%, rgba(5, 7, 13, .8) 100%);
+  --sg-limb-glow: 0 -1px 0 rgba(200, 242, 248, .95), 0 -4px 10px rgba(169, 236, 245, .5), 0 -24px 70px rgba(139, 224, 236, .45), 0 -90px 220px rgba(139, 224, 236, .22);
+
+  --sg-ease: cubic-bezier(.2, .7, .2, 1);
+  --sg-dur-fast: .15s;
+  --sg-dur: .3s;
+  --sg-dur-lift: .25s;
+  --sg-dur-reveal: .6s;
+  --sg-reveal-stagger: 70ms;
+}

@@ -1,0 +1,31 @@
+<!-- @dsCard group="Components" viewport="700x300" name="Feedback" -->
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<style>body{padding:20px;background:var(--sg-bg)}</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+<script src="../ds-loader.js"></script>
+</head><body><div id="root"></div>
+<script type="text/babel">
+(async () => {
+const NS = await window.getSpaceGameDS("../../");
+const { Stepper, Notice, Spinner, StatusDot, Button } = NS;
+function Demo() { return (
+  <div style={{display:'flex',flexDirection:'column',gap:14}}>
+    <Stepper steps={[{label:'Mit Discord anmelden',status:'Erledigt',state:'done'},{label:'Plattform wählen',status:'Aktuell',state:'current'},{label:'Herunterladen',status:'Offen',state:'pending'}]} />
+    <div style={{display:'grid',gridTemplateColumns:'minmax(0,1fr) 200px',gap:14}}>
+      <Notice title="Download gestartet" action={<Button size="sm" style={{alignSelf:'flex-start'}}>Erneut herunterladen</Button>}><strong>Installation:</strong> Setup-Datei ausführen.</Notice>
+      <div style={{display:'flex',flexDirection:'column',gap:12,fontSize:13}}>
+        <span style={{display:'flex',gap:10,alignItems:'center'}}><Spinner /> Verbinde …</span>
+        <span style={{display:'flex',gap:10,alignItems:'center'}}><StatusDot tone="good" /> Erfolg</span>
+        <span style={{display:'flex',gap:10,alignItems:'center'}}><StatusDot tone="warn" /> Warnung</span>
+        <span style={{display:'flex',gap:10,alignItems:'center'}}><StatusDot tone="danger" /> Gefahr</span>
+        <span style={{display:'flex',gap:10,alignItems:'center'}}><StatusDot tone="accent" /> Akzent</span>
+      </div>
+    </div>
+  </div>); }
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo />);
+})();
+</script></body></html>

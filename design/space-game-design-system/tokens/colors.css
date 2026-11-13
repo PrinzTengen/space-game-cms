@@ -1,0 +1,56 @@
+/* Kunden-Vorgabe 06.11.2026: Grund #040a0e, EIN Akzent #8be0ec.
+   Warme Farben nur in Bildern/Logo. Signalfarben nur für Warnung/Gefahr/Erfolg. */
+:root {
+  /* Flächen */
+  --sg-bg: #040a0e;
+  --sg-panel: #12181b;
+  --sg-button: #0d242b;
+  --sg-hover: #143d47;
+  --sg-pressed: #1f5966;
+  --sg-media: #06090f;
+  --sg-glass: rgba(4, 10, 14, .84);
+  --sg-nav-glass: rgba(18, 24, 27, .9);
+  --sg-inset: rgba(0, 0, 0, .3);
+
+  /* Linien */
+  --sg-line: #17262c;
+  --sg-border: #5a7c81;
+  --sg-border-soft: rgba(90, 124, 129, .6);
+  --sg-border-lift: rgba(255, 255, 255, .22);
+
+  /* Akzent – die einzige Auszeichnungsfarbe */
+  --sg-accent: #8be0ec;
+  --sg-accent-rgb: 139, 224, 236;
+  --sg-accent-hover: #a9ecf5;
+  --sg-accent-pressed: #6fc6d3;
+  --sg-accent-line: rgba(139, 224, 236, .55);
+  --sg-on-accent: #031418;
+
+  /* Text */
+  --sg-title: #f2f7f8;
+  --sg-text: #c3d5d9;
+  --sg-dim: #80a3ad;
+
+  /* Signal */
+  --sg-warn: #ffab26;
+  --sg-danger: #fc3624;
+  --sg-good: #50f883;
+  --sg-good-line: rgba(80, 248, 131, .35);
+
+  /* Semantische Aliasse */
+  --surface-page: var(--sg-bg);
+  --surface-window: var(--sg-glass);
+  --surface-panel: var(--sg-panel);
+  --surface-control: var(--sg-button);
+  --surface-control-hover: var(--sg-hover);
+  --surface-control-active: var(--sg-pressed);
+  --surface-media: var(--sg-media);
+  --text-heading: var(--sg-title);
+  --text-body: var(--sg-text);
+  --text-muted: var(--sg-dim);
+  --text-link: var(--sg-accent);
+  --text-link-hover: var(--sg-accent-hover);
+  --border-default: var(--sg-border-soft);
+  --border-focus: var(--sg-accent);
+  --border-divider: var(--sg-line);
+}

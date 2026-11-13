@@ -53,7 +53,7 @@ def test_cms_pages_and_stories_render(cms_site, client, url):
     response = client.get(url)
     assert response.status_code == HTTPStatus.OK
     assert b"Space Game" in response.content
-    assert b"/about/" in response.content
+    assert b"/download/" in response.content
     assert b"/stories/" in response.content
 
 
@@ -71,8 +71,8 @@ def test_drafts_are_hidden_from_visitors(cms_site, client):
 def test_navigation_uses_english_fallback_for_german_visitors(cms_site, client):
     response = client.get("/", HTTP_ACCEPT_LANGUAGE="de-DE,de;q=0.9")
     assert response.status_code == HTTPStatus.OK
-    assert b">About</a>" in response.content
-    assert b">Stories</a>" in response.content
+    assert b">Logbook</a>" in response.content
+    assert b"/stories/" in response.content
 
 
 def test_stories_apphook_lists_published_posts(cms_site, client):
@@ -145,7 +145,7 @@ def test_hero_is_editable_frontend_component(cms_site, rf, client):
     plugin_class = plugin_pool.get_plugin("SpaceGameHeroPlugin")
     plugin = plugin_class(plugin_class.model, admin.site)
     form = plugin.get_form(request, obj=instance, change=True)(instance=instance)
-    assert form.initial["title"] == "Your journey starts here."
+    assert form.initial["title"] == "Chart the unknown."
     assert {"image", "image_alt", "primary_link", "secondary_link"} <= set(form.fields)
     draft = Version.objects.get_for_content(content).copy(cms_site)
     draft_hero = draft.content.get_placeholders().get(slot="hero").get_plugins().get()
@@ -180,7 +180,7 @@ def test_hero_copy_and_publish_custom_content(cms_site, client, settings, tmp_pa
         .get()
         .get_plugin_instance()
     )
-    assert instance.config["title"] == "Your journey starts here."
+    assert instance.config["title"] == "Chart the unknown."
     about = Page.objects.get(reverse_id="about")
     instance.config.update(
         title="Mission <One>",
@@ -198,7 +198,7 @@ def test_hero_copy_and_publish_custom_content(cms_site, client, settings, tmp_pa
     assert b"Mission &lt;One&gt;" in response.content
     assert image.url.encode() in response.content
     assert b'width="1"' in response.content
-    assert b'btn btn-primary" href="/about/"' in response.content
+    assert b'href="/about/"' in response.content
     assert b"btn btn-outline-light" not in response.content
 
 

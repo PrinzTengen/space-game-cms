@@ -2,6 +2,57 @@
 
 website
 
+## F2 Orbit: übernommenes Designsystem
+
+Die ZIP **Gestaltungsrichtlinien und Spielprojekt.zip** ist unverändert unter
+`design/space-game-design-system/` abgelegt. Ihre Tokens, Motive und das Website-
+UI-Kit sind die Referenz für die Django-Umsetzung. Die Original-React-Dateien
+bleiben als Referenz erhalten; die Website rendert native Django-/CMS-Templates.
+
+Übernommen sind Sternenhintergrund, Key-Art, CTA-Bild, Farb- und Typografiewerte,
+der Planet-Orb, Glasfenster mit Eckwinkeln und Scanlines, der Galaxy-Button mit
+Sternen und Umlaufbahn sowie Scroll-Reveals. JetBrains Mono 400/500/600/700 bleibt
+lokal über npm eingebunden. `npm run build` kopiert die drei Originalmotive nach
+`static/build/design-system/`; es werden keine Font- oder React-CDNs geladen.
+
+Das UI-Kit ist auf Startseite, Logbuch, Beitragsseite, Download und System & FAQ
+übertragen. Die zuletzt ergänzte Galerie bleibt als CMS-Erweiterung unter dem
+CTA erhalten und verwendet die neuen Fenster- und Bedienelemente. Admin und
+CMS-Toolbar übernehmen Schrift, Farben, eckige Flächen und die neue Wortmarke.
+
+Nach Installation der Abhängigkeiten und `migrate`:
+
+```bash
+docker compose -f docker-compose.local.yml exec django python manage.py apply_design_system --username DEIN_ADMIN
+```
+
+Der Befehl übernimmt die gelieferten DE-/EN-Inhalte, die fünf Beiträge, die
+Download- und FAQ-Seiten. Änderungen an bestehenden Startseiten werden als neue
+Version veröffentlicht. Geänderte unveröffentlichte Entwürfe werden geschützt;
+ein erneuter Aufruf überschreibt nach der ersten Übernahme keine redaktionellen
+Änderungen. Die Quellen der Texte liegen in `space_game/theme/design_content.json`.
+Die Sprachauswahl arbeitet mit Djangos Sprach-Cookie.
+
+Die ZIP enthält simulierte Anmelde-/Download-Zustände, keine OAuth-Zugangsdaten
+und keine Launcher-Dateien. Die Umsetzung verwendet django-allauth mit Discord
+(`identify`) und prüft den Zugang serverseitig. Zur Aktivierung in der
+Django-Umgebung konfigurieren:
+
+```dotenv
+DISCORD_CLIENT_ID=
+DISCORD_CLIENT_SECRET=
+SPACE_GAME_WINDOWS_DOWNLOAD_URL=
+SPACE_GAME_LINUX_DOWNLOAD_URL=
+```
+
+Alternativ kann Discord über eine Social Application im Admin konfiguriert
+werden. Der OAuth-Callback ist `/accounts/discord/login/callback/` auf der eigenen
+Domain. Die Launcher-URLs müssen HTTPS verwenden. Ohne Konfiguration zeigt die
+Seite den entsprechenden Verfügbarkeitsstatus; Anmeldung und erfolgreicher
+Download werden nicht simuliert. Dateiname, Größe, Version und die gekürzten
+Prüfsummen stammen aus der gelieferten Referenz und sind vor echten Releases in
+`design_content.json` an die bereitgestellten Dateien anzupassen.
+
 ## django CMS
 
 ### Admin: Mission Control
@@ -63,7 +114,8 @@ npm run build
 `npm run watch` baut das CSS bei SCSS-Änderungen neu. Unter Windows bei gesperrten
 PowerShell-Skripten `npm.cmd` anstelle von `npm` verwenden.
 `space_game/static/scss/project.scss` enthält die Bootstrap-Variablen und importiert
-die Bootstrap-SCSS-Quellen; `_theme.scss` enthält das Layout und die lokalen Fonts.
+die Bootstrap-SCSS-Quellen; `_orbit.scss` enthält das aktuelle F2-Orbit-Layout,
+`_fonts.scss` die lokalen Fonts. `_theme.scss` ist die frühere Theme-Referenz.
 Der Build schreibt CSS, Bootstrap-JavaScript, Fonts und Lizenzen nach
 `space_game/static/build/`. Dieses Verzeichnis und `node_modules/` sind gitignored;
 `package.json`, `package-lock.json`, SCSS und Bildquellen werden versioniert.

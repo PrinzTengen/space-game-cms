@@ -42,9 +42,8 @@
   width: 3rem;
   height: 3rem;
   border: 1px solid rgba($primary, .4);
-  border-radius: 50%;
+  border-radius: 0;
   background: rgba($body-bg, .8);
-  backdrop-filter: blur(6px);
   color: $primary;
   font-size: 1.25rem;
   pointer-events: auto;
@@ -73,7 +72,7 @@
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
   border: 1px solid $border-color;
-  background: #0a151c;
+  background: var(--sg-window-corners), var(--sg-scanlines), var(--sg-glass);
 
   &::-webkit-scrollbar { display: none; }
 }
@@ -140,12 +139,10 @@
   border: 1px solid $border-color;
   padding: 0;
   background: $body-bg;
-  opacity: .5;
-  transition: opacity .3s, border-color .3s, transform .3s;
+  transition: border-color .15s;
 
   img { width: 100%; height: 100%; object-fit: cover; }
-  &:hover { opacity: 1; transform: translateY(-2px); }
-  &[aria-current="true"] { opacity: 1; border-color: $primary; box-shadow: 0 0 0 1px $primary; }
+  &:hover, &[aria-current="true"] { border-color: $primary; }
 }
 
 .space-gallery {

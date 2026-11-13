@@ -1,0 +1,41 @@
+/* Nur JetBrains Mono, Ligaturen aus. Gewichte 400 / 600 / 700. */
+:root {
+  --sg-font: "JetBrains Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
+  --sg-fw-regular: 400;
+  --sg-fw-medium: 500;
+  --sg-fw-semibold: 600;
+  --sg-fw-bold: 700;
+
+  --sg-fs-display: clamp(34px, 4.8vw, 68px);
+  --sg-fs-page-title: clamp(40px, 5.4vw, 72px);
+  --sg-fs-article-title: clamp(32px, 4.4vw, 56px);
+  --sg-fs-section: clamp(28px, 3.2vw, 42px);
+  --sg-fs-panel-title: clamp(24px, 2.8vw, 32px);
+  --sg-fs-h3: 25px;
+  --sg-fs-subhead: 23px;
+  --sg-fs-card-title: 20px;
+  --sg-fs-lead: clamp(17px, 1.4vw, 20px);
+  --sg-fs-article: 19px;
+  --sg-fs-intro: 18px;
+  --sg-fs-body: 16px;
+  --sg-fs-card-body: 15px;
+  --sg-fs-small: 14px;
+  --sg-fs-button-caps: 13px;
+  --sg-fs-meta: 12px;
+  --sg-fs-label: 11px;
+
+  --sg-lh-display: 1.08;
+  --sg-lh-heading: 1.12;
+  --sg-lh-title: 1.3;
+  --sg-lh-body: 1.6;
+  --sg-lh-article: 1.7;
+
+  --sg-track-heading: -.01em;
+  --sg-track-label: .12em;
+  --sg-track-button: .14em;
+  --sg-track-wordmark: .02em;
+
+  --text-display: var(--sg-fw-bold) var(--sg-fs-display) / var(--sg-lh-display) var(--sg-font);
+  --text-section: var(--sg-fw-bold) var(--sg-fs-section) / var(--sg-lh-heading) var(--sg-font);
+  --text-body-font: var(--sg-fw-regular) var(--sg-fs-body) / var(--sg-lh-body) var(--sg-font);
+}

@@ -1,0 +1,27 @@
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  margin: 0;
+  color: var(--sg-text);
+  font-family: var(--sg-font);
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "calt" 0;
+  -webkit-font-smoothing: antialiased;
+  /* Ausnahme auf Wunsch des Nutzers: Sternenhintergrund */
+  background: var(--sg-bg) url("../assets/bg-stars.png") center top / cover no-repeat fixed;
+}
+h1, h2, h3, h4 { color: var(--sg-title); font-weight: 700; letter-spacing: -.01em; text-wrap: balance; }
+p { text-wrap: pretty; }
+a { color: var(--sg-accent); text-underline-offset: .2em; }
+a:hover { color: var(--sg-accent-hover); }
+button { font: inherit; cursor: pointer; }
+button:disabled { cursor: not-allowed; }
+::selection { background: var(--sg-accent); color: var(--sg-on-accent); }
+:focus-visible { outline: 2px solid var(--sg-accent); outline-offset: 3px; }
+@keyframes sg-twinkle { 0%, 100% { opacity: .35; } 50% { opacity: 1; } }
+@keyframes sg-orbit { to { transform: translate(-50%, -50%) rotate(10deg) rotate(360deg) translateY(var(--d)); } }
+@keyframes sg-spin { to { transform: rotate(360deg); } }
+@keyframes sg-limb { from { opacity: 0; transform: translateX(-50%) translateY(40px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+@keyframes sg-reveal { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

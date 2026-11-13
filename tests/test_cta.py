@@ -40,11 +40,11 @@ def test_cta_is_saved_below_cards_and_editable(cta_site, client):
     response = client.get("/")
     assert response.status_code == HTTPStatus.OK
     html = response.content.decode()
-    assert html.index('class="feature-card"') < html.index(
-        'class="space-section space-callout"',
+    assert html.index('class="feature-card sg-window"') < html.index(
+        'class="space-callout"',
     )
-    assert "Be part of the journey." in html
-    assert "Meet us on Discord" in html
+    assert "Ready for your first launch?" in html
+    assert "Go to download" in html
     draft = Version.objects.get_for_content(content).copy(cta_site)
     client.force_login(cta_site)
     response = client.get(
@@ -54,7 +54,7 @@ def test_cta_is_saved_below_cards_and_editable(cta_site, client):
         ),
     )
     assert response.status_code == HTTPStatus.OK
-    for field in ["eyebrow", "title", "description", "button_label"]:
+    for field in ["eyebrow", "title", "description", "button_label", "image"]:
         assert f'id="id_{field}"'.encode() in response.content
     assert b"button_link" in response.content
 
@@ -95,7 +95,7 @@ def test_install_cta_is_idempotent_and_keeps_other_plugins(cta_site):
     draft = Version.objects.get_for_content(content).copy(cta_site)
     call_command("install_home_cta", username=cta_site.username)
     assert Version.objects.get(pk=draft.pk).state == "published"
-    assert cta_instance(homepage()).config["title"] == "Be part of the journey."
+    assert cta_instance(homepage()).config["title"] == "Ready for your first launch?"
     assert homepage().get_placeholders().get(slot="hero").get_plugins().count() == 1
     cards = homepage().get_placeholders().get(slot="discovery").get_plugins()
     assert cards.count() == 4  # noqa: PLR2004

@@ -9,6 +9,9 @@ from drf_spectacular.views import SpectacularAPIView
 from drf_spectacular.views import SpectacularSwaggerView
 from rest_framework.authtoken.views import obtain_auth_token
 
+from space_game.theme.views import launcher_download
+from space_game.theme.views import switch_language
+
 urlpatterns = [
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
@@ -16,6 +19,8 @@ urlpatterns = [
     path("users/", include("space_game.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
     path("cookie-love/", include("djangocms_cookie_love.urls")),
+    path("i18n/setlang/", switch_language, name="set_language"),
+    path("launcher/<slug:platform>/", launcher_download, name="launcher-download"),
     # Your stuff: custom urls includes go here
     # ...
     # Media files

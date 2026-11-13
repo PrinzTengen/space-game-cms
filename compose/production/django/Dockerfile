@@ -6,6 +6,7 @@ COPY package.json package-lock.json ./
 RUN --mount=type=cache,target=/root/.npm npm ci
 COPY scripts/build-frontend.mjs ./scripts/build-frontend.mjs
 COPY space_game/static/scss ./space_game/static/scss
+COPY design/space-game-design-system/assets ./design/space-game-design-system/assets
 RUN npm run build
 
 # define an alias for the specific python version used in this file.

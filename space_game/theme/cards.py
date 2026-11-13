@@ -5,32 +5,27 @@ from cms.plugin_pool import plugin_pool
 
 DEFAULT_CARDS = (
     {
-        "eyebrow": "01 / Resources",
-        "title": "Make your own way.",
+        "eyebrow": "",
+        "title": "Explore",
         "description": (
-            "Explore the asteroid belt and discover what lies beyond "
-            "the familiar routes."
+            "Jump into systems nobody has charted yet. "
+            "Every scan fills in your star map."
         ),
-        "default_image": "resources",
-        "image_alt": "An asteroid belt in deep space",
     },
     {
-        "eyebrow": "02 / Trade",
-        "title": "Connect distant worlds.",
+        "eyebrow": "",
+        "title": "Mine",
         "description": (
-            "From one station to the next, every journey opens a new perspective."
+            "Analyse asteroids before you drill. Every rock has its own composition."
         ),
-        "default_image": "trade",
-        "image_alt": "Levante station among the stars",
     },
     {
-        "eyebrow": "03 / Exploration",
-        "title": "Follow your curiosity.",
+        "eyebrow": "",
+        "title": "Trade",
         "description": (
-            "Set a course for Sky City and see the universe from a different angle."
+            "Stations need different things. Know the routes and prices, "
+            "and you earn the most."
         ),
-        "default_image": "exploration",
-        "image_alt": "Sky City space station",
     },
 )
 

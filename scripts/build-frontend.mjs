@@ -8,10 +8,10 @@ const staticRoot = join(root, "space_game/static");
 const scssRoot = join(staticRoot, "scss");
 const outputRoot = join(staticRoot, "build");
 
-function copy(source, destination) {
+function copy(source, destination, base = "node_modules") {
   const target = join(outputRoot, destination);
   mkdirSync(dirname(target), { recursive: true });
-  copyFileSync(join(root, "node_modules", source), target);
+  copyFileSync(join(root, base, source), target);
 }
 
 function build() {
@@ -30,11 +30,14 @@ function build() {
   copy("bootstrap/dist/js/bootstrap.bundle.min.js.map", "bootstrap.bundle.min.js.map");
   copy("bootstrap/LICENSE", "licenses/bootstrap.txt");
   copy("@fontsource/jetbrains-mono/LICENSE", "licenses/jetbrains-mono.txt");
-  for (const weight of [400, 600]) {
+  for (const weight of [400, 500, 600, 700]) {
     copy(
       `@fontsource/jetbrains-mono/files/jetbrains-mono-latin-${weight}-normal.woff2`,
       `fonts/jetbrains-mono-latin-${weight}-normal.woff2`,
     );
+  }
+  for (const name of ["bg-stars.png", "hero-keyart.png", "cta-station.png"]) {
+    copy(`space-game-design-system/assets/${name}`, `design-system/${name}`, "design");
   }
   console.log("Built website, admin and CMS editor styles, Bootstrap JavaScript and local fonts.");
 }

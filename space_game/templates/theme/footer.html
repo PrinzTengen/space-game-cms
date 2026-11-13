@@ -1,0 +1,22 @@
+{% load i18n %}
+
+<footer class="site-footer">
+  <div class="sg-footer-grid container">
+    <div>
+      <strong class="sg-wordmark">Space Game</strong>
+      <p>{{ sg.t.foot.line }}</p>
+    </div>
+    <nav aria-label="{{ sg.t.foot.pages }}">
+      <p class="sg-footer-label">{{ sg.t.foot.pages }}</p>
+      {% for item in sg.nav %}<a href="{{ item.url }}">{{ item.label }}</a>{% endfor %}
+    </nav>
+    <div class="sg-footer-meta">
+      <p>{{ sg.t.foot.rights }}</p>
+      <a href="https://discord.gg/TeGQrqprRM" rel="noopener">Discord</a>
+      <a href="https://www.youtube.com/@monkeycabstudio" rel="noopener">YouTube</a>
+      <button type="button"
+              class="sg-text-button"
+              onclick="CookieLove.openSettings()">{% translate "Cookie settings" %}</button>
+    </div>
+  </div>
+</footer>

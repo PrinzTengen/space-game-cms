@@ -39,57 +39,7 @@
     <a class="visually-hidden-focusable position-absolute p-3 bg-body z-3"
        href="#main-content">{% translate "Skip to content" %}</a>
     {% block body %}
-      <header class="site-header">
-        <nav class="navbar navbar-expand-lg">
-          <div class="container">
-            <button class="navbar-toggler navbar-toggler-right"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <a class="navbar-brand d-flex align-items-center gap-3" href="/">
-              <img class="brand-logo"
-                   src="{% static 'images/theme/logo/space-game-logo.png' %}"
-                   alt=""
-                   width="48"
-                   height="48" />
-              SPACE GAME
-            </a>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
-                {% show_menu 0 100 100 100 "cms/menu.html" %}
-                {% if request.user.is_authenticated %}
-                  <li class="nav-item">
-                    <a class="nav-link"
-                       href="{% url 'users:detail' request.user.username %}">{% translate "My Profile" %}</a>
-                  </li>
-                  <li class="nav-item">
-                    {# URL provided by django-allauth/account/urls.py #}
-                    <a class="nav-link" href="{% url 'account_logout' %}">{% translate "Sign Out" %}</a>
-                  </li>
-                {% else %}
-                  {% if ACCOUNT_ALLOW_REGISTRATION %}
-                    <li class="nav-item">
-                      {# URL provided by django-allauth/account/urls.py #}
-                      <a id="sign-up-link"
-                         class="nav-link"
-                         href="{% url 'account_signup' %}">{% translate "Sign Up" %}</a>
-                    </li>
-                  {% endif %}
-                  <li class="nav-item">
-                    {# URL provided by django-allauth/account/urls.py #}
-                    <a id="log-in-link" class="nav-link" href="{% url 'account_login' %}">{% translate "Sign In" %}</a>
-                  </li>
-                {% endif %}
-              </ul>
-            </div>
-          </div>
-        </nav>
-      </header>
+      {% include "theme/header.html" %}
       <main id="main-content"
             class="site-main {% block main_class %}{% endblock main_class %}">
         <div class="{% block content_container_class %}container{% endblock content_container_class %}">
@@ -111,21 +61,7 @@
           {% endblock main %}
         </div>
       </main>
-      <footer class="site-footer py-4">
-        <div class="container d-flex flex-wrap align-items-center justify-content-between gap-3">
-          <span class="small text-body-secondary">SPACE GAME / <a href="https://monkey.cab"
-                                                                  rel="noopener">monkey.cab</a></span>
-          <div class="d-flex flex-wrap align-items-center gap-4">
-            <a class="small" href="https://discord.gg/TeGQrqprRM" rel="noopener">Discord</a>
-            <a class="small"
-               href="https://www.youtube.com/@monkeycabstudio"
-               rel="noopener">YouTube</a>
-            <button type="button"
-                    class="btn btn-link"
-                    onclick="CookieLove.openSettings()">{% translate "Cookie settings" %}</button>
-          </div>
-        </div>
-      </footer>
+      {% include "theme/footer.html" %}
     {% endblock body %}
     <!-- /container -->
     {% block modal %}

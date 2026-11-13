@@ -16,17 +16,18 @@ class SpaceGameHero(CMSFrontendComponent):
         render_template = "theme/components/hero.html"
         allow_children = False
         default_config = {
-            "eyebrow": "Space Game / In development",
-            "title": "Your journey starts here.",
+            "eyebrow": "Exploration · Trade · Mining",
+            "title": "Chart the unknown.",
             "description": (
-                "Head into the unknown. Discover distant stations, follow new "
-                "trade routes and find your place among the stars."
+                "A calm, technical space game. Fly into uncharted systems, mine "
+                "resources and trade them between stations – at your own pace."  # noqa: RUF001
             ),
             "image_alt": "A space station against a glowing nebula",
-            "primary_label": "Join the community",
-            "primary_link": {"external_link": "https://discord.gg/TeGQrqprRM"},
-            "secondary_label": "Discover Space Game",
-            "secondary_link": {"external_link": "#discover"},
+            "primary_label": "Download launcher",
+            "primary_link": {"external_link": "/download/"},
+            "secondary_label": "Read devlogs",
+            "secondary_link": {"external_link": "/stories/?type=devlog"},
+            "note": "Pre-Alpha for Windows & Linux · Sign in with Discord",
         }
 
     eyebrow = forms.CharField(label=_("Eyebrow"), required=False, max_length=200)
@@ -36,10 +37,13 @@ class SpaceGameHero(CMSFrontendComponent):
         required=False,
         widget=forms.Textarea,
     )
+    note = forms.CharField(
+        label=_("Note below buttons"), required=False, max_length=250,
+    )
     image = ImageFormField(
         label=_("Background image"),
         required=False,
-        help_text=_("Uses the original Space Game image if no image is selected."),
+        help_text=_("Uses the F2 Orbit key art if no image is selected."),
     )
     image_alt = forms.CharField(
         label=_("Image description"),
@@ -72,8 +76,8 @@ class SpaceGameCards(CMSFrontendComponent):
         allow_children = True
         child_classes = ["SpaceGameCardPlugin"]
         default_config = {
-            "eyebrow": "Choose your course",
-            "title": "A universe full of possibilities.",
+            "eyebrow": "The game in three parts",
+            "title": "Explore. Mine. Trade.",
         }
 
     eyebrow = forms.CharField(label=_("Eyebrow"), required=False, max_length=200)
@@ -130,14 +134,14 @@ class SpaceGameCTA(CMSFrontendComponent):
         render_template = "theme/components/cta.html"
         allow_children = False
         default_config = {
-            "eyebrow": "Follow the development",
-            "title": "Be part of the journey.",
+            "eyebrow": "",
+            "title": "Ready for your first launch?",
             "description": (
-                "See new impressions from the game, meet the community "
-                "and share your ideas."
+                "Sign in with Discord and download the launcher "
+                "for Windows or Linux."
             ),
-            "button_label": "Meet us on Discord",
-            "button_link": {"external_link": "https://discord.gg/TeGQrqprRM"},
+            "button_label": "Go to download",
+            "button_link": {"external_link": "/download/"},
         }
 
     eyebrow = forms.CharField(label=_("Eyebrow"), required=False, max_length=200)
@@ -149,6 +153,7 @@ class SpaceGameCTA(CMSFrontendComponent):
     )
     button_label = forms.CharField(label=_("Button text"), max_length=100)
     button_link = LinkFormField(label=_("Button destination"))
+    image = ImageFormField(label=_("Background image"), required=False)
 
 
 @components.register

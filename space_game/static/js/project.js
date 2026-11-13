@@ -33,6 +33,93 @@
   });
 })();
 
+// F2 Orbit effects translated from the supplied UI kit; no React or CDN runtime.
+(() => {
+  const enhanced = new WeakSet();
+  const revealed = new WeakSet();
+  const motion = matchMedia("(prefers-reduced-motion: reduce)");
+  const random = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
+  const make = (tag, className) => {
+    const node = document.createElement(tag);
+    node.className = className;
+    return node;
+  };
+  const observer = new IntersectionObserver((entries) => entries.forEach(({target, isIntersecting}) => {
+    if (!isIntersecting) return;
+    observer.unobserve(target);
+    if (motion.matches || document.querySelector(".cms-toolbar")) return;
+    const order = [...target.parentElement.children].indexOf(target);
+    target.animate([{opacity: 0, transform: "translateY(14px)"}, {opacity: 1, transform: "none"}], {
+      duration: 600, delay: Math.min(order, 8) * 70, easing: "cubic-bezier(.2,.7,.2,1)",
+    });
+  }), {threshold: .08});
+  motion.addEventListener("change", () => {
+    if (motion.matches) document.getAnimations().forEach(animation => animation.cancel());
+  });
+
+  function initializeDesign() {
+    document.querySelectorAll(".btn-galaxy:not(:disabled)").forEach(button => {
+      if (enhanced.has(button)) return;
+      enhanced.add(button);
+      const fx = make("span", "sg-galaxy-fx");
+      fx.setAttribute("aria-hidden", "true");
+      const stars = make("span", "sg-galaxy-stars");
+      for (let i = 0; i < 12; i++) {
+        const star = document.createElement("i");
+        const size = [1.5, 2, 2, 2.5, 3, 3.5][random(0, 5)];
+        Object.assign(star.style, {left: `${random(3, 97)}%`, top: `${random(12, 88)}%`, width: `${size}px`, height: `${size}px`, animation: `sg-twinkle ${random(3, 7)}s -${random(0, 6)}s ease-in-out infinite`});
+        if (size > 2.5) star.style.boxShadow = "0 0 6px 1px var(--sg-accent-hover)";
+        stars.append(star);
+      }
+      const orbit = make("span", "sg-galaxy-orbit");
+      const ring = document.createElement("span");
+      for (let i = 0; i < 24; i++) {
+        const star = document.createElement("i");
+        const size = random(2, 4), distance = random(30, 170);
+        star.style.setProperty("--d", `${distance}px`);
+        star.style.setProperty("--duration", `${random(6, 20)}s`);
+        star.style.setProperty("--delay", `-${random(1, 10)}s`);
+        Object.assign(star.style, {width: `${size}px`, height: `${size}px`, opacity: random(60, 100) / 100, transform: `translate(-50%,-50%) rotate(10deg) translateY(${distance}px)`});
+        ring.append(star);
+      }
+      orbit.append(ring);
+      fx.append(stars, orbit);
+      button.prepend(fx);
+    });
+    document.querySelectorAll("[data-reveal]").forEach(element => {
+      if (revealed.has(element)) return;
+      revealed.add(element);
+      observer.observe(element);
+    });
+  }
+  function initializeFilters() {
+    const controls = document.querySelector("[data-post-filters]");
+    if (!controls) return;
+    const cards = [...document.querySelectorAll("[data-post-list] [data-post-kind]")];
+    controls.hidden = false;
+    controls.querySelectorAll("[data-post-count]").forEach(node => {
+      node.textContent = cards.filter(card => node.dataset.postCount === "all" || card.dataset.postKind === node.dataset.postCount).length;
+    });
+    function select(kind) {
+      if (!["news", "devlog"].includes(kind)) kind = "all";
+      cards.forEach(card => card.hidden = kind !== "all" && card.dataset.postKind !== kind);
+      controls.querySelectorAll("button").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.postFilter === kind)));
+      const url = new URL(location.href);
+      if (kind === "all") url.searchParams.delete("type"); else url.searchParams.set("type", kind);
+      history.replaceState(null, "", url);
+    }
+    controls.addEventListener("click", event => {
+      const button = event.target.closest("[data-post-filter]");
+      if (button) select(button.dataset.postFilter);
+    });
+    select(new URL(location.href).searchParams.get("type"));
+  }
+  function start() { initializeDesign(); initializeFilters(); }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start, {once: true}); else start();
+  let frame;
+  new MutationObserver(() => { cancelAnimationFrame(frame); frame = requestAnimationFrame(initializeDesign); }).observe(document.documentElement, {childList: true, subtree: true});
+})();
+
 (() => {
   const galleries = new Map();
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");

@@ -1,0 +1,25 @@
+:root {
+  --sg-space-1: 4px;
+  --sg-space-2: 8px;
+  --sg-space-3: 10px;
+  --sg-space-4: 12px;
+  --sg-space-5: 18px;
+  --sg-space-6: 22px;
+  --sg-space-7: 26px;
+  --sg-space-8: 28px;
+  --sg-space-9: 40px;
+  --sg-space-10: 64px;
+
+  --sg-container: 1240px;
+  --sg-gutter: clamp(20px, 4vw, 40px);
+  --sg-section-y: clamp(40px, 5vw, 64px);
+  --sg-grid-gap: 18px;
+  --sg-window-pad: clamp(24px, 3.5vw, 44px);
+  --sg-card-pad: 28px 26px 30px;
+
+  --sg-nav-h: 64px;
+  --sg-hit: 44px;
+  --sg-control-sm: 40px;
+  --sg-control-md: 46px;
+  --sg-control-lg: 56px;
+}
