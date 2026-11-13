@@ -21,7 +21,7 @@
         "lead": "Ein ruhiges, technisches Weltraumspiel. Fliege in unerforschte Systeme, baue Rohstoffe ab und handle sie zwischen Stationen – in deinem eigenen Tempo.",
         "cta": "Launcher herunterladen",
         "cta2": "Devlogs lesen",
-        "note": "Pre-Alpha für Windows & Linux · Anmeldung über Discord",
+        "note": "Pre-Alpha für Windows & Linux · Kein Konto erforderlich",
         "fig": "Abb. 1 — Key-Art",
         "slot": "Key-Art hier ablegen",
         "pillarsLabel": "Das Spiel in drei Teilen",
@@ -30,7 +30,7 @@
         "latestTitle": "Neu aus der Entwicklung",
         "all": "Alle Beiträge",
         "ctaTitle": "Bereit für den ersten Start?",
-        "ctaText": "Melde dich mit Discord an und lade den Launcher für Windows oder Linux herunter.",
+        "ctaText": "Lade den Launcher für Windows oder Linux herunter. Kein Konto erforderlich.",
         "ctaBtn": "Zum Download"
       },
       "pillars": [
@@ -76,23 +76,17 @@
       "dl": {
         "label": "Download",
         "title": "Launcher",
-        "lead": "Der Launcher installiert das Spiel und hält es aktuell. Für den Pre-Alpha-Zugang meldest du dich einmalig mit Discord an.",
+        "lead": "Der Launcher installiert das Spiel und hält es aktuell. Wähle deine Plattform und lade ihn direkt herunter – ohne Anmeldung.",
         "steps": [
-          "Mit Discord anmelden",
-          "Plattform wählen",
-          "Herunterladen & installieren"
+          {
+            "title": "Plattform wählen",
+            "description": "Windows oder Linux"
+          },
+          {
+            "title": "Herunterladen & installieren",
+            "description": "Direkter Download ohne Anmeldung"
+          }
         ],
-        "done": "Erledigt",
-        "current": "Aktuell",
-        "pending": "Offen",
-        "step": "Schritt",
-        "loginTitle": "Mit Discord anmelden",
-        "loginText": "Der Download ist für angemeldete Tester freigeschaltet. Du wirst zu Discord weitergeleitet und kommst danach direkt hierher zurück.",
-        "loginBtn": "Mit Discord anmelden",
-        "connecting": "Verbinde mit Discord …",
-        "privacy": "Wir erhalten nur deinen Benutzernamen und dein Avatar-Bild.",
-        "signedIn": "Angemeldet als",
-        "logout": "Abmelden",
         "osTitle": "Plattform wählen",
         "osLabel": "Betriebssystem",
         "file": "Datei",
@@ -100,27 +94,23 @@
         "version": "Version",
         "sha": "SHA-256",
         "dlBtn": "Herunterladen",
-        "preparing": "Download wird vorbereitet …",
-        "startedTitle": "Download gestartet",
-        "startedText": "Startet der Download nicht automatisch, versuche es erneut.",
-        "again": "Erneut herunterladen",
         "installLabel": "Installation",
         "install": {
           "win": "Setup-Datei ausführen und den Anweisungen folgen.",
           "linux": "Datei ausführbar machen (chmod +x) und starten."
         },
-        "whyTitle": "Warum Discord?",
-        "why": [
-          "Pre-Alpha-Zugang ohne zusätzliches Konto",
-          "Feedback und Bug-Reports an einem Ort",
-          "Ankündigungen zu neuen Builds"
-        ],
         "reqTitle": "Läuft es bei dir?",
         "reqText": "Mindestens 8 GB RAM und eine Grafikkarte mit Vulkan 1.2.",
         "reqBtn": "Systemanforderungen ansehen",
-        "msgIn": "Erfolgreich mit Discord angemeldet.",
-        "msgOut": "Du wurdest abgemeldet.",
-        "msgDl": "Download gestartet."
+        "stepsLabel": "So startest du",
+        "unavailable": "Der Launcher wird hier bereitgestellt, sobald die Datei verfügbar ist.",
+        "communityTitle": "Feedback & Neuigkeiten",
+        "communityText": "Unsere Discord-Community ist freiwillig. Für den Download brauchst du kein Konto.",
+        "communityItems": [
+          "Feedback und Bug-Reports an einem Ort",
+          "Ankündigungen zu neuen Builds"
+        ],
+        "communityButton": "Zur Community"
       },
       "faq": {
         "label": "Support",
@@ -159,7 +149,7 @@
         "lead": "A calm, technical space game. Fly into uncharted systems, mine resources and trade them between stations – at your own pace.",
         "cta": "Download launcher",
         "cta2": "Read devlogs",
-        "note": "Pre-Alpha for Windows & Linux · Sign in with Discord",
+        "note": "Pre-Alpha for Windows & Linux · No account required",
         "fig": "Fig. 1 — Key art",
         "slot": "Drop key art here",
         "pillarsLabel": "The game in three parts",
@@ -168,7 +158,7 @@
         "latestTitle": "Fresh from development",
         "all": "All posts",
         "ctaTitle": "Ready for your first launch?",
-        "ctaText": "Sign in with Discord and download the launcher for Windows or Linux.",
+        "ctaText": "Download the launcher for Windows or Linux. No account required.",
         "ctaBtn": "Go to download"
       },
       "pillars": [
@@ -214,23 +204,17 @@
       "dl": {
         "label": "Download",
         "title": "Launcher",
-        "lead": "The launcher installs the game and keeps it up to date. For Pre-Alpha access, sign in once with Discord.",
+        "lead": "The launcher installs the game and keeps it up to date. Choose your platform and download it directly, without signing in.",
         "steps": [
-          "Sign in with Discord",
-          "Choose platform",
-          "Download & install"
+          {
+            "title": "Choose a platform",
+            "description": "Windows or Linux"
+          },
+          {
+            "title": "Download & install",
+            "description": "Direct download, no sign-in required"
+          }
         ],
-        "done": "Done",
-        "current": "Current",
-        "pending": "Pending",
-        "step": "Step",
-        "loginTitle": "Sign in with Discord",
-        "loginText": "The download is unlocked for signed-in testers. You will be redirected to Discord and brought straight back here.",
-        "loginBtn": "Sign in with Discord",
-        "connecting": "Connecting to Discord …",
-        "privacy": "We only receive your username and avatar.",
-        "signedIn": "Signed in as",
-        "logout": "Sign out",
         "osTitle": "Choose platform",
         "osLabel": "Operating system",
         "file": "File",
@@ -238,27 +222,23 @@
         "version": "Version",
         "sha": "SHA-256",
         "dlBtn": "Download",
-        "preparing": "Preparing download …",
-        "startedTitle": "Download started",
-        "startedText": "If the download does not start automatically, try again.",
-        "again": "Download again",
         "installLabel": "Installation",
         "install": {
           "win": "Run the setup file and follow the instructions.",
           "linux": "Make the file executable (chmod +x) and run it."
         },
-        "whyTitle": "Why Discord?",
-        "why": [
-          "Pre-Alpha access without another account",
-          "Feedback and bug reports in one place",
-          "Announcements for new builds"
-        ],
         "reqTitle": "Will it run?",
         "reqText": "At least 8 GB RAM and a graphics card with Vulkan 1.2.",
         "reqBtn": "View system requirements",
-        "msgIn": "Signed in with Discord.",
-        "msgOut": "You have been signed out.",
-        "msgDl": "Download started."
+        "stepsLabel": "Getting started",
+        "unavailable": "The launcher will appear here once the file is available.",
+        "communityTitle": "Feedback & updates",
+        "communityText": "Our Discord community is optional. No account is required to download the launcher.",
+        "communityItems": [
+          "Feedback and bug reports in one place",
+          "Announcements for new builds"
+        ],
+        "communityButton": "Join the community"
       },
       "faq": {
         "label": "Support",
@@ -585,20 +565,20 @@
         "en": "Internet"
       },
       "min": {
-        "de": "Für Anmeldung & Updates",
-        "en": "For sign-in & updates"
+        "de": "Für Downloads & Updates",
+        "en": "For downloads & updates"
       },
       "rec": {
-        "de": "Für Anmeldung & Updates",
-        "en": "For sign-in & updates"
+        "de": "Für Downloads & Updates",
+        "en": "For downloads & updates"
       }
     }
   ],
   "faq": {
     "de": [
       [
-        "Warum brauche ich ein Discord-Konto?",
-        "Über Discord vergeben wir den Pre-Alpha-Zugang und sammeln Feedback. So brauchst du kein weiteres Konto bei uns."
+        "Brauche ich ein Discord-Konto für den Download?",
+        "Nein. Du kannst den Launcher ohne Anmeldung herunterladen. Discord ist ein freiwilliger Kanal für Feedback und Neuigkeiten."
       ],
       [
         "Gibt es eine macOS-Version?",
@@ -619,8 +599,8 @@
     ],
     "en": [
       [
-        "Why do I need a Discord account?",
-        "We grant Pre-Alpha access and collect feedback through Discord, so you don’t need another account with us."
+        "Do I need a Discord account to download the launcher?",
+        "No. You can download the launcher without signing in. Discord is an optional channel for feedback and updates."
       ],
       [
         "Is there a macOS version?",

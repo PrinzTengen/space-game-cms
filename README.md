@@ -33,27 +33,53 @@ ein erneuter Aufruf überschreibt nach der ersten Übernahme keine redaktionelle
 Änderungen. Die Quellen der Texte liegen in `space_game/theme/design_content.json`.
 Die Sprachauswahl arbeitet mit Djangos Sprach-Cookie.
 
-Die ZIP enthält simulierte Anmelde-/Download-Zustände, keine OAuth-Zugangsdaten
-und keine Launcher-Dateien. Die Umsetzung verwendet django-allauth mit Discord
-(`identify`) und prüft den Zugang serverseitig. Zur Aktivierung in der
-Django-Umgebung konfigurieren:
+Die ZIP enthält keine Launcher-Dateien. Der Download ist öffentlich und benötigt
+weder Anmeldung noch Discord-Konto. Die echten HTTPS-Datei-URLs werden im
+jeweiligen **Space Game Launcher Platform**-Plugin eingetragen. Alternativ lassen
+sich Standard-URLs in der Django-Umgebung konfigurieren:
 
 ```dotenv
-DISCORD_CLIENT_ID=
-DISCORD_CLIENT_SECRET=
 SPACE_GAME_WINDOWS_DOWNLOAD_URL=
 SPACE_GAME_LINUX_DOWNLOAD_URL=
 ```
 
-Alternativ kann Discord über eine Social Application im Admin konfiguriert
-werden. Der OAuth-Callback ist `/accounts/discord/login/callback/` auf der eigenen
-Domain. Die Launcher-URLs müssen HTTPS verwenden. Ohne Konfiguration zeigt die
-Seite den entsprechenden Verfügbarkeitsstatus; Anmeldung und erfolgreicher
-Download werden nicht simuliert. Dateiname, Größe, Version und die gekürzten
-Prüfsummen stammen aus der gelieferten Referenz und sind vor echten Releases in
-`design_content.json` an die bereitgestellten Dateien anzupassen.
+Ohne gültige Datei-URL zeigt das Plattform-Plugin den bearbeitbaren
+Verfügbarkeitshinweis. Dateiname und Installationshinweis stammen initial aus
+der Referenz. Größe, Version und vollständige SHA-256-Prüfsumme können passend
+zur echten Datei im Plugin ergänzt werden; es werden keine Beispielwerte als
+tatsächliche Dateidaten ausgegeben. Discord bleibt eine freiwillige Community.
 
 ## django CMS
+
+### Downloadseite vollständig als Frontend-Plugins
+
+Die Vorlage `cms/download.html` enthält nur das Layout und CMS-Platzhalter:
+
+- `download_header`: **Space Game Download Header**, mit Vorspann, Titel und Untertitel.
+- `download_steps`: **Space Game Download Steps** mit einzelnen **Download Step**-Kindern.
+- `launcher`: **Space Game Launcher Downloads** mit **Launcher Platform**-Kindern für Windows/Linux.
+- `download_sidebar`: beliebig viele **Space Game Download Info**-Boxen mit Text, Liste und optionalem Link.
+- `content`: zusätzliche CMS-Inhalte.
+
+Im Launcher-Plugin werden die Überschrift, Feldbezeichnungen, Buttontexte und
+der Verfügbarkeitshinweis bearbeitet. Im jeweiligen Plattform-Kind liegen URL,
+Dateiname, Größe, Version, Prüfsumme und Installationsanleitung. Alle Inhalte sind
+versioniert und pro Sprache bearbeitbar; veröffentlichte Download-URLs sind für
+Besucher ohne Login erreichbar. Unveröffentlichte URL-Änderungen bleiben privat.
+Eine leere URL verwendet den Umgebungswert; eine ungültige URL bleibt gesperrt.
+
+Bestehende Seiten nach `migrate` überführen:
+
+```bash
+docker compose -f docker-compose.local.yml exec django python manage.py install_download_plugins --username DEIN_ADMIN
+```
+
+`apply_design_system` führt diesen Installer für neue Installationen automatisch
+aus. Bestehende Plugin-Inhalte und bearbeitete Entwürfe werden geschützt.
+Unveränderte Standardtexte auf der Startseite, die eine Anmeldung verlangen,
+werden ebenfalls korrigiert; eigene Texte bleiben erhalten. Die Plattformwahl
+verwendet JavaScript ohne Seitenneuladen und merkt sich `?platform=linux` in der
+URL. Ohne JavaScript und im CMS-Editor bleiben alle Plattformen sichtbar.
 
 ### Logbuch: bearbeitbarer Header und Live-Suche
 

@@ -1,0 +1,17 @@
+{% load cms_tags %}
+
+<section class="sg-window sg-download-main"
+         data-launcher
+         {% if request.toolbar.edit_mode_active %}data-launcher-edit-mode{% endif %}>
+  <h2>{{ instance.title }}</h2>
+  <div class="sg-platforms"
+       role="group"
+       aria-label="{{ instance.platform_label }}"
+       data-launcher-controls
+       hidden></div>
+  <div data-launcher-options>
+    {% for platform in instance.child_plugin_instances %}
+      {% render_plugin platform %}
+    {% endfor %}
+  </div>
+</section>

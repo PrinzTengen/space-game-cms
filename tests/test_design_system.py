@@ -1,10 +1,9 @@
-"""Native CMS import, bilingual pages and real download authorization."""
+"""Native CMS import, bilingual pages and public download availability."""
 
 from datetime import timedelta
 from http import HTTPStatus
 
 import pytest
-from allauth.socialaccount.models import SocialAccount
 from cms.models import PageContent
 from django.core.management import call_command
 from django.core.management.base import CommandError
@@ -86,15 +85,13 @@ def test_future_and_expired_posts_are_hidden(design_site):
     assert not published_posts("en").filter(pk=content.pk).exists()
 
 
-def test_download_requires_server_side_discord_identity(client, settings):
+def test_download_does_not_require_login_or_discord(client, settings):
     settings.SG_LAUNCHER_URLS = {"win": "https://example.com/launcher.exe"}
     response = client.get("/launcher/win/")
     assert response.status_code == HTTPStatus.FOUND
-    assert "/accounts/login/" in response.url
+    assert response.url == "https://example.com/launcher.exe"
     user = UserFactory()
     client.force_login(user)
-    assert client.get("/launcher/win/").status_code == HTTPStatus.FORBIDDEN
-    SocialAccount.objects.create(user=user, provider="discord", uid="12345")
     response = client.get("/launcher/win/")
     assert response.status_code == HTTPStatus.FOUND
     assert response.url == "https://example.com/launcher.exe"
@@ -103,9 +100,15 @@ def test_download_requires_server_side_discord_identity(client, settings):
     assert client.get("/launcher/win/").status_code == HTTPStatus.NOT_FOUND
 
 
-def test_missing_discord_configuration_is_honest(design_site, client, settings):
+def test_missing_launcher_configuration_is_honest(design_site, client, settings):
     settings.SG_DISCORD_CLIENT_ID = ""
+    settings.SG_LAUNCHER_URLS = {}
     response = client.get("/download/", HTTP_ACCEPT_LANGUAGE="en")
     assert response.status_code == HTTPStatus.OK
-    assert b"Discord sign-in is being prepared" in response.content
-    assert b"sg-auth" not in response.content
+    assert (
+        b"The launcher will appear here once the file is available." in response.content
+    )
+    assert b'data-launcher-platform="win"' in response.content
+    assert b'data-launcher-platform="linux"' in response.content
+    assert b"/accounts/discord/login/" not in response.content
+    assert b"sg-signin" not in response.content

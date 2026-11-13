@@ -1,0 +1,7 @@
+{% load cms_tags %}
+
+<ol class="sg-stepper" aria-label="{{ instance.title }}">
+  {% for step in instance.child_plugin_instances %}
+    {% render_plugin step %}
+  {% endfor %}
+</ol>

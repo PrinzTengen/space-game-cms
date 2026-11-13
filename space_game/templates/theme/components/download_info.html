@@ -1,0 +1,18 @@
+{% load djangocms_link_tags %}
+
+<section class="sg-window sg-window-pad">
+  <h2>{{ instance.title }}</h2>
+  {% if instance.description %}<p>{{ instance.description }}</p>{% endif %}
+  {% if instance.items %}
+    <ul class="sg-reasons">
+      {% for item in instance.items.splitlines %}
+        {% if item %}<li>{{ item }}</li>{% endif %}
+      {% endfor %}
+    </ul>
+  {% endif %}
+  {% with button_url=instance.button_link|to_url %}
+    {% if instance.button_label and button_url %}
+      <a class="btn" href="{{ button_url }}" rel="noopener">{{ instance.button_label }} →</a>
+    {% endif %}
+  {% endwith %}
+</section>

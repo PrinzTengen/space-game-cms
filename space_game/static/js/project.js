@@ -33,6 +33,93 @@
   });
 })();
 
+// Platform selection remains usable without JavaScript and during CMS editing.
+(() => {
+  const launchers = new Map();
+
+  function enhance(module, panels, controls) {
+    const events = new AbortController();
+    const options = {signal: events.signal};
+    controls.replaceChildren();
+    const buttons = panels.map(panel => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "sg-platform";
+      button.setAttribute("aria-controls", panel.id);
+      const copy = document.createElement("span");
+      const title = document.createElement("strong");
+      const description = document.createElement("small");
+      title.textContent = panel.dataset.launcherTitle;
+      description.textContent = panel.dataset.launcherDescription;
+      copy.append(title, description);
+      const dot = document.createElement("span");
+      dot.className = "sg-platform-dot";
+      dot.setAttribute("aria-hidden", "true");
+      button.append(copy, dot);
+      controls.append(button);
+      return button;
+    });
+    controls.hidden = panels.length < 2;
+    module.classList.add("is-enhanced");
+
+    function select(index, updateURL = false) {
+      panels.forEach((panel, i) => {
+        panel.hidden = i !== index;
+        buttons[i].classList.toggle("is-active", i === index);
+        buttons[i].setAttribute("aria-pressed", String(i === index));
+      });
+      if (updateURL) {
+        const url = new URL(location.href);
+        url.searchParams.set("platform", panels[index].dataset.launcherPlatform);
+        history.replaceState(null, "", url);
+      }
+    }
+    function readURL() {
+      const selected = new URL(location.href).searchParams.get("platform");
+      const index = panels.findIndex(panel => panel.dataset.launcherPlatform === selected);
+      select(index < 0 ? 0 : index);
+    }
+    buttons.forEach((button, index) => button.addEventListener("click", () => select(index, true), options));
+    window.addEventListener("popstate", readURL, options);
+    readURL();
+    return {
+      panels, controls,
+      destroy() {
+        events.abort();
+        panels.forEach(panel => { panel.hidden = false; });
+        controls.replaceChildren();
+        controls.hidden = true;
+        module.classList.remove("is-enhanced");
+      },
+    };
+  }
+
+  function initialize() {
+    launchers.forEach((launcher, module) => {
+      if (!module.isConnected || module.hasAttribute("data-launcher-edit-mode")) {
+        launcher.destroy();
+        launchers.delete(module);
+      }
+    });
+    document.querySelectorAll("[data-launcher]:not([data-launcher-edit-mode])").forEach(module => {
+      const panels = [...module.querySelectorAll("[data-launcher-option]")];
+      const controls = module.querySelector("[data-launcher-controls]");
+      const old = launchers.get(module);
+      if (old?.controls === controls && panels.length === old.panels.length
+        && panels.every((panel, i) => panel === old.panels[i])) return;
+      old?.destroy();
+      launchers.delete(module);
+      if (controls && panels.length) launchers.set(module, enhance(module, panels, controls));
+    });
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initialize, {once: true}); else initialize();
+  let frame;
+  new MutationObserver(() => {
+    cancelAnimationFrame(frame);
+    frame = requestAnimationFrame(initialize);
+  }).observe(document.documentElement, {childList: true, subtree: true});
+})();
+
 // F2 Orbit effects translated from the supplied UI kit; no React or CDN runtime.
 (() => {
   const enhanced = new WeakSet();

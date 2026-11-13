@@ -1,0 +1,46 @@
+<section id="launcher-option-{{ instance.pk }}"
+         class="sg-launcher-option"
+         data-launcher-option
+         data-launcher-platform="{{ instance.platform }}"
+         data-launcher-title="{{ instance.title }}"
+         data-launcher-description="{{ instance.description }}"
+         aria-labelledby="launcher-platform-title-{{ instance.pk }}">
+  <h3 id="launcher-platform-title-{{ instance.pk }}">{{ instance.title }}</h3>
+  {% if instance.description %}<p>{{ instance.description }}</p>{% endif %}
+  <dl class="sg-spec-list">
+    {% if instance.filename %}
+      <dt>{{ launcher.file_label }}</dt>
+      <dd>
+        {{ instance.filename }}
+      </dd>
+    {% endif %}
+    {% if instance.size %}
+      <dt>{{ launcher.size_label }}</dt>
+      <dd>
+        {{ instance.size }}
+      </dd>
+    {% endif %}
+    {% if instance.version %}
+      <dt>{{ launcher.version_label }}</dt>
+      <dd>
+        {{ instance.version }}
+      </dd>
+    {% endif %}
+    {% if instance.checksum %}
+      <dt>{{ launcher.checksum_label }}</dt>
+      <dd>
+        {{ instance.checksum }}
+      </dd>
+    {% endif %}
+  </dl>
+  {% if launcher_available %}
+    <a class="btn btn-galaxy"
+       href="{% url 'launcher-download' instance.platform %}?language={{ instance.language }}">
+      <span>{{ launcher.download_label }} · {{ instance.title }}</span><span aria-hidden="true">↓</span>
+    </a>
+  {% else %}
+    <button type="button" class="btn" disabled>{{ launcher.download_label }} · {{ instance.title }} ↓</button>
+    <p class="sg-notice">{{ launcher.unavailable_text }}</p>
+  {% endif %}
+  {% if instance.instructions %}<p class="sg-fineprint">{{ launcher.install_label }}: {{ instance.instructions }}</p>{% endif %}
+</section>

@@ -1,69 +1,17 @@
 {% extends "cms/default.html" %}
 
-{% load cms_tags socialaccount %}
+{% load cms_tags i18n %}
 
 {% block content %}
-  <div class="sg-page-header">
-    <p class="eyebrow">{{ sg.t.dl.label }}</p>
-    <h1>{{ sg.t.dl.title }}</h1>
-    <p class="sg-lead">{{ sg.t.dl.lead }}</p>
-  </div>
-  <ol class="sg-stepper">
-    {% for step in sg.t.dl.steps %}<li {% if forloop.first and not sg.discord_user or forloop.counter == 2 and sg.discord_user %}aria-current="step"{% endif %}><span class="sg-step-dot" aria-hidden="true">{% if forloop.first and sg.discord_user %}✓{% endif %}</span><span><strong>{{ step }}</strong><small>{% if forloop.first and sg.discord_user %}{{ sg.t.dl.done }}{% elif forloop.first or forloop.counter == 2 and sg.discord_user %}{{ sg.t.dl.current }}{% else %}{{ sg.t.dl.pending }}{% endif %}</small></span></li>{% endfor %}
-  </ol>
-  <div class="sg-download-grid">
-    <section class="sg-window sg-window-pad sg-download-main">
-      {% if not sg.discord_user %}
-        <h2>{{ sg.t.dl.loginTitle }}</h2>
-        <p>{{ sg.t.dl.loginText }}</p>
-        {% if sg.discord_ready %}
-          <form action="{% provider_login_url 'discord' process='login' next='/download/' %}"
-                method="post">{% csrf_token %}<button type="submit" class="btn btn-galaxy"><span>{{ sg.t.dl.loginBtn }}</span><span aria-hidden="true">→</span></button></form>
-        {% else %}
-          <button type="button" class="btn btn-galaxy" disabled>{{ sg.t.dl.loginBtn }} →</button>
-          <p class="sg-notice">{% if sg.lang == "de" %}Die Discord-Anmeldung wird vorbereitet. Bis dahin erreichst du uns direkt auf dem Server.{% else %}Discord sign-in is being prepared. Until then, join us directly on the server.{% endif %} <a href="https://discord.gg/TeGQrqprRM">Discord →</a></p>
-        {% endif %}
-        <p class="sg-fineprint">{{ sg.t.dl.privacy }}</p>
-      {% else %}
-        <div class="sg-user-panel"><span><small>{{ sg.t.dl.signedIn }}</small><strong>{{ request.user.username }}</strong></span><a class="btn" href="{% url 'account_logout' %}">{{ sg.t.dl.logout }}</a></div>
-        <h2>{{ sg.t.dl.osTitle }}</h2>
-        <fieldset class="sg-platforms"><legend class="visually-hidden">{{ sg.t.dl.osLabel }}</legend>{% for platform in sg.platforms %}<a class="sg-platform {% if platform.active %}is-active{% endif %}"
-                                                                                                                                          href="?platform={{ platform.key }}"
-                                                                                                                                          {% if platform.active %}aria-current="true"{% endif %}><span><strong>{{ platform.label }}</strong><small>{{ platform.sub }}</small></span><span class="sg-platform-dot" aria-hidden="true"></span></a>{% endfor %}</fieldset>
-        <dl class="sg-spec-list">
-          <dt>{{ sg.t.dl.file }}</dt>
-          <dd>
-            {{ sg.file.file }}
-          </dd>
-          <dt>{{ sg.t.dl.size }}</dt>
-          <dd>
-            {{ sg.file.size }}
-          </dd>
-          <dt>{{ sg.t.dl.version }}</dt>
-          <dd>
-            0.4.2 Pre-Alpha
-          </dd>
-          <dt>{{ sg.t.dl.sha }}</dt>
-          <dd>
-            {{ sg.file.sha }}
-          </dd>
-        </dl>
-        {% if sg.download_ready %}<a class="btn btn-galaxy"
-                                     href="{% url 'launcher-download' sg.file.key %}"><span>{{ sg.t.dl.dlBtn }} · {{ sg.file.label }}</span><span aria-hidden="true">↓</span></a>{% else %}<button type="button" class="btn btn-galaxy" disabled>{{ sg.t.dl.dlBtn }} · {{ sg.file.label }} ↓</button><p class="sg-notice">{% if sg.lang == "de" %}Der Launcher wird hier bereitgestellt, sobald die Datei verfügbar ist.{% else %}The launcher will appear here once the file is available.{% endif %}</p>{% endif %}
-        <p class="sg-fineprint">{{ sg.t.dl.installLabel }}: {{ sg.install }}</p>
-      {% endif %}
-    </section>
-    <aside class="sg-download-aside">
-      <section class="sg-window sg-window-pad">
-        <h2>{{ sg.t.dl.whyTitle }}</h2>
-        <ul class="sg-reasons">{% for reason in sg.t.dl.why %}<li>{{ reason }}</li>{% endfor %}</ul>
-      </section>
-      <section class="sg-window sg-window-pad">
-        <h2>{{ sg.t.dl.reqTitle }}</h2>
-        <p>{{ sg.t.dl.reqText }}</p>
-        <a class="btn" href="{% page_url 'faq' %}">{{ sg.t.dl.reqBtn }} →</a>
-      </section>
-    </aside>
-  </div>
-  {% placeholder "content" %}
+  {% language current_pagecontent.language %}
+    {% placeholder "download_header" %}
+    {% placeholder "download_steps" %}
+    <div class="sg-download-grid">
+      <div>{% placeholder "launcher" %}</div>
+      <aside class="sg-download-aside">
+        {% placeholder "download_sidebar" %}
+      </aside>
+    </div>
+    {% placeholder "content" %}
+  {% endlanguage %}
 {% endblock content %}

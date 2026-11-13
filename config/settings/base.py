@@ -454,6 +454,19 @@ META_USE_SITES = True  # Stories builds image metadata without passing a request
 META_SITE_PROTOCOL = env("META_SITE_PROTOCOL", default="https")
 CMS_PAGE_CACHE = False  # Consent and account controls depend on the visitor.
 CMS_PLACEHOLDER_CONF = {
+    "download_header": {
+        "plugins": ["SpaceGameDownloadHeaderPlugin"],
+        "limits": {"global": 1},
+    },
+    "download_steps": {
+        "plugins": ["SpaceGameDownloadStepsPlugin", "SpaceGameDownloadStepPlugin"],
+        "limits": {"SpaceGameDownloadStepsPlugin": 1},
+    },
+    "launcher": {
+        "plugins": ["SpaceGameLauncherPlugin", "SpaceGameLauncherPlatformPlugin"],
+        "limits": {"SpaceGameLauncherPlugin": 1},
+    },
+    "download_sidebar": {"plugins": ["SpaceGameDownloadInfoPlugin"]},
     "logbook_header": {
         "plugins": ["SpaceGameLogbookHeaderPlugin"],
         "limits": {"global": 1},
