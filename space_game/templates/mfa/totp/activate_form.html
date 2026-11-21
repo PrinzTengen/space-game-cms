@@ -3,7 +3,7 @@
 {% block content %}
   {% if request.user.is_staff %}
     <p class="sg-notice">
-      {% if sg.lang == "de" %}
+      {% if request.LANGUAGE_CODE == "de" %}
         Für dein Administratorkonto ist 2FA erforderlich. Scanne den QR-Code mit deiner Authenticator-App und bestätige den sechsstelligen Code. Bewahre anschließend deine Wiederherstellungscodes auf.
       {% else %}
         Your administrator account requires 2FA. Scan the QR code with your authenticator app and confirm the six-digit code. Then save your recovery codes.

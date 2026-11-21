@@ -27,6 +27,7 @@
     {# Placed at the top of the document so pages load faster with defer #}
     {% block javascript %}
       <script defer src="{% static 'build/bootstrap.bundle.min.js' %}"></script>
+      <script defer src="{% static 'build/highlight.min.js' %}"></script>
       {% compress js %}
         <script defer src="{% static 'js/project.js' %}"></script>
       {% endcompress %}

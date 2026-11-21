@@ -49,6 +49,58 @@ def test_bilingual_headers_are_stored_in_cms(client):
         assert b'id="logbook-search"' in response.content
 
 
+@pytest.mark.parametrize("translation_published", [True, False])
+def test_story_language_switch_uses_published_translation(
+    logbook_site,
+    client,
+    translation_published,
+):
+    call_command("apply_design_system", username=logbook_site.username)
+    post = Post.objects.create(
+        author=logbook_site,
+        app_config=StoriesConfig.objects.get(namespace="stories"),
+    )
+    contents = {}
+    for language, slug, title in [
+        ("en", "the-mission", "The Mission"),
+        ("de", "die-mission", "Die Mission"),
+    ]:
+        content = PostContent.objects.with_user(logbook_site).create(
+            post=post,
+            language=language,
+            slug=slug,
+            title=title,
+        )
+        if language == "en" or translation_published:
+            Version.objects.get_for_content(content).publish(logbook_site)
+        contents[language] = content
+
+    english_url = contents["en"].get_absolute_url(language="en")
+    response = client.post(
+        reverse("set_language"),
+        {"language": "de", "next": f"{english_url}?source=logbook#details"},
+    )
+    if not translation_published:
+        assert response["Location"] == reverse("stories:posts-latest")
+        assert b"Die Mission" not in client.get(response["Location"]).content
+        return
+
+    german_content = PostContent.objects.get(pk=contents["de"].pk)
+    german_url = german_content.get_absolute_url(language="de")
+    assert german_url.endswith("/die-mission/")
+    assert response["Location"] == f"{german_url}?source=logbook#details"
+    german_page = client.get(german_url)
+    assert german_page.status_code == HTTPStatus.OK
+    assert b"Die Mission" in german_page.content
+
+    response = client.post(
+        reverse("set_language"),
+        {"language": "en", "next": german_url},
+    )
+    assert response["Location"] == english_url
+    assert b"The Mission" in client.get(english_url).content
+
+
 def test_header_edit_dialog_and_page_editor(logbook_site, client):
     draft = Version.objects.get_for_content(logbook()).copy(logbook_site)
     client.force_login(logbook_site)

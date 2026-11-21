@@ -1,6 +1,5 @@
 """Editable download content and published launcher destinations."""
 
-from cms.api import add_plugin
 from cms.models import PageContent
 from cms.models import Placeholder
 from cms.utils.placeholder import rescan_placeholders_for_obj
@@ -9,6 +8,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import URLValidator
 from filer.models import File
 
+from space_game.theme.buttons import add_plugin
 from space_game.theme.design import catalog
 from space_game.theme.design import language
 

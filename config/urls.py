@@ -9,20 +9,25 @@ from drf_spectacular.views import SpectacularAPIView
 from drf_spectacular.views import SpectacularSwaggerView
 from oauth2_provider.urls import metadata_urlpatterns
 
-from space_game.control.token_views import PublicUserAuthToken
+from space_game.control.views import AdminLoginView
 from space_game.control.views import continue_after_setup
 from space_game.theme.views import launcher_download
 from space_game.theme.views import switch_language
 
 urlpatterns = [
-    path("security/continue/", continue_after_setup, name="security-continue"),
+    path(
+        f"{settings.ADMIN_URL}security/continue/",
+        continue_after_setup,
+        name="security-continue",
+    ),
     *metadata_urlpatterns,
     path("oauth/", include("space_game.control.urls")),
+    path(f"{settings.ADMIN_URL}security/", include("space_game.control.staff_urls")),
+    path(f"{settings.ADMIN_URL}login/", AdminLoginView.as_view(), name="account_login"),
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
     # User management
     path("users/", include("space_game.users.urls", namespace="users")),
-    path("accounts/", include("allauth.urls")),
     path("cookie-love/", include("djangocms_cookie_love.urls")),
     path("i18n/setlang/", switch_language, name="set_language"),
     path("launcher/<slug:platform>/", launcher_download, name="launcher-download"),
@@ -39,8 +44,6 @@ if settings.DEBUG:
 urlpatterns += [
     # API base url
     path("api/", include("config.api_router")),
-    # DRF auth token
-    path("api/auth-token/", PublicUserAuthToken.as_view(), name="obtain_auth_token"),
     path("api/schema/", SpectacularAPIView.as_view(), name="api-schema"),
     path(
         "api/docs/",

@@ -1,12 +1,7 @@
-import contextlib
 from http import HTTPStatus
-from importlib import reload
 
 import pytest
-from django.contrib import admin
-from django.contrib.auth.models import AnonymousUser
 from django.urls import reverse
-from pytest_django.asserts import assertRedirects
 
 from space_game.users.models import User
 
@@ -44,22 +39,10 @@ class TestUserAdmin:
         response = admin_client.get(url)
         assert response.status_code == HTTPStatus.OK
 
-    @pytest.fixture
-    def _force_allauth(self, settings):
-        settings.DJANGO_ADMIN_FORCE_ALLAUTH = True
-        # Reload the admin module to apply the setting change
-        import space_game.users.admin as users_admin  # noqa: PLC0415
-
-        with contextlib.suppress(admin.sites.AlreadyRegistered):  # type: ignore[attr-defined]
-            reload(users_admin)
-
     @pytest.mark.django_db
-    @pytest.mark.usefixtures("_force_allauth")
-    def test_allauth_login(self, rf, settings):
-        request = rf.get("/fake-url")
-        request.user = AnonymousUser()
-        response = admin.site.login(request)
-
-        # The `admin` login view should redirect to the `allauth` login view
-        target_url = reverse(settings.LOGIN_URL) + "?next=" + request.path
-        assertRedirects(response, target_url, fetch_redirect_response=False)
+    def test_admin_login(self, client):
+        response = client.get(reverse("admin:login"))
+        assert response.status_code == HTTPStatus.OK
+        assert "admin/staff_login.html" in [
+            template.name for template in response.templates
+        ]

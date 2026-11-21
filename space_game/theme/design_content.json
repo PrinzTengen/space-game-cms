@@ -4,6 +4,7 @@
       "topbar": "Space Game · Pre-Alpha · Build 0.4.2",
       "langLabel": "Sprache wählen",
       "navLabel": "Hauptnavigation",
+      "menuLabel": "Menü",
       "nav": {
         "home": "Start",
         "blog": "Logbuch",
@@ -132,6 +133,7 @@
       "topbar": "Space Game · Pre-Alpha · Build 0.4.2",
       "langLabel": "Choose language",
       "navLabel": "Main navigation",
+      "menuLabel": "Menu",
       "nav": {
         "home": "Home",
         "blog": "Logbook",

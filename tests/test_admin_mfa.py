@@ -39,12 +39,14 @@ def verified_session(client, user, authenticator):
     request.session.save()
 
 
-def test_admin_login_uses_allauth():
+def test_admin_login_uses_only_admin_entry():
     from django.test import Client
 
     response = Client().get("/admin/login/")
-    assert response.status_code == HTTPStatus.FOUND
-    assert reverse("account_login") in response.url
+    assert response.status_code == HTTPStatus.OK
+    assert reverse("account_login") == "/admin/login/"
+    assert b"MISSION CONTROL" in response.content
+    assert b"site-header" not in response.content
 
 
 def test_staff_must_enroll_before_first_admin_access(
@@ -141,7 +143,7 @@ def test_staff_cannot_use_password_only_api_tokens(client):
         "/api/auth-token/",
         {"username": user.username, "password": "A-strong-test-password-32"},
     )
-    assert response.status_code == HTTPStatus.FORBIDDEN
+    assert response.status_code == HTTPStatus.NOT_FOUND
     token = Token.objects.create(user=user)
     response = client.get("/api/users/", HTTP_AUTHORIZATION="Token " + token.key)
     assert response.status_code in {HTTPStatus.UNAUTHORIZED, HTTPStatus.FORBIDDEN}

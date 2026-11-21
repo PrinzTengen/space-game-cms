@@ -6,30 +6,41 @@
       {% include "theme/brand.html" %}
       <span class="sg-badge">{{ sg.t.badge }}</span>
     </a>
-    <nav aria-label="{{ sg.t.navLabel }}">
-      <ul class="sg-nav">
-        {% for item in sg.nav %}
-          <li><a href="{{ item.url }}"
-                 {% if item.active %}aria-current="page"{% endif %}>{{ item.label }}</a></li>
-        {% endfor %}
-      </ul>
-    </nav>
-    <div class="sg-nav-right">
-      <form action="{% url 'set_language' %}"
-            method="post"
-            class="sg-segment"
-            aria-label="{{ sg.t.langLabel }}">
-        {% csrf_token %}
-        <input type="hidden" name="next" value="{{ request.get_full_path }}" />
-        <button type="submit"
-                name="language"
-                value="de"
-                aria-pressed="{% if sg.lang == 'de' %}true{% else %}false{% endif %}">DE</button>
-        <button type="submit"
-                name="language"
-                value="en"
-                aria-pressed="{% if sg.lang == 'en' %}true{% else %}false{% endif %}">EN</button>
-      </form>
+    <button class="sg-nav-toggle"
+            type="button"
+            aria-controls="sg-nav-panel"
+            aria-expanded="false">
+      <span class="sg-nav-toggle-icon" aria-hidden="true"></span>
+      {{ sg.t.menuLabel }}
+    </button>
+    <div class="sg-nav-panel" id="sg-nav-panel">
+      <nav aria-label="{{ sg.t.navLabel }}">
+        <ul class="sg-nav">
+          {% for item in sg.nav %}
+            <li>
+              <a href="{{ item.url }}"
+                 {% if item.active %}aria-current="page"{% endif %}>{{ item.label }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </nav>
+      <div class="sg-nav-right">
+        <form action="{% url 'set_language' %}"
+              method="post"
+              class="sg-segment"
+              aria-label="{{ sg.t.langLabel }}">
+          {% csrf_token %}
+          <input type="hidden" name="next" value="{{ request.get_full_path }}" />
+          <button type="submit"
+                  name="language"
+                  value="de"
+                  aria-pressed="{% if sg.lang == 'de' %}true{% else %}false{% endif %}">DE</button>
+          <button type="submit"
+                  name="language"
+                  value="en"
+                  aria-pressed="{% if sg.lang == 'en' %}true{% else %}false{% endif %}">EN</button>
+        </form>
+      </div>
     </div>
   </div>
 </header>

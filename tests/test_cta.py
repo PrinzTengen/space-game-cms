@@ -28,7 +28,12 @@ def homepage():
 
 
 def cta_instance(content):
-    plugin = content.get_placeholders().get(slot="community").get_plugins().get()
+    plugin = (
+        content.get_placeholders()
+        .get(slot="community")
+        .get_plugins()
+        .get(parent__isnull=True)
+    )
     return plugin.get_plugin_instance()[0]
 
 
@@ -54,9 +59,18 @@ def test_cta_is_saved_below_cards_and_editable(cta_site, client):
         ),
     )
     assert response.status_code == HTTPStatus.OK
-    for field in ["eyebrow", "title", "description", "button_label", "image"]:
+    for field in ["eyebrow", "title", "description", "image"]:
         assert f'id="id_{field}"'.encode() in response.content
-    assert b"button_link" in response.content
+    assert b"button_link" not in response.content
+    assert instance.get_children().get().plugin_type == "TextLinkPlugin"
+    button = cta_instance(draft.content).get_children().get()
+    response = client.get(
+        reverse("admin:cms_placeholder_edit_plugin", args=[button.pk]),
+    )
+    assert response.status_code == HTTPStatus.OK
+    assert b"data-button-preview" in response.content
+    assert b"build/project.css" in response.content
+    assert b"js/button-preview.js" in response.content
 
 
 def test_cta_copy_publish_and_internal_link(cta_site, client):
@@ -67,10 +81,13 @@ def test_cta_copy_publish_and_internal_link(cta_site, client):
         eyebrow="",
         title="Mission <One>",
         description="A new <community>",
-        button_label="Join <One>",
-        button_link={"internal_link": f"cms.page:{about.pk}"},
     )
     instance.save()
+    button = instance.get_children().get().get_plugin_instance()[0]
+    button.config.update(
+        name="Join <One>", link={"internal_link": f"cms.page:{about.pk}"},
+    )
+    button.save()
     assert b"Mission &lt;One&gt;" not in client.get("/").content
     draft.publish(cta_site)
     response = client.get("/")
@@ -78,7 +95,8 @@ def test_cta_copy_publish_and_internal_link(cta_site, client):
     assert b"A new &lt;community&gt;" in response.content
     assert b"Join &lt;One&gt;" in response.content
     html = " ".join(response.content.decode().split())
-    assert 'href="/about/" rel="noopener">Join' in html
+    assert 'href="/about/"' in html
+    assert "Join &lt;One&gt;" in html
     assert b"Follow the development" not in response.content
 
 
@@ -89,6 +107,15 @@ def test_removing_cta_does_not_restore_template_fallback(cta_site, client):
     assert b"space-callout" not in client.get("/").content
 
 
+def test_removing_button_keeps_cta_copy_without_restoring_download(cta_site, client):
+    draft = Version.objects.get_for_content(homepage()).copy(cta_site)
+    cta_instance(draft.content).get_children().delete()
+    draft.publish(cta_site)
+    html = client.get("/").content
+    assert b"Ready for your first launch?" in html
+    assert b"Go to download" not in html
+
+
 def test_install_cta_is_idempotent_and_keeps_other_plugins(cta_site):
     content = homepage()
     content.get_placeholders().get(slot="community").get_plugins().delete()
@@ -96,7 +123,15 @@ def test_install_cta_is_idempotent_and_keeps_other_plugins(cta_site):
     call_command("install_home_cta", username=cta_site.username)
     assert Version.objects.get(pk=draft.pk).state == "published"
     assert cta_instance(homepage()).config["title"] == "Ready for your first launch?"
-    assert homepage().get_placeholders().get(slot="hero").get_plugins().count() == 1
+    assert (
+        homepage()
+        .get_placeholders()
+        .get(slot="hero")
+        .get_plugins()
+        .filter(parent__isnull=True)
+        .count()
+        == 1
+    )
     cards = homepage().get_placeholders().get(slot="discovery").get_plugins()
     assert cards.count() == 4  # noqa: PLR2004
     count = Version.objects.count()

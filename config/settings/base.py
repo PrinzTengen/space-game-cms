@@ -89,6 +89,7 @@ DJANGO_APPS = [
 ]
 THIRD_PARTY_APPS = [
     "cms",
+    "django_ratelimit",
     "menus",
     "treebeard",
     "sekizai",
@@ -158,13 +159,12 @@ MIGRATION_MODULES = {
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#authentication-backends
 AUTHENTICATION_BACKENDS = [
-    "django.contrib.auth.backends.ModelBackend",
-    "allauth.account.auth_backends.AuthenticationBackend",
+    "space_game.control.backends.AdminAuthenticationBackend",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-user-model
 AUTH_USER_MODEL = "users.User"
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-redirect-url
-LOGIN_REDIRECT_URL = "users:redirect"
+LOGIN_REDIRECT_URL = "admin:index"
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-url
 LOGIN_URL = "account_login"
 
@@ -195,6 +195,7 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
+    "space_game.control.ratelimit.StaffRateLimitMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "djangocms_cookie_love.middleware.CookieConsentMiddleware",
     "django.middleware.locale.LocaleMiddleware",
@@ -306,14 +307,25 @@ ADMINS = ['"Nölp Max" <space-game@mail.gg>']
 # https://docs.djangoproject.com/en/dev/ref/settings/#managers
 MANAGERS = ADMINS
 # https://cookiecutter-django.readthedocs.io/en/latest/settings.html#other-environment-settings
-# Force the `admin` sign in process to go through the `django-allauth` workflow
-DJANGO_ADMIN_FORCE_ALLAUTH = True
+# Staff password authentication and MFA share the admin login entry point.
 MFA_ADAPTER = "space_game.control.security.StaffMFAAdapter"
 MFA_SUPPORTED_TYPES = ["totp", "recovery_codes"]
 MFA_TOTP_ISSUER = "Space Game Admin"
 MFA_ALLOW_UNVERIFIED_EMAIL = True
 MFA_TRUST_ENABLED = False
 MFA_RECOVERY_CODES_SHOW_ONCE = True
+
+# Per-IP limits for admin, OAuth and MCP (see space_game/control/ratelimit.py).
+# Counters live in the default cache (Redis in production).
+RATELIMIT_ENABLE = env.bool("DJANGO_RATELIMIT_ENABLE", default=True)
+STAFF_RATE_LIMITS = {
+    "admin": env("RATELIMIT_ADMIN", default="300/m"),
+    "admin-auth": env("RATELIMIT_ADMIN_AUTH", default="10/m"),
+    "oauth": env("RATELIMIT_OAUTH", default="30/m"),
+    "oauth-register": env("RATELIMIT_OAUTH_REGISTER", default="10/h"),
+    "mcp": env("RATELIMIT_MCP", default="120/m"),
+    "mcp-auth-failure": env("RATELIMIT_MCP_AUTH_FAILURE", default="30/h"),
+}
 
 MCP_BASE_URL = env("MCP_BASE_URL", default="http://localhost:8000").rstrip("/")
 MCP_RESOURCE_URL = MCP_BASE_URL + "/mcp"
@@ -431,7 +443,7 @@ CELERY_TASK_SEND_SENT_EVENT = True
 CELERY_WORKER_HIJACK_ROOT_LOGGER = False
 # django-allauth
 # ------------------------------------------------------------------------------
-ACCOUNT_ALLOW_REGISTRATION = env.bool("DJANGO_ACCOUNT_ALLOW_REGISTRATION", True)
+ACCOUNT_ALLOW_REGISTRATION = False
 # https://docs.allauth.org/en/latest/account/configuration.html
 ACCOUNT_LOGIN_METHODS = {"username"}
 # https://docs.allauth.org/en/latest/account/configuration.html
@@ -457,9 +469,8 @@ STATICFILES_FINDERS += ["compressor.finders.CompressorFinder"]
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "space_game.control.rest.StaffSessionAuthentication",
-        "space_game.control.rest.StaffTokenAuthentication",
     ),
-    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAdminUser",),
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 

@@ -1,7 +1,8 @@
 """Initial card content from the former landing-page template."""
 
-from cms.api import add_plugin
 from cms.plugin_pool import plugin_pool
+
+from space_game.theme.buttons import add_plugin
 
 DEFAULT_CARDS = (
     {

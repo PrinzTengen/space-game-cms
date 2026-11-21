@@ -4,7 +4,7 @@
   {{ block.super }}
   {% if request.user.is_staff %}
     <a class="btn" href="{% url 'security-continue' %}">
-      {% if sg.lang == "de" %}Weiter zur Verwaltung{% else %}Continue to management{% endif %}
+      {% if request.LANGUAGE_CODE == "de" %}Weiter zur Verwaltung{% else %}Continue to management{% endif %}
     </a>
   {% endif %}
 {% endblock content %}

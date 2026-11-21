@@ -72,14 +72,18 @@ def test_download_content_is_editable_plugins_in_both_languages(
         for placeholder in content.placeholders.all()
         for p in placeholder.get_plugins()
     ]
-    assert {p.plugin_type for p in plugins} == set(DOWNLOAD_PLUGIN_TYPES)
-    assert len(plugins) == 9  # noqa: PLR2004
+    assert {p.plugin_type for p in plugins} == {
+        *DOWNLOAD_PLUGIN_TYPES,
+        "TextLinkPlugin",
+    }
+    assert len(plugins) == 13  # noqa: PLR2004
     client.post(reverse("set_language"), {"language": lang, "next": "/download/"})
     response = client.get("/download/")
     assert response.status_code == HTTPStatus.OK
     for slot in ["download_header", "download_steps", "launcher", "download_sidebar"]:
         for instance in instances(content, slot):
-            assert escape(instance.config["title"]).encode() in response.content
+            if "title" in instance.config:
+                assert escape(instance.config["title"]).encode() in response.content
     assert b"/accounts/discord/login/" not in response.content
     assert b"sg-signin" not in response.content
 
@@ -111,7 +115,7 @@ def test_all_download_modules_have_native_edit_forms(download_site, client):
         ),
         (
             instances(draft.content, "download_sidebar")[0],
-            ["title", "description", "items", "button_label"],
+            ["title", "description", "items"],
         ),
     ]
     for instance, fields in forms:

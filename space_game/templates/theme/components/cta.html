@@ -1,4 +1,4 @@
-{% load static djangocms_link_tags %}
+{% load static cms_tags %}
 
 <section class="space-section container">
   <div class="space-callout" data-reveal>
@@ -12,13 +12,13 @@
       {% if instance.eyebrow %}<p class="eyebrow">{{ instance.eyebrow }}</p>{% endif %}
       <h2>{{ instance.title }}</h2>
       {% if instance.description %}<p class="text-body-secondary mb-0">{{ instance.description }}</p>{% endif %}
-      {% with button_url=instance.button_link|to_url %}
-        {% if instance.button_label and button_url %}
-          <a class="btn btn-outline-primary btn-lg sg-caps"
-             href="{{ button_url }}"
-             rel="noopener">{{ instance.button_label }} →</a>
-        {% endif %}
-      {% endwith %}
+      {% if instance.child_plugin_instances %}
+        <div class="sg-component-buttons">
+          {% for plugin in instance.child_plugin_instances %}
+            {% render_plugin plugin %}
+          {% endfor %}
+        </div>
+      {% endif %}
     </div>
   </div>
 </section>

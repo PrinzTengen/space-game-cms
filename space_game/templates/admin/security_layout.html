@@ -1,0 +1,18 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block title %}{% block head_title %}2FA{% endblock head_title %} | Space Game Admin{% endblock title %}
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'admin/css/login.css' %}" />
+{% endblock extrastyle %}
+{% block bodyclass %}login mission-security{% endblock bodyclass %}
+{% block usertools %}{% endblock usertools %}
+{% block nav-global %}{% endblock nav-global %}
+{% block nav-sidebar %}{% endblock nav-sidebar %}
+{% block breadcrumbs %}{% endblock breadcrumbs %}
+{% block content_title %}{% endblock content_title %}
+{% block extrabody %}
+  {{ block.super }}
+  {% block extra_body %}{% endblock extra_body %}
+{% endblock extrabody %}

@@ -5,9 +5,10 @@ import typing
 from allauth.account.adapter import DefaultAccountAdapter
 from allauth.account.authentication import get_authentication_records
 from allauth.account.internal.flows.login import record_authentication
+from allauth.core.exceptions import ImmediateHttpResponse
 from allauth.mfa.models import Authenticator
 from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
-from django.conf import settings
+from django.http import HttpResponseForbidden
 
 if typing.TYPE_CHECKING:
     from allauth.socialaccount.models import SocialLogin
@@ -17,6 +18,11 @@ if typing.TYPE_CHECKING:
 
 
 class AccountAdapter(DefaultAccountAdapter):
+    def pre_login(self, request, user, **kwargs):
+        if not user.is_active or not user.is_staff:
+            raise ImmediateHttpResponse(HttpResponseForbidden())
+        return super().pre_login(request, user, **kwargs)
+
     def post_login(self, request, user, **kwargs):
         response = super().post_login(request, user, **kwargs)
         if (
@@ -37,7 +43,7 @@ class AccountAdapter(DefaultAccountAdapter):
         ]
 
     def is_open_for_signup(self, request: HttpRequest) -> bool:
-        return getattr(settings, "ACCOUNT_ALLOW_REGISTRATION", True)
+        return False
 
 
 class SocialAccountAdapter(DefaultSocialAccountAdapter):
@@ -46,7 +52,7 @@ class SocialAccountAdapter(DefaultSocialAccountAdapter):
         request: HttpRequest,
         sociallogin: SocialLogin,
     ) -> bool:
-        return getattr(settings, "ACCOUNT_ALLOW_REGISTRATION", True)
+        return False
 
     def populate_user(
         self,

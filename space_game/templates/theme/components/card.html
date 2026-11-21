@@ -1,4 +1,4 @@
-{% load static djangocms_link_tags %}
+{% load static cms_tags %}
 
 <article class="feature-card sg-window" data-reveal>
   {% if instance.image or instance.default_image %}
@@ -36,10 +36,12 @@
     {% if instance.eyebrow %}<p class="eyebrow mb-3">{{ instance.eyebrow }}</p>{% endif %}
     <h3>{{ instance.title }}</h3>
     {% if instance.description %}<p>{{ instance.description }}</p>{% endif %}
-    {% with link_url=instance.link|to_url %}
-      {% if instance.link_label and link_url %}
-        <a class="d-inline-block mt-3" href="{{ link_url }}">{{ instance.link_label }}</a>
-      {% endif %}
-    {% endwith %}
+    {% if instance.child_plugin_instances %}
+      <div class="sg-component-buttons">
+        {% for plugin in instance.child_plugin_instances %}
+          {% render_plugin plugin %}
+        {% endfor %}
+      </div>
+    {% endif %}
   </div>
 </article>

@@ -1,0 +1,19 @@
+{% extends "djangocms_frontend/admin/base.html" %}
+
+{% load static i18n %}
+
+{% block extrahead %}
+  {{ block.super }}
+  <script src="{% static 'js/button-preview.js' %}" defer></script>
+{% endblock %}
+{% block field_sets %}
+  {{ block.super }}
+  <fieldset class="module aligned">
+    <h2>{% translate "Preview" %}</h2>
+    <iframe title="{% translate 'Link / Button preview' %}"
+            class="sg-button-preview"
+            data-button-preview
+            data-stylesheet="{% static 'build/project.css' %}"
+            sandbox="allow-same-origin"></iframe>
+  </fieldset>
+{% endblock %}

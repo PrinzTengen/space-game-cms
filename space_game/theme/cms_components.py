@@ -6,7 +6,6 @@ from django.utils.translation import gettext_lazy as _
 from djangocms_frontend.component_base import CMSFrontendComponent
 from djangocms_frontend.component_pool import components
 from djangocms_frontend.contrib.image.fields import ImageFormField
-from djangocms_link.fields import LinkFormField
 from filer.fields.file import AdminFileFormField
 from filer.fields.file import FilerFileField
 from filer.models import File
@@ -26,7 +25,9 @@ class SpaceGameSupportHeader(CMSFrontendComponent):
     eyebrow = forms.CharField(label=_("Eyebrow"), required=False, max_length=200)
     title = forms.CharField(label=_("Heading"), max_length=250)
     subtitle = forms.CharField(
-        label=_("Subtitle"), required=False, widget=forms.Textarea,
+        label=_("Subtitle"),
+        required=False,
+        widget=forms.Textarea,
     )
 
 
@@ -47,7 +48,9 @@ class SpaceGameFAQ(CMSFrontendComponent):
 
     title = forms.CharField(label=_("Heading"), required=False, max_length=250)
     description = forms.CharField(
-        label=_("Description"), required=False, widget=forms.Textarea,
+        label=_("Description"),
+        required=False,
+        widget=forms.Textarea,
     )
     single_open = forms.BooleanField(
         label=_("Only open one answer at a time"),
@@ -209,7 +212,8 @@ class SpaceGameLauncherPlatform(CMSFrontendComponent):
         name = _("Space Game Launcher Platform")
         module = "Space Game"
         render_template = "theme/components/launcher_platform.html"
-        allow_children = False
+        allow_children = True
+        child_classes = ["TextLinkPlugin"]
         require_parent = True
         parent_classes = ["SpaceGameLauncherPlugin"]
 
@@ -304,7 +308,8 @@ class SpaceGameDownloadInfo(CMSFrontendComponent):
         name = _("Space Game Download Info")
         module = "Space Game"
         render_template = "theme/components/download_info.html"
-        allow_children = False
+        allow_children = True
+        child_classes = ["TextLinkPlugin"]
 
     title = forms.CharField(label=_("Heading"), max_length=250)
     description = forms.CharField(
@@ -318,12 +323,6 @@ class SpaceGameDownloadInfo(CMSFrontendComponent):
         widget=forms.Textarea,
         help_text=_("One item per line."),
     )
-    button_label = forms.CharField(
-        label=_("Button text"),
-        required=False,
-        max_length=100,
-    )
-    button_link = LinkFormField(label=_("Button destination"), required=False)
 
 
 @components.register
@@ -354,7 +353,8 @@ class SpaceGameHero(CMSFrontendComponent):
         name = _("Space Game Hero")
         module = "Space Game"
         render_template = "theme/components/hero.html"
-        allow_children = False
+        allow_children = True
+        child_classes = ["TextLinkPlugin"]
         default_config = {
             "eyebrow": "Exploration · Trade · Mining",
             "title": "Chart the unknown.",
@@ -363,10 +363,6 @@ class SpaceGameHero(CMSFrontendComponent):
                 "resources and trade them between stations – at your own pace."  # noqa: RUF001
             ),
             "image_alt": "A space station against a glowing nebula",
-            "primary_label": "Download launcher",
-            "primary_link": {"external_link": "/download/"},
-            "secondary_label": "Read devlogs",
-            "secondary_link": {"external_link": "/stories/?type=devlog"},
             "note": "Pre-Alpha for Windows & Linux · No account required",
         }
 
@@ -391,21 +387,6 @@ class SpaceGameHero(CMSFrontendComponent):
         label=_("Image description"),
         required=False,
         max_length=250,
-    )
-    primary_label = forms.CharField(
-        label=_("Primary button text"),
-        required=False,
-        max_length=100,
-    )
-    primary_link = LinkFormField(label=_("Primary button destination"), required=False)
-    secondary_label = forms.CharField(
-        label=_("Secondary button text"),
-        required=False,
-        max_length=100,
-    )
-    secondary_link = LinkFormField(
-        label=_("Secondary button destination"),
-        required=False,
     )
 
 
@@ -432,7 +413,8 @@ class SpaceGameCard(CMSFrontendComponent):
         name = _("Space Game Card")
         module = "Space Game"
         render_template = "theme/components/card.html"
-        allow_children = False
+        allow_children = True
+        child_classes = ["TextLinkPlugin"]
         require_parent = True
         parent_classes = ["SpaceGameCardsPlugin"]
 
@@ -460,12 +442,6 @@ class SpaceGameCard(CMSFrontendComponent):
         ],
         help_text=_("Used when no image is selected from the media library."),
     )
-    link_label = forms.CharField(
-        label=_("Link text"),
-        required=False,
-        max_length=100,
-    )
-    link = LinkFormField(label=_("Link destination"), required=False)
 
 
 @components.register
@@ -474,15 +450,14 @@ class SpaceGameCTA(CMSFrontendComponent):
         name = _("Space Game CTA")
         module = "Space Game"
         render_template = "theme/components/cta.html"
-        allow_children = False
+        allow_children = True
+        child_classes = ["TextLinkPlugin"]
         default_config = {
             "eyebrow": "",
             "title": "Ready for your first launch?",
             "description": (
                 "Download the launcher for Windows or Linux. No account required."
             ),
-            "button_label": "Go to download",
-            "button_link": {"external_link": "/download/"},
         }
 
     eyebrow = forms.CharField(label=_("Eyebrow"), required=False, max_length=200)
@@ -492,8 +467,6 @@ class SpaceGameCTA(CMSFrontendComponent):
         required=False,
         widget=forms.Textarea,
     )
-    button_label = forms.CharField(label=_("Button text"), max_length=100)
-    button_link = LinkFormField(label=_("Button destination"))
     image = ImageFormField(label=_("Background image"), required=False)
 
 

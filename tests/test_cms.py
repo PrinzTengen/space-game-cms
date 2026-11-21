@@ -137,7 +137,12 @@ def get_home_hero_content():
 
 def test_hero_is_editable_frontend_component(cms_site, rf, client):
     content = get_home_hero_content()
-    hero = content.get_placeholders().get(slot="hero").get_plugins().get()
+    hero = (
+        content.get_placeholders()
+        .get(slot="hero")
+        .get_plugins()
+        .get(parent__isnull=True)
+    )
     instance, _ = hero.get_plugin_instance()
     assert isinstance(instance, FrontendUIItem)
     request = rf.get("/")
@@ -146,9 +151,14 @@ def test_hero_is_editable_frontend_component(cms_site, rf, client):
     plugin = plugin_class(plugin_class.model, admin.site)
     form = plugin.get_form(request, obj=instance, change=True)(instance=instance)
     assert form.initial["title"] == "Chart the unknown."
-    assert {"image", "image_alt", "primary_link", "secondary_link"} <= set(form.fields)
+    assert {"image", "image_alt"} <= set(form.fields)
     draft = Version.objects.get_for_content(content).copy(cms_site)
-    draft_hero = draft.content.get_placeholders().get(slot="hero").get_plugins().get()
+    draft_hero = (
+        draft.content.get_placeholders()
+        .get(slot="hero")
+        .get_plugins()
+        .get(parent__isnull=True)
+    )
     client.force_login(cms_site)
     response = client.get(
         reverse("admin:cms_placeholder_edit_plugin", args=[draft_hero.pk]),
@@ -177,7 +187,7 @@ def test_hero_copy_and_publish_custom_content(cms_site, client, settings, tmp_pa
         draft.content.get_placeholders()
         .get(slot="hero")
         .get_plugins()
-        .get()
+        .get(parent__isnull=True)
         .get_plugin_instance()
     )
     assert instance.config["title"] == "Chart the unknown."
@@ -186,12 +196,15 @@ def test_hero_copy_and_publish_custom_content(cms_site, client, settings, tmp_pa
         title="Mission <One>",
         image={"model": "filer.image", "pk": image.pk},
         image_alt="A new mission",
-        primary_label="About our mission",
-        primary_link={"internal_link": f"cms.page:{about.pk}"},
-        secondary_label="",
-        secondary_link={},
     )
     instance.save()
+    buttons = list(instance.get_children().order_by("position"))
+    button = buttons[0].get_plugin_instance()[0]
+    button.config.update(
+        name="About our mission", link={"internal_link": f"cms.page:{about.pk}"},
+    )
+    button.save()
+    buttons[1].delete()
     draft.publish(cms_site)
     response = client.get("/")
     assert response.status_code == HTTPStatus.OK
@@ -210,7 +223,9 @@ def test_install_hero_uses_unchanged_empty_draft(cms_site):
     draft = Version.objects.get(pk=draft.pk)
     assert draft.state == "published"
     hero = get_home_hero_content().get_placeholders().get(slot="hero")
-    assert hero.get_plugins().get().plugin_type == "SpaceGameHeroPlugin"
+    assert (
+        hero.get_plugins().get(parent__isnull=True).plugin_type == "SpaceGameHeroPlugin"
+    )
     count = Version.objects.count()
     call_command("install_home_hero", username=cms_site.username)
     assert Version.objects.count() == count

@@ -1,0 +1,28 @@
+{% extends "admin/login.html" %}
+{% load i18n %}
+
+{% block content %}
+  <div class="mission-login-intro">
+    <p class="mission-eyebrow">MISSION CONTROL</p>
+    <h1>{% translate "Admin-Anmeldung" %}</h1>
+    <p>{% translate "Melde dich mit deinem Django-Admin-Konto an. Danach bestätigst du deinen 2FA-Code." %}</p>
+  </div>
+  <div id="content-main">
+    {% if form.non_field_errors %}
+      {% for error in form.non_field_errors %}<p class="errornote">{{ error }}</p>{% endfor %}
+    {% endif %}
+    <form action="{% url 'account_login' %}" method="post" id="login-form">
+      {% csrf_token %}
+      <div class="form-row">
+        {{ form.login.errors }}
+        {{ form.login.label_tag }}{{ form.login }}
+      </div>
+      <div class="form-row">
+        {{ form.password.errors }}
+        {{ form.password.label_tag }}{{ form.password }}
+      </div>
+      {{ redirect_field }}
+      <div class="submit-row"><input type="submit" value="{% translate 'Log in' %}" /></div>
+    </form>
+  </div>
+{% endblock content %}

@@ -94,7 +94,6 @@ def test_card_nesting_and_edit_dialog(card_site, client):
         "image",
         "image_alt",
         "default_image",
-        "link_label",
     ]:
         assert f'id="id_{name}"'.encode() in response.content
 
@@ -105,7 +104,15 @@ def test_install_cards_is_idempotent_and_preserves_hero(card_site):
     draft = Version.objects.get_for_content(content).copy(card_site)
     call_command("install_home_cards", username=card_site.username)
     assert Version.objects.get(pk=draft.pk).state == "published"
-    assert homepage().get_placeholders().get(slot="hero").get_plugins().count() == 1
+    assert (
+        homepage()
+        .get_placeholders()
+        .get(slot="hero")
+        .get_plugins()
+        .filter(parent__isnull=True)
+        .count()
+        == 1
+    )
     plugins = homepage().get_placeholders().get(slot="discovery").get_plugins()
     assert plugins.count() == 4  # noqa: PLR2004
     count = Version.objects.count()
@@ -122,7 +129,7 @@ def test_install_cards_keeps_unpublished_hero_changes(card_site):
         draft.content.get_placeholders()
         .get(slot="hero")
         .get_plugins()
-        .get()
+        .get(parent__isnull=True)
         .get_plugin_instance()
     )
     hero.config["title"] = "An unpublished hero change"

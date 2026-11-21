@@ -29,6 +29,8 @@ function build() {
   copy("bootstrap/dist/js/bootstrap.bundle.min.js", "bootstrap.bundle.min.js");
   copy("bootstrap/dist/js/bootstrap.bundle.min.js.map", "bootstrap.bundle.min.js.map");
   copy("bootstrap/LICENSE", "licenses/bootstrap.txt");
+  copy("@highlightjs/cdn-assets/highlight.min.js", "highlight.min.js");
+  copy("@highlightjs/cdn-assets/LICENSE", "licenses/highlight.txt");
   copy("@fontsource/jetbrains-mono/LICENSE", "licenses/jetbrains-mono.txt");
   for (const weight of [400, 500, 600, 700]) {
     copy(
@@ -39,7 +41,7 @@ function build() {
   for (const name of ["bg-stars.png", "hero-keyart.png", "cta-station.png"]) {
     copy(`space-game-design-system/assets/${name}`, `design-system/${name}`, "design");
   }
-  console.log("Built website, admin and CMS editor styles, Bootstrap JavaScript and local fonts.");
+  console.log("Built website, admin and CMS editor styles, browser scripts and local fonts.");
 }
 
 build();

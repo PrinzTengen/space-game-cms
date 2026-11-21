@@ -36,10 +36,11 @@ from starlette.routing import Mount  # noqa: E402
 
 from config.websocket import websocket_application  # noqa: E402
 from space_game.control.mcp import create_server  # noqa: E402
+from space_game.control.ratelimit import MCPRateLimitMiddleware  # noqa: E402
 
 management_server = create_server()
 origin = urlsplit(settings.MCP_BASE_URL)
-mcp_application = management_server.streamable_http_app(
+mcp_starlette = management_server.streamable_http_app(
     streamable_http_path="/mcp",
     json_response=True,
     stateless_http=True,
@@ -49,6 +50,7 @@ mcp_application = management_server.streamable_http_app(
         allowed_origins=[settings.MCP_BASE_URL],
     ),
 )
+mcp_application = MCPRateLimitMiddleware(mcp_starlette)
 
 
 async def dispatch(scope, receive, send):
@@ -69,7 +71,7 @@ async def dispatch(scope, receive, send):
 
 @asynccontextmanager
 async def lifespan(app):
-    async with mcp_application.router.lifespan_context(mcp_application):
+    async with mcp_starlette.router.lifespan_context(mcp_starlette):
         yield
 
 

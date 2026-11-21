@@ -1,4 +1,140 @@
 (() => {
+  function detectLanguage(source) {
+    const text = source.trimStart();
+    if (text.startsWith("{") || text.startsWith("[")) {
+      try {
+        JSON.parse(text);
+        return "json";
+      } catch {
+        // An opening brace or bracket can also belong to another language.
+      }
+    }
+    if (/^<(?:[a-z][\w:-]*(?=[\s/>])|!doctype\b|!--|\?xml\b)/i.test(text)) return "xml";
+    // Multiple keyword arguments distinguish Python calls from Perl's bare function calls.
+    if (/^[ \t]*(?:[a-z_]\w*\.)*[a-z_]\w*\(\s*[a-z_]\w*\s*=(?!=|>)[^,\r\n]+,\s*[a-z_]\w*\s*=(?!=|>)/im.test(text)) {
+      return "python";
+    }
+    return undefined;
+  }
+
+  function initializeCodeBlocks() {
+    const main = document.querySelector(".site-main");
+    const highlighter = window.hljs;
+    if (!main || !highlighter) return;
+
+    function enhance() {
+      main.querySelectorAll("pre > code").forEach((code) => {
+        const pre = code.parentElement;
+        if (pre.closest(".sg-code-block") || code.isContentEditable) return;
+
+        const caption = document.createElement("figcaption");
+        const figure = document.createElement("figure");
+        const classes = `${code.className} ${pre.className}`;
+        const requested = /(?:^|\s)lang(?:uage)?-([\w-]+)/i.exec(classes)?.[1];
+        const source = code.childElementCount ? code.innerText : code.textContent;
+        caption.textContent = "Code";
+
+        if (source.trim() && !/(?:^|\s)no-?highlight(?:\s|$)/i.test(classes)) {
+          const language = requested || detectLanguage(source);
+          const result = language
+            ? highlighter.getLanguage(language) && highlighter.highlight(source, { language })
+            : highlighter.highlightAuto(source);
+          if (result?.language) {
+            code.innerHTML = result.value;
+            caption.textContent = highlighter.getLanguage(result.language).name;
+          }
+        }
+
+        figure.className = "sg-code-block";
+        pre.before(figure);
+        figure.append(caption, pre);
+        if (!pre.hasAttribute("tabindex")) pre.tabIndex = 0;
+      });
+    }
+
+    enhance();
+    new MutationObserver(enhance).observe(main, { childList: true, subtree: true });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initializeCodeBlocks, { once: true });
+  } else {
+    initializeCodeBlocks();
+  }
+})();
+
+(() => {
+  function initializeNavigation() {
+    const navbar = document.querySelector(".site-header .sg-navbar");
+    if (!navbar) return;
+
+    const brand = navbar.querySelector(".sg-brand");
+    const toggle = navbar.querySelector(".sg-nav-toggle");
+    const panel = navbar.querySelector(".sg-nav-panel");
+    let desktopWidth;
+
+    function setOpen(open) {
+      navbar.toggleAttribute("data-nav-open", open);
+      toggle.setAttribute("aria-expanded", String(open));
+      panel.inert = navbar.hasAttribute("data-nav-mobile") && !open;
+    }
+
+    function updateLayout() {
+      const styles = getComputedStyle(navbar);
+      const availableWidth = navbar.getBoundingClientRect().width
+        - parseFloat(styles.paddingLeft) - parseFloat(styles.paddingRight);
+      const mobile = availableWidth < desktopWidth;
+      if (mobile === navbar.hasAttribute("data-nav-mobile")) return;
+
+      const focus = document.activeElement;
+      navbar.toggleAttribute("data-nav-mobile", mobile);
+      setOpen(false);
+      if (mobile && panel.contains(focus)) toggle.focus();
+      if (!mobile && focus === toggle) (panel.querySelector("a") ?? brand).focus();
+    }
+
+    function measureDesktopWidth() {
+      navbar.setAttribute("data-nav-measuring", "");
+      desktopWidth = brand.getBoundingClientRect().width + panel.getBoundingClientRect().width
+        + parseFloat(getComputedStyle(navbar).columnGap);
+      navbar.removeAttribute("data-nav-measuring");
+      updateLayout();
+    }
+
+    navbar.setAttribute("data-nav-ready", "");
+    measureDesktopWidth();
+    new ResizeObserver(updateLayout).observe(navbar);
+    document.fonts?.ready.then(measureDesktopWidth);
+
+    toggle.addEventListener("click", () => setOpen(!navbar.hasAttribute("data-nav-open")));
+    document.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape" || event.defaultPrevented || !navbar.hasAttribute("data-nav-open")) return;
+      event.preventDefault();
+      toggle.focus();
+      setOpen(false);
+    });
+    document.addEventListener("focusin", (event) => {
+      if (!navbar.contains(event.target) && navbar.hasAttribute("data-nav-open")) setOpen(false);
+    });
+    document.addEventListener("click", (event) => {
+      if (!navbar.hasAttribute("data-nav-open")) return;
+      if (panel.contains(event.target) && event.target.closest("a")) {
+        toggle.focus();
+        setOpen(false);
+      } else if (!navbar.contains(event.target)) {
+        setOpen(false);
+      }
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initializeNavigation, { once: true });
+  } else {
+    initializeNavigation();
+  }
+})();
+
+(() => {
   const initialized = new WeakSet();
 
   function initializeCards() {

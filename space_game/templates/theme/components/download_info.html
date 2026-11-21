@@ -1,4 +1,4 @@
-{% load djangocms_link_tags %}
+{% load cms_tags %}
 
 <section class="sg-window sg-window-pad">
   <h2>{{ instance.title }}</h2>
@@ -10,9 +10,11 @@
       {% endfor %}
     </ul>
   {% endif %}
-  {% with button_url=instance.button_link|to_url %}
-    {% if instance.button_label and button_url %}
-      <a class="btn" href="{{ button_url }}" rel="noopener">{{ instance.button_label }} →</a>
-    {% endif %}
-  {% endwith %}
+  {% if instance.child_plugin_instances %}
+    <div class="sg-component-buttons">
+      {% for plugin in instance.child_plugin_instances %}
+        {% render_plugin plugin %}
+      {% endfor %}
+    </div>
+  {% endif %}
 </section>

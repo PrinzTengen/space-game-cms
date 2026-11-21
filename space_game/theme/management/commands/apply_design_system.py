@@ -3,7 +3,6 @@
 from datetime import UTC
 from datetime import datetime
 
-from cms.api import add_plugin
 from cms.api import create_page
 from cms.api import create_page_content
 from cms.models import Page
@@ -22,6 +21,9 @@ from djangocms_stories.models import Post
 from djangocms_stories.models import PostContent
 from djangocms_versioning.models import Version
 
+from space_game.theme.buttons import BUTTON_FIELDS
+from space_game.theme.buttons import add_plugin
+from space_game.theme.buttons import convert_buttons
 from space_game.theme.design import catalog
 from space_game.theme.install import unchanged_frontend_draft
 
@@ -240,6 +242,22 @@ class Command(BaseCommand):
             instance = plugin.get_plugin_instance()[0]
             instance.config.update(config)
             instance.save()
+            # Update the seeded links while retaining their native button options.
+            if plugin_type in {"SpaceGameHeroPlugin", "SpaceGameCTAPlugin"}:
+                buttons = instance.get_children().filter(
+                    plugin_type="TextLinkPlugin",
+                ).order_by("position")
+                for child, (label_key, link_key, _) in zip(
+                    buttons, BUTTON_FIELDS[plugin_type], strict=False,
+                ):
+                    button = child.get_plugin_instance()[0]
+                    button.config.update(
+                        name=instance.config.pop(label_key),
+                        link=instance.config.pop(link_key),
+                    )
+                    button.save()
+                instance.save(update_fields=["config"])
+                convert_buttons(instance)
             return plugin
         return add_plugin(placeholder, plugin_type, content.language, config=config)
 

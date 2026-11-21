@@ -83,6 +83,23 @@ docker compose -f docker-compose.local.yml exec django python manage.py install_
 Der Installer schützt bearbeitete Entwürfe und bestehende Plugin-Inhalte.
 `apply_design_system` ruft ihn bei neuen Installationen automatisch auf.
 
+### Buttons als native Link-/Button-Plugins
+
+Hero, CTA, Karten, Download-Infoboxen und Launcher-Plattformen nehmen das native
+**Frontend → Link / Button** (`TextLinkPlugin`) als Kind auf. Beschriftung, Ziel,
+Fenster, Icons und Buttonoptionen werden direkt dort bearbeitet; Reihenfolge und
+Anzahl lassen sich in der CMS-Struktur ändern. `djangocms-link` ist bereits
+installiert. Primäre Buttons verwenden den Galaxy-Stil des Designsystems.
+Die Live-Vorschau im Link-Dialog lädt dieselbe CSS-Datei wie die Website.
+
+`python manage.py migrate` übernimmt bestehende Buttonfelder in allen Sprachen
+und CMS-Versionen, ohne deren Veröffentlichungsstatus zu ändern. Neue Komponenten
+haben keine vorbelegten Download-Links; die Seiten-Installer legen ihre bisherigen
+Startinhalte als bearbeitbare Link-Kinder an. Zur nachträglichen Übernahme von
+importierten alten Komponenten gibt es `python manage.py install_button_plugins`.
+Launcher-Dateien und ihre Verfügbarkeit werden weiterhin im Plattform-Plugin
+verwaltet; dessen Link-Kind verweist zunächst auf die öffentliche Downloadroute.
+
 ### Downloadseite vollständig als Frontend-Plugins
 
 Die Vorlage `cms/download.html` enthält nur das Layout und CMS-Platzhalter:
@@ -537,8 +554,14 @@ unter `/admin/` muss jeder aktive Staff-Benutzer den QR-Code mit einer
 Authenticator-App scannen und einen gültigen TOTP-Code eingeben. Anschließend die
 einmal angezeigten Wiederherstellungscodes sichern. Bestehende Sitzungen ohne
 2FA-Nachweis werden ebenfalls zur Einrichtung bzw. zweiten Prüfung geleitet.
-Staff-Passwörter und die bisherigen DRF-API-Tokens allein erlauben keinen
-Verwaltungszugriff mehr. Normale Spieler-Accounts behalten ihre Anmeldung.
+Der einzige Login-Einstieg ist `/admin/login/`, im Design des Django-Admins.
+Danach folgt der Authenticator-Code, bei der ersten Anmeldung die verpflichtende
+Einrichtung. MCP verwendet genau dieses Admin-Konto über den Browser-OAuth-Flow.
+Es ist kein separater MCP-Benutzer und kein API-Key erforderlich.
+Öffentliche Benutzeranmeldung, Registrierung, Discord-Anmeldung und
+`/api/auth-token/` sind abgeschaltet. Auch bestehende Nicht-Staff-Konten und alte
+DRF-Tokens können sich nicht mehr anmelden. Die Website und Launcher-Downloads
+bleiben öffentlich erreichbar. Die 2FA-Verwaltung liegt unter `/admin/security/`.
 
 **Claude Code:** Die eingecheckte `.mcp.json` enthält bereits den lokalen Endpunkt.
 Das Projekt in Claude Code öffnen, den Projektserver aktivieren und unter `/mcp`

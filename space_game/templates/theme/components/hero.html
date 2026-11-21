@@ -1,4 +1,4 @@
-{% load static djangocms_link_tags %}
+{% load static cms_tags %}
 
 <section class="space-hero">
   <img class="hero-image"
@@ -12,22 +12,13 @@
     {% if instance.eyebrow %}<p class="eyebrow">{{ instance.eyebrow }}</p>{% endif %}
     <h1>{{ instance.title }}</h1>
     {% if instance.description %}<p class="hero-description">{{ instance.description }}</p>{% endif %}
-    {% with primary_url=instance.primary_link|to_url secondary_url=instance.secondary_link|to_url %}
-      {% if instance.primary_label and primary_url or instance.secondary_label and secondary_url %}
-        <div class="d-flex flex-wrap gap-3">
-          {% if instance.primary_label and primary_url %}
-            <a class="btn btn-primary btn-galaxy"
-               href="{{ primary_url }}"
-               rel="noopener"><span>{{ instance.primary_label }}</span> <span aria-hidden="true">→</span></a>
-          {% endif %}
-          {% if instance.secondary_label and secondary_url %}
-            <a class="btn btn-outline-light btn-lg"
-               href="{{ secondary_url }}"
-               rel="noopener">{{ instance.secondary_label }}</a>
-          {% endif %}
-        </div>
-      {% endif %}
-    {% endwith %}
+    {% if instance.child_plugin_instances %}
+      <div class="sg-component-buttons">
+        {% for plugin in instance.child_plugin_instances %}
+          {% render_plugin plugin %}
+        {% endfor %}
+      </div>
+    {% endif %}
     {% if instance.note %}<p class="hero-note">{{ instance.note }}</p>{% endif %}
   </div>
 </section>

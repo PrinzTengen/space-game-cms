@@ -1,3 +1,5 @@
+{% load cms_tags %}
+
 <section id="launcher-option-{{ instance.pk }}"
          class="sg-launcher-option"
          data-launcher-option
@@ -34,10 +36,11 @@
     {% endif %}
   </dl>
   {% if launcher_available %}
-    <a class="btn btn-galaxy"
-       href="{% url 'launcher-download' instance.platform %}?language={{ instance.language }}">
-      <span>{{ launcher.download_label }} · {{ instance.title }}</span><span aria-hidden="true">↓</span>
-    </a>
+    <div class="sg-component-buttons">
+      {% for plugin in instance.child_plugin_instances %}
+        {% render_plugin plugin %}
+      {% endfor %}
+    </div>
   {% else %}
     <button type="button" class="btn" disabled>{{ launcher.download_label }} · {{ instance.title }} ↓</button>
     <p class="sg-notice">{{ launcher.unavailable_text }}</p>

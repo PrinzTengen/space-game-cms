@@ -35,3 +35,13 @@ def complete_staff_force_login(request, monkeypatch):
             session.save()
 
     monkeypatch.setattr(Client, "force_login", fully_authenticated)
+
+
+@pytest.fixture(autouse=True)
+def reset_rate_limits():
+    """Rate-limit counters live in the cache; never let them leak across tests."""
+    from django.core.cache import cache
+
+    cache.clear()
+    yield
+    cache.clear()

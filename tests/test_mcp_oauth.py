@@ -163,7 +163,8 @@ def test_nonstaff_cannot_authorize_management_client(client):
         + "?"
         + urlencode(authorization(client, app, secrets.token_urlsafe(64))),
     )
-    assert response.status_code == HTTPStatus.FORBIDDEN
+    assert response.status_code == HTTPStatus.FOUND
+    assert response.url.startswith(reverse("account_login"))
 
 
 def test_client_registration_cannot_obtain_tokens_without_admin_consent(client):

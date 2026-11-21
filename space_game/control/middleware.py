@@ -1,5 +1,6 @@
 from allauth.mfa.models import Authenticator
 from django.conf import settings
+from django.http import Http404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils.deprecation import MiddlewareMixin
@@ -10,6 +11,16 @@ from space_game.control.security import staff_mfa_verified
 
 class StaffMFAMiddleware(MiddlewareMixin):
     def process_view(self, request, view_func, view_args, view_kwargs):
+        name = request.resolver_match.view_name if request.resolver_match else ""
+        if name.startswith("account_") and name not in {
+            "account_login",
+            "account_logout",
+            "account_reauthenticate",
+            "account_inactive",
+            "account_change_password",
+            "account_email",
+        }:
+            raise Http404
         user = request.user
         if not user.is_authenticated or not user.is_staff:
             return None
@@ -17,7 +28,6 @@ class StaffMFAMiddleware(MiddlewareMixin):
             (settings.STATIC_URL, settings.MEDIA_URL, "/.well-known/"),
         ):
             return None
-        name = request.resolver_match.view_name if request.resolver_match else ""
         if name in {
             "account_login",
             "account_logout",
