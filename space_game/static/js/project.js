@@ -72,8 +72,29 @@
     const toggle = navbar.querySelector(".sg-nav-toggle");
     const panel = navbar.querySelector(".sg-nav-panel");
     let desktopWidth;
+    let activeDisclosure;
+
+    function closeDisclosure(restoreFocus = false) {
+      if (!activeDisclosure) return;
+      const { button, submenu } = activeDisclosure;
+      activeDisclosure = null;
+      if (restoreFocus) button.focus();
+      button.setAttribute("aria-expanded", "false");
+      submenu.hidden = true;
+    }
+
+    function positionDisclosure() {
+      if (!activeDisclosure || navbar.hasAttribute("data-nav-mobile")) return;
+      const { submenu } = activeDisclosure;
+      submenu.style.removeProperty("--sg-subnav-shift");
+      const rightLimit = navbar.getBoundingClientRect().right
+        - parseFloat(getComputedStyle(navbar).paddingRight);
+      const overflow = submenu.getBoundingClientRect().right - rightLimit;
+      if (overflow > 0) submenu.style.setProperty("--sg-subnav-shift", `${-overflow}px`);
+    }
 
     function setOpen(open) {
+      if (!open) closeDisclosure();
       navbar.toggleAttribute("data-nav-open", open);
       toggle.setAttribute("aria-expanded", String(open));
       panel.inert = navbar.hasAttribute("data-nav-mobile") && !open;
@@ -84,13 +105,18 @@
       const availableWidth = navbar.getBoundingClientRect().width
         - parseFloat(styles.paddingLeft) - parseFloat(styles.paddingRight);
       const mobile = availableWidth < desktopWidth;
-      if (mobile === navbar.hasAttribute("data-nav-mobile")) return;
+      if (mobile === navbar.hasAttribute("data-nav-mobile")) {
+        positionDisclosure();
+        return;
+      }
 
       const focus = document.activeElement;
+      const disclosureButton = activeDisclosure?.submenu.contains(focus) && activeDisclosure.button;
       navbar.toggleAttribute("data-nav-mobile", mobile);
       setOpen(false);
       if (mobile && panel.contains(focus)) toggle.focus();
       if (!mobile && focus === toggle) (panel.querySelector("a") ?? brand).focus();
+      if (!mobile && disclosureButton) disclosureButton.focus();
     }
 
     function measureDesktopWidth() {
@@ -101,6 +127,22 @@
       updateLayout();
     }
 
+    panel.querySelectorAll(".sg-subnav-toggle").forEach((button) => {
+      const item = button.closest("li");
+      const submenu = document.getElementById(button.getAttribute("aria-controls"));
+      submenu.hidden = true;
+      button.hidden = false;
+      button.addEventListener("click", () => {
+        const wasOpen = activeDisclosure?.button === button;
+        closeDisclosure();
+        if (wasOpen) return;
+        activeDisclosure = { button, item, submenu };
+        button.setAttribute("aria-expanded", "true");
+        submenu.hidden = false;
+        positionDisclosure();
+      });
+    });
+
     navbar.setAttribute("data-nav-ready", "");
     measureDesktopWidth();
     new ResizeObserver(updateLayout).observe(navbar);
@@ -108,15 +150,22 @@
 
     toggle.addEventListener("click", () => setOpen(!navbar.hasAttribute("data-nav-open")));
     document.addEventListener("keydown", (event) => {
-      if (event.key !== "Escape" || event.defaultPrevented || !navbar.hasAttribute("data-nav-open")) return;
-      event.preventDefault();
-      toggle.focus();
-      setOpen(false);
+      if (event.key !== "Escape" || event.defaultPrevented) return;
+      if (activeDisclosure) {
+        event.preventDefault();
+        closeDisclosure(true);
+      } else if (navbar.hasAttribute("data-nav-open")) {
+        event.preventDefault();
+        toggle.focus();
+        setOpen(false);
+      }
     });
     document.addEventListener("focusin", (event) => {
+      if (activeDisclosure && !activeDisclosure.item.contains(event.target)) closeDisclosure();
       if (!navbar.contains(event.target) && navbar.hasAttribute("data-nav-open")) setOpen(false);
     });
     document.addEventListener("click", (event) => {
+      if (activeDisclosure && !activeDisclosure.item.contains(event.target)) closeDisclosure();
       if (!navbar.hasAttribute("data-nav-open")) return;
       if (panel.contains(event.target) && event.target.closest("a")) {
         toggle.focus();

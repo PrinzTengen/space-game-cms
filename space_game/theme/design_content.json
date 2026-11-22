@@ -5,6 +5,7 @@
       "langLabel": "Sprache wählen",
       "navLabel": "Hauptnavigation",
       "menuLabel": "Menü",
+      "subNavLabel": "Unterseiten von",
       "nav": {
         "home": "Start",
         "blog": "Logbuch",
@@ -134,6 +135,7 @@
       "langLabel": "Choose language",
       "navLabel": "Main navigation",
       "menuLabel": "Menu",
+      "subNavLabel": "Subpages of",
       "nav": {
         "home": "Home",
         "blog": "Logbook",

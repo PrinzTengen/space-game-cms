@@ -1,6 +1,6 @@
 // Native editor controls retain their behaviour and use the F2 Orbit surfaces.
 html, body { font-variant-ligatures: none; font-feature-settings: "liga" 0, "calt" 0; }
-.sg-brand-orb { display: inline-block; width: 28px; height: 28px; flex: none; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #ffe0b0 0, #e39b36 30%, #5a3a14 62%, #0b1020 64%); box-shadow: 0 0 14px rgba(227, 155, 54, .55); }
+.sg-brand-logo { display: block; width: 28px; height: 28px; flex: none; border-radius: 22%; }
 html[data-theme="dark"] {
   --body-bg: #040a0e;
   --body-fg: #c3d5d9;

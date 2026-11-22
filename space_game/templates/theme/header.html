@@ -1,4 +1,4 @@
-{% load i18n cms_tags %}
+{% load menu_tags %}
 
 <header class="site-header">
   <div class="sg-navbar">
@@ -16,12 +16,7 @@
     <div class="sg-nav-panel" id="sg-nav-panel">
       <nav aria-label="{{ sg.t.navLabel }}">
         <ul class="sg-nav">
-          {% for item in sg.nav %}
-            <li>
-              <a href="{{ item.url }}"
-                 {% if item.active %}aria-current="page"{% endif %}>{{ item.label }}</a>
-            </li>
-          {% endfor %}
+          {% show_menu 0 100 100 1000 "theme/navigation.html" "CMSMenu" %}
         </ul>
       </nav>
       <div class="sg-nav-right">

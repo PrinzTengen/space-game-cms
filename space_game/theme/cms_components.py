@@ -1,6 +1,9 @@
 """Editorial components backed by django CMS Frontend's JSON configuration."""
 
+from cms.models import PageContent
+from cms.utils.plugins import get_plugins
 from django import forms
+from django.contrib.admin.widgets import AdminTextareaWidget
 from django.db.models import ManyToOneRel
 from django.utils.translation import gettext_lazy as _
 from djangocms_frontend.component_base import CMSFrontendComponent
@@ -10,6 +13,7 @@ from filer.fields.file import AdminFileFormField
 from filer.fields.file import FilerFileField
 from filer.models import File
 
+from space_game.theme.design import language
 from space_game.theme.downloads import launcher_file
 from space_game.theme.downloads import launcher_url
 
@@ -378,6 +382,11 @@ class SpaceGameHero(CMSFrontendComponent):
         required=False,
         max_length=250,
     )
+    layout = forms.ChoiceField(
+        label=_("Hero layout"),
+        required=False,
+        choices=[("", _("Full height")), ("compact", _("Compact"))],
+    )
     image = ImageFormField(
         label=_("Background image"),
         required=False,
@@ -442,6 +451,203 @@ class SpaceGameCard(CMSFrontendComponent):
         ],
         help_text=_("Used when no image is selected from the media library."),
     )
+
+
+class ContributorBioWidget(AdminTextareaWidget):
+    template_name = "theme/widgets/contributor_bio.html"
+
+    class Media:
+        js = ("js/contributor-bio.js",)
+
+    def get_context(self, name, value, attrs):
+        context = super().get_context(name, value, attrs)
+        widget = context["widget"]
+        counter_id = f"{widget['attrs'].get('id', name)}-count"
+        described_by = widget["attrs"].get("aria-describedby", "")
+        widget["attrs"]["aria-describedby"] = f"{described_by} {counter_id}".strip()
+        widget["attrs"]["data-contributor-counter"] = counter_id
+        widget["counter_id"] = counter_id
+        return context
+
+
+CONTRIBUTOR_ROLES = {
+    "moderation": {"de": "Moderation", "en": "Moderation"},
+    "web": {"de": "Webentwicklung", "en": "Web Development"},
+    "game": {"de": "Spielentwicklung", "en": "Game Development"},
+    "design": {"de": "Game Design", "en": "Game Design"},
+    "community": {"de": "Community", "en": "Community"},
+    "accessibility": {"de": "Barrierefreiheit", "en": "Accessibility"},
+}
+
+
+def _shared_contributor_cards(request, instance, source_language):
+    slot = instance.placeholder
+    page_content = slot.source
+    if not isinstance(page_content, PageContent):
+        return []
+    source = PageContent.objects.filter(
+        page_id=page_content.page_id,
+        language=source_language,
+    ).first()
+    if source is None:
+        return []
+    source_slot = source.placeholders.filter(slot=slot.slot).first()
+    for group in get_plugins(
+        request, source_slot, source.template, lang=source_language,
+    ):
+        if group.plugin_type == instance.plugin_type:
+            return group.child_plugin_instances or []
+    return []
+
+
+@components.register
+class SpaceGameContributors(CMSFrontendComponent):
+    class Meta:
+        name = _("Space Game Contributors")
+        module = "Space Game"
+        render_template = "theme/components/contributors.html"
+        allow_children = True
+        child_classes = ["SpaceGameContributorPlugin"]
+
+    class PluginMixin:
+        def render(self, context, instance, placeholder):
+            context = super().render(context, instance, placeholder)
+            source_language = instance.config.get("source_language")
+            shared = bool(source_language and source_language != instance.language)
+            context["shared_contributors"] = shared
+            context["contributor_cards"] = (
+                _shared_contributor_cards(context["request"], instance, source_language)
+                if shared
+                else instance.child_plugin_instances
+            )
+            return context
+
+    title = forms.CharField(label=_("Heading"), max_length=250)
+    empty_label = forms.CharField(
+        label=_("Empty directory message"), required=False, max_length=250,
+    )
+    source_language = forms.ChoiceField(
+        label=_("Profile source"),
+        required=False,
+        choices=[
+            ("", _("Cards in this plugin")),
+            ("de", _("German page")),
+            ("en", _("English page")),
+        ],
+        help_text=_(
+            "Reuse published cards from the other language of this page. "
+            "Edit the cards on the source page.",
+        ),
+    )
+
+
+@components.register
+class SpaceGameContributor(CMSFrontendComponent):
+    class Meta:
+        name = _("Space Game Contributor Card")
+        module = "Space Game"
+        render_template = "theme/components/contributor.html"
+        require_parent = True
+        parent_classes = ["SpaceGameContributorsPlugin"]
+        allow_children = True
+        child_classes = ["SpaceGameContributorRolePlugin"]
+
+    class PluginMixin:
+        def render(self, context, instance, placeholder):
+            context = super().render(context, instance, placeholder)
+            lang = language()
+            name = instance.config.get("name", "")
+            context["contributor_bio"] = instance.config.get(f"bio_{lang}", "")
+            context["contributor_initials"] = "".join(
+                word[0] for word in name.split()[:2]
+            )
+            links = (
+                ("Instagram", "instagram_url"),
+                ("LinkedIn", "linkedin_url"),
+                ("GitHub", "github_url"),
+                ("Webseite" if lang == "de" else "Website", "website_url"),
+            )
+            context["contributor_links"] = [
+                (label, instance.config[field])
+                for label, field in links
+                if instance.config.get(field)
+            ]
+            return context
+
+    name = forms.CharField(label=_("Name"), max_length=150)
+    image = ImageFormField(label=_("Portrait"), required=False)
+    bio_de = forms.CharField(
+        label="Kurzprofil (Deutsch)",
+        required=False,
+        max_length=500,
+        widget=ContributorBioWidget,
+    )
+    bio_en = forms.CharField(
+        label="Bio (English)",
+        required=False,
+        max_length=500,
+        widget=ContributorBioWidget,
+    )
+    instagram_url = forms.URLField(
+        label="Instagram", required=False, assume_scheme="https",
+    )
+    linkedin_url = forms.URLField(
+        label="LinkedIn", required=False, assume_scheme="https",
+    )
+    github_url = forms.URLField(label="GitHub", required=False, assume_scheme="https")
+    website_url = forms.URLField(
+        label=_("Website"), required=False, assume_scheme="https",
+    )
+
+    def get_short_description(self):
+        return self.config.get("name", "")
+
+
+@components.register
+class SpaceGameContributorRole(CMSFrontendComponent):
+    class Meta:
+        name = _("Space Game Contributor Role")
+        module = "Space Game"
+        render_template = "theme/components/contributor_role.html"
+        require_parent = True
+        parent_classes = ["SpaceGameContributorPlugin"]
+        allow_children = False
+
+    class PluginMixin:
+        def render(self, context, instance, placeholder):
+            context = super().render(context, instance, placeholder)
+            lang = language()
+            preset = CONTRIBUTOR_ROLES.get(instance.config.get("preset"), {})
+            context["contributor_role"] = instance.config.get(
+                f"label_{lang}",
+            ) or preset.get(lang, "")
+            return context
+
+    preset = forms.ChoiceField(
+        label=_("Role preset"),
+        required=False,
+        choices=[
+            ("", _("Custom role")),
+            *[(key, role["en"]) for key, role in CONTRIBUTOR_ROLES.items()],
+        ],
+    )
+    label_de = forms.CharField(label="Rolle (Deutsch)", required=False, max_length=60)
+    label_en = forms.CharField(label="Role (English)", required=False, max_length=60)
+
+    def clean(self):
+        data = super().clean()
+        if not data.get("preset"):
+            for field in ("label_de", "label_en"):
+                if not data.get(field) and field not in self.errors:
+                    self.add_error(field, _("Enter a label or choose a role preset."))
+        return data
+
+    def get_short_description(self):
+        return (
+            self.config.get("label_en")
+            or self.config.get("label_de")
+            or CONTRIBUTOR_ROLES.get(self.config.get("preset"), {}).get("en", "")
+        )
 
 
 @components.register

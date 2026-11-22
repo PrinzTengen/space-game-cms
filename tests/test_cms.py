@@ -68,11 +68,54 @@ def test_drafts_are_hidden_from_visitors(cms_site, client):
     assert client.get("/unpublished/").status_code == HTTPStatus.NOT_FOUND
 
 
+def header_navigation(response):
+    return response.content.split(b'<ul class="sg-nav">', 1)[1].split(b"</nav>")[0]
+
+
 def test_navigation_uses_english_fallback_for_german_visitors(cms_site, client):
     response = client.get("/", HTTP_ACCEPT_LANGUAGE="de-DE,de;q=0.9")
     assert response.status_code == HTTPStatus.OK
-    assert b">Logbook</a>" in response.content
-    assert b"/stories/" in response.content
+    navigation = header_navigation(response)
+    assert b'href="/stories/"' in navigation
+    assert b">Stories</a>" in navigation
+
+
+def test_navigation_follows_the_published_cms_page_tree(cms_site, client):
+    def add_page(slug, *, parent=None, visible=True, publish=True):
+        page = create_page(
+            slug.title(),
+            "cms/default.html",
+            "en",
+            slug=slug,
+            menu_title=f"Menu {slug}",
+            parent=parent,
+            in_navigation=visible,
+            created_by=cms_site,
+        )
+        if publish:
+            content = PageContent.admin_manager.get(page=page, language="en")
+            Version.objects.get_for_content(content).publish(cms_site)
+        return page
+
+    parent = add_page("guide")
+    child = add_page("parts", parent=parent)
+    add_page("engines", parent=child)
+    add_page("hidden", parent=parent, visible=False)
+    add_page("draft", parent=parent, publish=False)
+
+    response = client.get("/guide/parts/engines/")
+    assert response.status_code == HTTPStatus.OK
+    navigation = header_navigation(response)
+    submenu_id = f"sg-subnav-{parent.pk}".encode()
+    assert b'aria-controls="' + submenu_id + b'"' in navigation
+    assert b'aria-label="Subpages of Menu guide"' in navigation
+    top_level, submenu = navigation.split(b'id="' + submenu_id + b'"', 1)
+    assert b'href="/guide/"' in top_level
+    assert b'href="/guide/parts/"' in submenu
+    assert b'href="/guide/parts/engines/"' in submenu
+    assert b'aria-current="page">Menu engines</a>' in submenu
+    assert b"/guide/hidden/" not in navigation
+    assert b"/guide/draft/" not in navigation
 
 
 def test_stories_apphook_lists_published_posts(cms_site, client):
@@ -91,6 +134,7 @@ def test_stories_apphook_lists_published_posts(cms_site, client):
     response = client.get("/stories/")
     assert response.status_code == HTTPStatus.OK
     assert b"First mission" in response.content
+    assert b"First mission" not in header_navigation(response)
     response = client.get(content.get_absolute_url())
     assert response.status_code == HTTPStatus.OK
     assert b"First mission" in response.content

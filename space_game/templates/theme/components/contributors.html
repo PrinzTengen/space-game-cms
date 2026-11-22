@@ -1,0 +1,23 @@
+{% load design_tags %}
+
+<section class="space-section container sg-contributors" aria-labelledby="contributors-{{ instance.pk }}">
+  <h2 class="section-heading" id="contributors-{{ instance.pk }}">{{ instance.title }}</h2>
+  {% if shared_contributors and request.toolbar.edit_mode_active %}
+    <p class="sg-contributors-empty">
+      {% if instance.source_language == 'de' %}
+        Edit the shared cards in the German version of this page.
+      {% else %}
+        Die gemeinsamen Karten werden in der englischen Sprachversion dieser Seite bearbeitet.
+      {% endif %}
+    </p>
+  {% endif %}
+  {% if contributor_cards %}
+    <ul class="sg-contributor-grid" role="list">
+      {% for card in contributor_cards %}
+        <li>{% render_contributor_child card shared=shared_contributors %}</li>
+      {% endfor %}
+    </ul>
+  {% elif instance.empty_label %}
+    <p class="sg-contributors-empty">{{ instance.empty_label }}</p>
+  {% endif %}
+</section>

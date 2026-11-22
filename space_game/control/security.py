@@ -32,8 +32,9 @@ def staff_mfa_verified(request):
 
 class StaffMFAAdapter(DefaultMFAAdapter):
     @staticmethod
-    def cipher():
-        keys = [settings.SECRET_KEY, *settings.SECRET_KEY_FALLBACKS]
+    def cipher(keys=None):
+        if keys is None:
+            keys = [settings.SECRET_KEY, *settings.SECRET_KEY_FALLBACKS]
         return MultiFernet(
             [
                 Fernet(

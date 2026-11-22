@@ -16,7 +16,9 @@
       <meta name="description" content="{% page_attribute 'meta_description' %}" />
     {% endblock meta %}
     <meta name="author" content="Nölp Max" />
-    <link rel="icon" href="{% static 'images/favicons/favicon.ico' %}" />
+    <link rel="icon" href="{% static 'images/favicons/favicon.ico' %}" sizes="48x48" />
+    <link rel="icon" type="image/png" href="{% static 'images/favicons/favicon-32.png' %}" sizes="32x32" />
+    <link rel="apple-touch-icon" href="{% static 'images/favicons/apple-touch-icon.png' %}" />
     {% block css %}
       {% compress css %}
         <link href="{% static 'build/project.css' %}" rel="stylesheet" />

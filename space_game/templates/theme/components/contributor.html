@@ -1,0 +1,26 @@
+{% load design_tags i18n %}
+
+{% get_current_language as contributor_language %}
+<article class="sg-contributor" aria-labelledby="contributor-{{ instance.pk }}">
+  {% if instance.image %}
+    <img class="sg-contributor-portrait" src="{{ instance.image.url }}" alt="" width="88" height="88" loading="lazy" decoding="async" />
+  {% else %}
+    <span class="sg-contributor-portrait" aria-hidden="true">{{ contributor_initials }}</span>
+  {% endif %}
+  <h3 id="contributor-{{ instance.pk }}">{{ instance.name }}</h3>
+  {% if instance.child_plugin_instances %}
+    <ul class="sg-contributor-roles" role="list" aria-label="{% if contributor_language == 'de' %}Rollen{% else %}Roles{% endif %}">
+      {% for role in instance.child_plugin_instances %}
+        {% render_contributor_child role shared=shared_contributors %}
+      {% endfor %}
+    </ul>
+  {% endif %}
+  {% if contributor_bio %}<p class="sg-contributor-bio">{{ contributor_bio }}</p>{% endif %}
+  {% if contributor_links %}
+    <ul class="sg-contributor-links" role="list">
+      {% for label, url in contributor_links %}
+        <li><a href="{{ url }}" aria-label="{{ label }} · {{ instance.name }}">{{ label }}</a></li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+</article>

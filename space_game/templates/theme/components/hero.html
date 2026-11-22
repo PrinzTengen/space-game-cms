@@ -1,13 +1,13 @@
 {% load static cms_tags %}
 
-<section class="space-hero">
+<section class="space-hero{% if instance.layout == 'compact' %} space-hero-compact{% endif %}">
   <img class="hero-image"
-       src="{% if instance.image %}{{ instance.image.url }}{% else %}{% static 'build/design-system/hero-keyart.png' %}{% endif %}"
+       src="{% if instance.image %}{{ instance.image.url }}{% elif instance.layout == 'compact' %}{% static 'build/design-system/cta-station.png' %}{% else %}{% static 'build/design-system/hero-keyart.png' %}{% endif %}"
        alt="{{ instance.image_alt }}"
        width="{% if instance.image %}{{ instance.image.width|floatformat:"0u" }}{% else %}3840{% endif %}"
        height="{% if instance.image %}{{ instance.image.height|floatformat:"0u" }}{% else %}2160{% endif %}"
        fetchpriority="high" />
-  <div class="hero-limb" aria-hidden="true"></div>
+  {% if instance.layout != 'compact' %}<div class="hero-limb" aria-hidden="true"></div>{% endif %}
   <div class="container hero-content">
     {% if instance.eyebrow %}<p class="eyebrow">{{ instance.eyebrow }}</p>{% endif %}
     <h1>{{ instance.title }}</h1>

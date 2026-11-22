@@ -1,0 +1,86 @@
+.space-hero-compact {
+  min-height: clamp(280px, 40vw, 410px);
+  margin-top: 0;
+  border-bottom: 1px solid var(--sg-border-soft);
+
+  &::after { background: linear-gradient(86deg, #040a0ef5, #040a0eb5 55%, #040a0e35); }
+  .hero-image { object-position: center 45%; }
+  .hero-content { padding-block: clamp(48px, 7vw, 96px) clamp(30px, 5vw, 64px); }
+  .hero-content > * + * { margin-top: 16px; }
+  h1 { max-width: 19ch; font-size: clamp(30px, 5vw, 58px); }
+  .hero-description { color: var(--sg-title); font-size: clamp(15px, 2vw, 19px); }
+}
+
+.sg-contributor-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: clamp(14px, 2.5vw, 24px);
+  padding: 0;
+  margin: 24px 0 0;
+  list-style: none;
+
+  > li { min-width: 0; max-width: 100%; }
+}
+
+@media (min-width: 860px) {
+  .sg-contributor-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+.sg-contributor {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  height: 100%;
+  padding: clamp(18px, 3vw, 26px);
+  border: 1px solid var(--sg-border-soft);
+  background: var(--sg-panel);
+  overflow-wrap: anywhere;
+
+  h3 { margin: 0; font-size: clamp(18px, 2vw, 22px); }
+}
+
+.sg-contributor-portrait {
+  display: grid;
+  place-items: center;
+  width: 88px;
+  height: 88px;
+  padding: 8px;
+  object-fit: cover;
+  border: 1px solid var(--sg-border);
+  background: radial-gradient(circle at 24% 22%, var(--sg-hover), var(--sg-button) 70%);
+  color: var(--sg-accent);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.sg-contributor-roles, .sg-contributor-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sg-contributor-role {
+  padding: 2px 7px;
+  border: 1px solid var(--sg-border-soft);
+  background: var(--sg-button);
+  color: var(--sg-accent);
+  font-size: 12px;
+}
+
+.sg-contributor-bio { margin: 0; font-size: 15px; white-space: pre-line; }
+.sg-contributors-empty { margin: 16px 0 0; color: var(--sg-dim); }
+
+.sg-contributor-links {
+  align-self: stretch;
+  gap: 4px 14px;
+  margin-top: auto;
+  border-top: 1px solid var(--sg-border-soft);
+
+  a { display: inline-flex; align-items: center; min-height: 44px; font-size: 13px; }
+}

@@ -1,0 +1,2 @@
+{% include "django/forms/widgets/textarea.html" %}
+<span id="{{ widget.counter_id }}" class="help"><span data-contributor-length>{{ widget.value|default_if_none:""|length }}</span> / {{ widget.attrs.maxlength }}</span>

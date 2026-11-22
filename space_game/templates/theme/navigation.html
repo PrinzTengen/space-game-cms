@@ -1,0 +1,27 @@
+{% load design_tags %}
+
+{% for item in children|cms_navigation_pages %}
+  {% with child_pages=item.children|cms_navigation_pages %}
+    <li>
+      <div class="sg-nav-link-row">
+        <a href="{{ item.attr.redirect_url|default:item.get_absolute_url }}"
+           {% if item.selected or item.ancestor %}class="sg-nav-active"{% endif %}
+           {% if item.selected and request.path == item.get_absolute_url %}aria-current="page"{% endif %}>{{ item.get_menu_title }}</a>
+        {% if child_pages and not nested %}
+          <button class="sg-subnav-toggle"
+                  type="button"
+                  aria-label="{{ sg.t.subNavLabel }} {{ item.get_menu_title }}"
+                  aria-controls="sg-subnav-{{ item.id }}"
+                  aria-expanded="false"
+                  hidden></button>
+        {% endif %}
+      </div>
+      {% if child_pages %}
+        <ul class="sg-subnav"
+            {% if not nested %}id="sg-subnav-{{ item.id }}"{% endif %}>
+          {% include "theme/navigation.html" with children=child_pages nested=True %}
+        </ul>
+      {% endif %}
+    </li>
+  {% endwith %}
+{% endfor %}

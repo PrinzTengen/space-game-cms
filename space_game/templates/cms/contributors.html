@@ -1,0 +1,13 @@
+{% extends "cms/default.html" %}
+
+{% load cms_tags i18n %}
+
+{% block content_container_class %}container-fluid px-0{% endblock content_container_class %}
+{% block main_class %}landing-main{% endblock main_class %}
+{% block content %}
+  {% language current_pagecontent.language %}
+    {% placeholder "contributor_hero" %}
+    {% placeholder "contributors" %}
+    <div class="container">{% placeholder "content" %}</div>
+  {% endlanguage %}
+{% endblock content %}

@@ -3,12 +3,29 @@
 from html import unescape
 from math import ceil
 
+from cms.toolbar.utils import get_toolbar_from_request
 from django import template
 from django.utils.html import strip_tags
 
 from space_game.theme.design import published_posts
 
 register = template.Library()
+
+
+@register.filter
+def cms_navigation_pages(nodes):
+    """Keep CMS pages when apphooks extend the menu with their own entries."""
+    return [node for node in nodes if node.attr.get("is_page")]
+
+
+@register.simple_tag(takes_context=True)
+def render_contributor_child(context, plugin, *, shared=False):
+    toolbar = get_toolbar_from_request(context["request"])
+    return toolbar.get_content_renderer().render_plugin(
+        instance=plugin,
+        context=context,
+        editable=toolbar.edit_mode_active and not shared,
+    )
 
 
 @register.simple_tag
