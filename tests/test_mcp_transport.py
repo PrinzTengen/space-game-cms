@@ -91,7 +91,8 @@ async def test_streamable_http_sdk_handshake_tools_and_scope_enforcement(
 
 
 async def test_transport_rejects_missing_tokens_origin_and_serves_discovery(
-    settings, transport_token,
+    settings,
+    transport_token,
 ):
     settings.ALLOWED_HOSTS = ["localhost"]
     from config.asgi import application as app  # noqa: PLC0415

@@ -44,7 +44,8 @@ def test_five_complete_devlogs_and_five_news(editorial_site, client, monkeypatch
         assert content.post.main_image.default_alt_text
         assert content.categories.count() == 1
         client.post(
-            reverse("set_language"), {"language": content.language, "next": "/"},
+            reverse("set_language"),
+            {"language": content.language, "next": "/"},
         )
         detail = client.get(content.get_absolute_url())
         assert detail.status_code == HTTPStatus.OK
@@ -61,7 +62,9 @@ def test_five_complete_devlogs_and_five_news(editorial_site, client, monkeypatch
     # Uvicorn does not expose a thread-local request to Stories' metadata hooks.
     content = PostContent.objects.select_related("post__main_image").first()
     monkeypatch.setattr(
-        content.post.main_image.file.storage, "url", lambda _name: "/media/cover.png",
+        content.post.main_image.file.storage,
+        "url",
+        lambda _name: "/media/cover.png",
     )
     assert content.get_image_full_url().startswith("https://")
 

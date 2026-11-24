@@ -7,7 +7,7 @@
        width="{% if instance.image %}{{ instance.image.width|floatformat:"0u" }}{% else %}3840{% endif %}"
        height="{% if instance.image %}{{ instance.image.height|floatformat:"0u" }}{% else %}2160{% endif %}"
        fetchpriority="high" />
-  {% if instance.layout != 'compact' %}<div class="hero-limb" aria-hidden="true"></div>{% endif %}
+  {% if instance.layout != "compact" %}<div class="hero-limb" aria-hidden="true"></div>{% endif %}
   <div class="container hero-content">
     {% if instance.eyebrow %}<p class="eyebrow">{{ instance.eyebrow }}</p>{% endif %}
     <h1>{{ instance.title }}</h1>

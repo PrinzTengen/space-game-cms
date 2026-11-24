@@ -244,11 +244,17 @@ class Command(BaseCommand):
             instance.save()
             # Update the seeded links while retaining their native button options.
             if plugin_type in {"SpaceGameHeroPlugin", "SpaceGameCTAPlugin"}:
-                buttons = instance.get_children().filter(
-                    plugin_type="TextLinkPlugin",
-                ).order_by("position")
+                buttons = (
+                    instance.get_children()
+                    .filter(
+                        plugin_type="TextLinkPlugin",
+                    )
+                    .order_by("position")
+                )
                 for child, (label_key, link_key, _) in zip(
-                    buttons, BUTTON_FIELDS[plugin_type], strict=False,
+                    buttons,
+                    BUTTON_FIELDS[plugin_type],
+                    strict=False,
                 ):
                     button = child.get_plugin_instance()[0]
                     button.config.update(

@@ -46,8 +46,11 @@ repos:
   - repo: https://github.com/djlint/djLint
     rev: v1.49.9
     hooks:
+      # design/ holds static design-system preview pages, not Django templates.
       - id: djlint-reformat-django
+        exclude: ^design/
       - id: djlint-django
+        exclude: ^design/
 
 # sets up .pre-commit-ci.yaml to ensure pre-commit dependencies stay up to date
 ci:

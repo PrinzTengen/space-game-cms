@@ -209,7 +209,10 @@ def test_story_create_edit_translate_and_publish(manager):
     )
     assert translated["state"] == "draft"
     metadata = cms.stories(
-        manager, "metadata", content_id=created["id"], values={"tags": ["MCP", "News"]},
+        manager,
+        "metadata",
+        content_id=created["id"],
+        values={"tags": ["MCP", "News"]},
     )
     assert set(metadata["metadata"]["tags"]) == {"MCP", "News"}
     assert (
