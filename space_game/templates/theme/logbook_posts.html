@@ -1,5 +1,7 @@
 {% load design_tags %}
 
+{% design_posts as posts %}
+{% post_filter_tags posts as filter_tags %}
 <div data-logbook data-logbook-results="{{ sg.t.blog.results }}">
   <div class="sg-logbook-tools">
     <form class="sg-post-search" role="search" data-post-search-form hidden>
@@ -30,6 +32,11 @@
       <button type="button"
               data-post-filter="devlog"
               aria-pressed="false">{{ sg.t.blog.devlog }} <span data-post-count="devlog"></span></button>
+      {% for slug, name in filter_tags %}
+        <button type="button"
+                data-post-filter="{{ slug }}"
+                aria-pressed="false">{{ name }} <span data-post-count="{{ slug }}"></span></button>
+      {% endfor %}
     </div>
   </div>
   <p id="logbook-results"
@@ -39,7 +46,6 @@
      aria-atomic="true"
      data-post-results
      hidden></p>
-  {% design_posts as posts %}
   <div id="logbook-posts" class="sg-post-grid" data-post-list>
     {% for post_content in posts %}
       {% include "theme/post_card.html" with show_more=True %}

@@ -42,6 +42,25 @@ def post_kind(content):
 
 
 @register.filter
+def post_filter_slugs(content):
+    """Space-separated filter keys of a card: its kind plus all tag slugs."""
+    slugs = [post_kind(content)]
+    slugs += [t.slug for t in content.post.tags.all() if t.slug not in slugs]
+    return " ".join(slugs)
+
+
+@register.simple_tag
+def post_filter_tags(posts):
+    """Tags used by the listed posts, apart from the built-in news/devlog filters."""
+    tags = {}
+    for content in posts:
+        for tag in content.post.tags.all():
+            if tag.slug not in {"news", "devlog"}:
+                tags.setdefault(tag.slug, tag.name)
+    return sorted(tags.items(), key=lambda item: item[1].casefold())
+
+
+@register.filter
 def post_search_text(content):
     text = " ".join(
         [

@@ -234,3 +234,25 @@ def test_search_contains_full_text_and_tags_without_leaking_drafts(
     assert b"BodyOnlyMarker" in response.content
     assert b"SecretDraftMarker" not in response.content
     assert b"BodyOnlyMarker" not in client.get("/").content
+
+
+def test_logbook_filter_lists_created_tags(logbook_site, client):
+    call_command("apply_design_system", username=logbook_site.username)
+    post = Post.objects.create(
+        author=logbook_site,
+        app_config=StoriesConfig.objects.get(namespace="stories"),
+    )
+    post.tags.add("Patch Notes", "devlog")
+    content = PostContent.objects.with_user(logbook_site).create(
+        post=post,
+        language="en",
+        slug="patch-1",
+        title="Patch 1",
+    )
+    Version.objects.get_for_content(content).publish(logbook_site)
+    client.post(reverse("set_language"), {"language": "en", "next": "/stories/"})
+    response = client.get("/stories/")
+    assert response.status_code == HTTPStatus.OK
+    assert b'data-post-filter="patch-notes"' in response.content
+    assert response.content.count(b'data-post-filter="devlog"') == 1
+    assert b'data-post-tags="devlog patch-notes"' in response.content
