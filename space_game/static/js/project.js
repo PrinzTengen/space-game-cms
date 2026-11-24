@@ -316,15 +316,24 @@
     node.className = className;
     return node;
   };
-  const observer = new IntersectionObserver((entries) => entries.forEach(({target, isIntersecting}) => {
-    if (!isIntersecting) return;
-    observer.unobserve(target);
-    if (motion.matches || document.querySelector(".cms-toolbar")) return;
-    const order = [...target.parentElement.children].indexOf(target);
-    target.animate([{opacity: 0, transform: "translateY(14px)"}, {opacity: 1, transform: "none"}], {
-      duration: 600, delay: Math.min(order, 8) * 70, easing: "cubic-bezier(.2,.7,.2,1)",
+  const skipReveal = () => motion.matches || document.querySelector(".cms-toolbar");
+  // Cards are hidden (sg-reveal-pending) until they enter the viewport and fade in once.
+  // fill "backwards" keeps them at opacity 0 during the stagger delay; without it they
+  // showed, vanished and faded in again, which flickered while scrolling (issue #18).
+  // The stagger counts only the cards revealed together, so late cards don't lag.
+  const observer = new IntersectionObserver((entries) => {
+    let order = 0;
+    entries.forEach(({target, isIntersecting}) => {
+      if (!isIntersecting) return;
+      observer.unobserve(target);
+      if (!skipReveal()) {
+        target.animate([{opacity: 0, transform: "translateY(14px)"}, {opacity: 1, transform: "none"}], {
+          duration: 600, delay: Math.min(order++, 8) * 70, easing: "cubic-bezier(.2,.7,.2,1)", fill: "backwards",
+        });
+      }
+      target.classList.remove("sg-reveal-pending");
     });
-  }), {threshold: .08});
+  }, {threshold: .08});
   motion.addEventListener("change", () => {
     if (motion.matches) document.getAnimations().forEach(animation => animation.cancel());
   });
@@ -361,6 +370,7 @@
     document.querySelectorAll("[data-reveal]").forEach(element => {
       if (revealed.has(element)) return;
       revealed.add(element);
+      if (!skipReveal()) element.classList.add("sg-reveal-pending");
       observer.observe(element);
     });
   }
@@ -388,6 +398,7 @@
     const clear = module.querySelector("[data-post-search-clear]");
     const status = module.querySelector("[data-post-results]");
     const empty = module.querySelector("[data-post-empty]");
+    const tags = cards.map(card => (card.dataset.postTags || card.dataset.postKind).split(" "));
     const corpus = cards.map(card => normalizeSearch(card.dataset.postSearch || card.textContent));
     let kind = "all";
     let timer;
@@ -401,12 +412,12 @@
       const matches = cards.map((card, i) => terms.every(term => corpus[i].includes(term)));
       let count = 0;
       cards.forEach((card, i) => {
-        card.hidden = !matches[i] || (kind !== "all" && card.dataset.postKind !== kind);
+        card.hidden = !matches[i] || (kind !== "all" && !tags[i].includes(kind));
         if (!card.hidden) count++;
       });
       controls.querySelectorAll("[data-post-count]").forEach(node => {
         node.textContent = cards.filter((card, i) => matches[i]
-          && (node.dataset.postCount === "all" || card.dataset.postKind === node.dataset.postCount)).length;
+          && (node.dataset.postCount === "all" || tags[i].includes(node.dataset.postCount))).length;
       });
       controls.querySelectorAll("button").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.postFilter === kind)));
       clear.hidden = input.value.length === 0;
@@ -421,7 +432,8 @@
     }
     function readURL() {
       const params = new URL(location.href).searchParams;
-      kind = ["news", "devlog"].includes(params.get("type")) ? params.get("type") : "all";
+      const filters = [...controls.querySelectorAll("[data-post-filter]")].map(button => button.dataset.postFilter);
+      kind = filters.includes(params.get("type")) ? params.get("type") : "all";
       input.value = params.get("q") || "";
       apply(false);
     }

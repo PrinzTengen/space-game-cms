@@ -3,6 +3,7 @@
 <article class="sg-window sg-post-card"
          data-reveal
          data-post-kind="{{ post_content|post_kind }}"
+         data-post-tags="{{ post_content|post_filter_slugs }}"
          {% if show_more %}data-post-search="{{ post_content|post_search_text }}"{% endif %}>
   <div class="sg-media">
     {# djlint:off T038 #}
