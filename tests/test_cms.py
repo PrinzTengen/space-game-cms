@@ -245,7 +245,8 @@ def test_hero_copy_and_publish_custom_content(cms_site, client, settings, tmp_pa
     buttons = list(instance.get_children().order_by("position"))
     button = buttons[0].get_plugin_instance()[0]
     button.config.update(
-        name="About our mission", link={"internal_link": f"cms.page:{about.pk}"},
+        name="About our mission",
+        link={"internal_link": f"cms.page:{about.pk}"},
     )
     button.save()
     buttons[1].delete()

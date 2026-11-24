@@ -16,7 +16,9 @@ class AdminAuthenticationBackend(ModelBackend):
         if username is None or password is None:
             return None
         field = f"{user_model.USERNAME_FIELD}__iexact"
-        users = list(user_model._default_manager.filter(**{field: username})[:2])
+        # _default_manager is Django's documented way to reach a swappable model.
+        manager = user_model._default_manager  # noqa: SLF001
+        users = list(manager.filter(**{field: username})[:2])
         if len(users) != 1:
             # Unknown or ambiguous username: still hash once against timing probes.
             user_model().set_password(password)

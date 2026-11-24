@@ -493,7 +493,10 @@ def _shared_contributor_cards(request, instance, source_language):
         return []
     source_slot = source.placeholders.filter(slot=slot.slot).first()
     for group in get_plugins(
-        request, source_slot, source.template, lang=source_language,
+        request,
+        source_slot,
+        source.template,
+        lang=source_language,
     ):
         if group.plugin_type == instance.plugin_type:
             return group.child_plugin_instances or []
@@ -524,7 +527,9 @@ class SpaceGameContributors(CMSFrontendComponent):
 
     title = forms.CharField(label=_("Heading"), max_length=250)
     empty_label = forms.CharField(
-        label=_("Empty directory message"), required=False, max_length=250,
+        label=_("Empty directory message"),
+        required=False,
+        max_length=250,
     )
     source_language = forms.ChoiceField(
         label=_("Profile source"),
@@ -589,14 +594,20 @@ class SpaceGameContributor(CMSFrontendComponent):
         widget=ContributorBioWidget,
     )
     instagram_url = forms.URLField(
-        label="Instagram", required=False, assume_scheme="https",
+        label="Instagram",
+        required=False,
+        assume_scheme="https",
     )
     linkedin_url = forms.URLField(
-        label="LinkedIn", required=False, assume_scheme="https",
+        label="LinkedIn",
+        required=False,
+        assume_scheme="https",
     )
     github_url = forms.URLField(label="GitHub", required=False, assume_scheme="https")
     website_url = forms.URLField(
-        label=_("Website"), required=False, assume_scheme="https",
+        label=_("Website"),
+        required=False,
+        assume_scheme="https",
     )
 
     def get_short_description(self):

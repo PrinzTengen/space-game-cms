@@ -76,7 +76,8 @@ def test_contributor_page_shares_published_cards_in_both_languages(client):
         ),
     ]:
         client.post(
-            reverse("set_language"), {"language": lang, "next": "/contributor/"},
+            reverse("set_language"),
+            {"language": lang, "next": "/contributor/"},
         )
         response = client.get("/contributor/")
         assert response.status_code == HTTPStatus.OK

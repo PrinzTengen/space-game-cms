@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.contrib.sitemaps.views import sitemap
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import include
 from django.urls import path
@@ -11,6 +12,9 @@ from oauth2_provider.urls import metadata_urlpatterns
 
 from space_game.control.views import AdminLoginView
 from space_game.control.views import continue_after_setup
+from space_game.theme.seo import llms_txt
+from space_game.theme.seo import robots_txt
+from space_game.theme.seo import sitemaps
 from space_game.theme.views import launcher_download
 from space_game.theme.views import switch_language
 
@@ -31,8 +35,14 @@ urlpatterns = [
     path("cookie-love/", include("djangocms_cookie_love.urls")),
     path("i18n/setlang/", switch_language, name="set_language"),
     path("launcher/<slug:platform>/", launcher_download, name="launcher-download"),
-    # Your stuff: custom urls includes go here
-    # ...
+    path(
+        "sitemap.xml",
+        sitemap,
+        {"sitemaps": sitemaps},
+        name="django.contrib.sitemaps.views.sitemap",
+    ),
+    path("robots.txt", robots_txt, name="robots-txt"),
+    path("llms.txt", llms_txt, name="llms-txt"),
     # Media files
     *static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT),
 ]

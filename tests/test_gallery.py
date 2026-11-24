@@ -178,9 +178,9 @@ def test_install_gallery_is_idempotent(gallery_site):
     call_command("install_home_gallery", username=gallery_site.username)
     assert Version.objects.get(pk=draft.pk).state == "published"
     assert gallery(homepage()).get_children().count() == 2  # noqa: PLR2004
-    assert (
-        homepage().get_placeholders().get(slot="community").get_plugins().count() == 1
-    )
+    community = homepage().get_placeholders().get(slot="community")
+    # The CTA keeps its button as a child plugin; only one CTA may exist.
+    assert community.get_plugins().filter(parent__isnull=True).count() == 1
     count = Version.objects.count()
     call_command("install_home_gallery", username=gallery_site.username)
     assert Version.objects.count() == count
@@ -195,7 +195,7 @@ def test_install_gallery_preserves_unpublished_cta_changes(gallery_site):
         draft.content.get_placeholders()
         .get(slot="community")
         .get_plugins()
-        .get()
+        .get(plugin_type="SpaceGameCTAPlugin")
         .get_plugin_instance()
     )
     cta.config["title"] = "An unpublished CTA"

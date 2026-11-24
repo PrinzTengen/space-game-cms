@@ -65,7 +65,6 @@ else:
 
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
 # https://docs.djangoproject.com/en/stable/ref/settings/#std:setting-DEFAULT_AUTO_FIELD
-DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # URLS
 # ------------------------------------------------------------------------------
@@ -81,6 +80,7 @@ DJANGO_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.sites",
+    "django.contrib.sitemaps",
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # "django.contrib.humanize", # Handy template tags
@@ -523,6 +523,7 @@ META_USE_SITES = True  # Stories builds image metadata without passing a request
 META_SITE_PROTOCOL = env("META_SITE_PROTOCOL", default="https")
 CMS_PAGE_CACHE = False  # Consent and account controls depend on the visitor.
 CMS_PLACEHOLDER_CONF = {
+    "hero": {"limits": {"SpaceGameHeroPlugin": 1}},
     "contributor_hero": {
         "plugins": ["SpaceGameHeroPlugin", "TextLinkPlugin"],
         "limits": {"SpaceGameHeroPlugin": 1},

@@ -463,6 +463,11 @@ def plugins(
         if set(values or {}) - set(form_class.base_fields):
             msg = "Unknown plugin fields."
             raise ValidationError(msg)
+        # djangocms-frontend stores "all devices" as None, which a resubmitted
+        # form would reject as "select at least one"; restore the full list.
+        for name, field in form_class.base_fields.items():
+            if initial.get(name) is None and isinstance(field.initial, (list, tuple)):
+                initial[name] = field.initial
         data = form_data({**initial, **(values or {})}, form_class)
         form = clean_form(form_class(data=data, instance=instance))
         instance = form.save()

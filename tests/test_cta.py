@@ -85,7 +85,8 @@ def test_cta_copy_publish_and_internal_link(cta_site, client):
     instance.save()
     button = instance.get_children().get().get_plugin_instance()[0]
     button.config.update(
-        name="Join <One>", link={"internal_link": f"cms.page:{about.pk}"},
+        name="Join <One>",
+        link={"internal_link": f"cms.page:{about.pk}"},
     )
     button.save()
     assert b"Mission &lt;One&gt;" not in client.get("/").content

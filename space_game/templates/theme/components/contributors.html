@@ -1,10 +1,11 @@
 {% load design_tags %}
 
-<section class="space-section container sg-contributors" aria-labelledby="contributors-{{ instance.pk }}">
+<section class="space-section container sg-contributors"
+         aria-labelledby="contributors-{{ instance.pk }}">
   <h2 class="section-heading" id="contributors-{{ instance.pk }}">{{ instance.title }}</h2>
   {% if shared_contributors and request.toolbar.edit_mode_active %}
     <p class="sg-contributors-empty">
-      {% if instance.source_language == 'de' %}
+      {% if instance.source_language == "de" %}
         Edit the shared cards in the German version of this page.
       {% else %}
         Die gemeinsamen Karten werden in der englischen Sprachversion dieser Seite bearbeitet.
