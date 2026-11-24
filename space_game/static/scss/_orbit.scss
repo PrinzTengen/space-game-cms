@@ -178,7 +178,14 @@ button:disabled { cursor: not-allowed; }
   background: var(--sg-galaxy-bg); color: var(--sg-title); box-shadow: var(--sg-shadow); perspective: 100vmin;
   > span:not(.sg-galaxy-fx) { position: relative; z-index: 2; }
   &:hover, &:focus-visible { background: var(--sg-galaxy-bg-hover); color: #fff; box-shadow: var(--sg-glow); }
-  &::after { content: ""; position: absolute; inset: 4px; background: var(--sg-window-corners); pointer-events: none; opacity: .7; }
+  &::after {
+    content: ""; position: absolute; inset: 4px; pointer-events: none; opacity: .7;
+    background:
+      linear-gradient(var(--sg-accent), var(--sg-accent)) top right / 14px 1px no-repeat,
+      linear-gradient(var(--sg-accent), var(--sg-accent)) top right / 1px 14px no-repeat,
+      linear-gradient(var(--sg-accent), var(--sg-accent)) bottom left / 14px 1px no-repeat,
+      linear-gradient(var(--sg-accent), var(--sg-accent)) bottom left / 1px 14px no-repeat;
+  }
   &:hover::after, &:focus-visible::after { opacity: 1; }
   &:disabled { opacity: .5; }
 }
