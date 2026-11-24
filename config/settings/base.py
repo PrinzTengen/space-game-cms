@@ -524,6 +524,7 @@ META_USE_SITES = True  # Stories builds image metadata without passing a request
 META_SITE_PROTOCOL = env("META_SITE_PROTOCOL", default="https")
 CMS_PAGE_CACHE = False  # Consent and account controls depend on the visitor.
 CMS_PLACEHOLDER_CONF = {
+    "hero": {"limits": {"SpaceGameHeroPlugin": 1}},
     "contributor_hero": {
         "plugins": ["SpaceGameHeroPlugin", "TextLinkPlugin"],
         "limits": {"SpaceGameHeroPlugin": 1},

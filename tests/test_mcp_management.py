@@ -129,10 +129,19 @@ def test_links_and_file_reference_forms_work_with_partial_plugin_edits(manager):
         draft["id"],
         "content",
         plugin_type="SpaceGameCTAPlugin",
+        values={"title": "Remote CTA"},
+    )
+    # CTA buttons are native Link / Button children, not CTA fields.
+    button = cms.plugins(
+        manager,
+        "add",
+        draft["id"],
+        "content",
+        plugin_type="TextLinkPlugin",
+        parent_id=cta["id"],
         values={
-            "title": "Remote CTA",
-            "button_label": "Read",
-            "button_link": {"external_link": "https://example.com/read"},
+            "name": "Read",
+            "link": {"external_link": "https://example.com/read"},
         },
     )
     changed = cms.plugins(
@@ -140,10 +149,11 @@ def test_links_and_file_reference_forms_work_with_partial_plugin_edits(manager):
         "update",
         draft["id"],
         "content",
-        plugin_id=cta["id"],
-        values={"title": "Changed CTA"},
+        plugin_id=button["id"],
+        values={"name": "Read more"},
     )
-    assert changed["values"]["button_link"] == {
+    assert changed["values"]["name"] == "Read more"
+    assert changed["values"]["link"] == {
         "external_link": "https://example.com/read",
     }
 
