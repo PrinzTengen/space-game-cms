@@ -1,8 +1,10 @@
-"""Crawler entry points: sitemap.xml, robots.txt and llms.txt.
+"""Crawler entry points: sitemap.xml, robots.txt, llms.txt and JSON-LD.
 
 URLs carry no language prefix (the language comes from a cookie), so English and
 German pages often share one path. Every list here is deduplicated by URL.
 """
+
+import json
 
 from cms.models import PageContent
 from cms.sitemaps.cms_sitemap import CMSSitemap
@@ -12,6 +14,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.http import HttpResponse
 from django.urls import NoReverseMatch
 from django.utils.html import strip_tags
+from django.utils.safestring import mark_safe
 from django.utils.text import Truncator
 from django.views.decorators.cache import cache_control
 from django.views.decorators.http import require_GET
@@ -200,3 +203,50 @@ def llms_txt(request):
         "",
     ]
     return _text("\n".join(parts))
+
+
+# JSON inside <script> must not be able to close the tag or open a comment.
+_JSON_SCRIPT_ESCAPES = {ord(char): f"\\u{ord(char):04x}" for char in "<>&"}
+
+
+def _json_for_script(value):
+    return json.dumps(value, ensure_ascii=False).translate(_JSON_SCRIPT_ESCAPES)
+
+
+def faq_schema_entry(question, answer):
+    """One schema.org Question as JSON for the "faq_schema" sekizai block.
+
+    json.dumps escapes newlines, so every entry stays on one line; sekizai joins
+    the entries with newlines.
+    """
+    question, answer = (question or "").strip(), (answer or "").strip()
+    if not question or not answer:
+        return ""
+    return mark_safe(  # noqa: S308 - JSON is escaped for <script> above
+        _json_for_script(
+            {
+                "@type": "Question",
+                "name": question,
+                "acceptedAnswer": {"@type": "Answer", "text": answer},
+            },
+        ),
+    )
+
+
+def faq_schema(_context, data, _namespace):
+    """Sekizai postprocessor: merge every FAQ item on the page into one FAQPage.
+
+    Each item adds one JSON line; sekizai drops exact duplicates. Google rejects
+    pages with more than one FAQPage, so several FAQ groups share this block.
+    """
+    entries = [json.loads(line) for line in data.splitlines() if line.strip()]
+    if not entries:
+        return ""
+    schema = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": entries,
+    }
+    return mark_safe(  # noqa: S308 - JSON is escaped for <script> above
+        f'<script type="application/ld+json">{_json_for_script(schema)}</script>',
+    )

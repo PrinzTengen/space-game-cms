@@ -41,6 +41,7 @@
       {% endcompress %}
     {% endblock javascript %}
     {% render_block "css" %}
+    {% render_block "faq_schema" postprocessor "space_game.theme.seo.faq_schema" %}
     {% cookie_love_css %}
   </head>
   <body class="{% block bodyclass %}{% endblock bodyclass %}">

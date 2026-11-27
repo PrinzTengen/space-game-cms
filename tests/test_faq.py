@@ -1,5 +1,7 @@
 """Standalone FAQ groups and versioned support-page content."""
 
+import json
+import re
 from http import HTTPStatus
 from urllib.parse import urlencode
 
@@ -18,6 +20,13 @@ from space_game.theme.faq import FAQ_PLUGIN_TYPES
 from space_game.users.tests.factories import UserFactory
 
 pytestmark = pytest.mark.django_db
+
+LD_JSON = re.compile(rb'<script type="application/ld\+json">(.*?)</script>', re.S)
+
+
+def faq_schemas(response):
+    blocks = [json.loads(raw) for raw in LD_JSON.findall(response.content)]
+    return [block for block in blocks if block.get("@type") == "FAQPage"]
 
 
 @pytest.fixture
@@ -228,3 +237,56 @@ def test_legacy_conversion_preserves_extra_page_content(faq_site, client):
     )
     call_command("install_faq_plugins", username=faq_site.username)
     assert b"Additional support information." in client.get("/faq/").content
+
+
+@pytest.mark.parametrize("lang", ["en", "de"])
+def test_support_page_publishes_faq_schema(faq_site, client, lang):
+    client.post(reverse("set_language"), {"language": lang, "next": "/faq/"})
+    response = client.get("/faq/")
+    [schema] = faq_schemas(response)
+    assert schema["@context"] == "https://schema.org"
+    assert [
+        (entry["@type"], entry["name"], entry["acceptedAnswer"]["text"])
+        for entry in schema["mainEntity"]
+    ] == [("Question", q, a) for q, a in catalog()["faq"][lang]]
+
+
+def test_faq_groups_share_one_schema_and_escape_markup(faq_site, client):
+    draft = Version.objects.get_for_content(support()).copy(faq_site)
+    group = plugins(draft.content, "faq")[0]
+    group.get_children().delete()
+    placeholder = draft.content.get_placeholders().get(slot="content")
+    second = add_plugin(placeholder, "SpaceGameFAQPlugin", "en", config={})
+    for target, question in [(group, "First?"), (second, "Second </script>?")]:
+        add_plugin(
+            target.placeholder,
+            "SpaceGameFAQItemPlugin",
+            "en",
+            target=target,
+            config={"question": question, "answer": "<b>Yes</b> & no"},
+        )
+    draft.publish(faq_site)
+    response = client.get("/faq/")
+    [schema] = faq_schemas(response)
+    assert [entry["name"] for entry in schema["mainEntity"]] == [
+        "First?",
+        "Second </script>?",
+    ]
+    assert schema["mainEntity"][0]["acceptedAnswer"]["text"] == "<b>Yes</b> & no"
+    assert b"Second </script>" not in response.content
+
+
+def test_pages_without_questions_have_no_faq_schema(faq_site, client):
+    draft = Version.objects.get_for_content(support()).copy(faq_site)
+    draft.content.get_placeholders().get(slot="faq").get_plugins().delete()
+    draft.publish(faq_site)
+    assert faq_schemas(client.get("/faq/")) == []
+    assert faq_schemas(client.get("/")) == []
+
+
+def test_edit_mode_has_no_faq_schema(faq_site, client):
+    draft = Version.objects.get_for_content(support()).copy(faq_site)
+    client.force_login(faq_site)
+    response = client.get(get_object_edit_url(draft.content))
+    assert response.status_code == HTTPStatus.OK
+    assert faq_schemas(response) == []

@@ -16,6 +16,7 @@ from filer.models import File
 from space_game.theme.design import language
 from space_game.theme.downloads import launcher_file
 from space_game.theme.downloads import launcher_url
+from space_game.theme.seo import faq_schema_entry
 
 
 @components.register
@@ -80,6 +81,10 @@ class SpaceGameFAQItem(CMSFrontendComponent):
                 group = instance.parent.get_plugin_instance()[0]
             context = super().render(context, instance, placeholder)
             context["faq_single_open"] = bool(group.config.get("single_open", True))
+            context["faq_schema_entry"] = faq_schema_entry(
+                instance.config.get("question"),
+                instance.config.get("answer"),
+            )
             return context
 
     question = forms.CharField(label=_("Question"), max_length=400)
