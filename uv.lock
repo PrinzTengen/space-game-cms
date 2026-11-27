@@ -1003,6 +1003,19 @@ wheels = [
 ]
 
 [[package]]
+name = "djangocms-alias"
+version = "3.2.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "django-cms" },
+    { name = "django-parler" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/21/ad/891e23ba4ad3756e27be57708baa465a3c1a6d9c4a7fb2d4d4e51d136153/djangocms_alias-3.2.0.tar.gz", hash = "sha256:966dbea32cb8ccc3b0c42bbcef74114c76ebac16d8196c3d2c3681400e604d10", size = 91340, upload-time = "2026-08-28T19:29:48.125Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/a1/ea/13deff11778f706cb798afe0bf1393d81b3b687743302a4ed1cce466a734/djangocms_alias-3.2.0-py3-none-any.whl", hash = "sha256:f2f9795bd17882ba83643772a2181f256aa05de74c3c12e6bd391790a222b11a", size = 94798, upload-time = "2026-08-28T19:29:46.857Z" },
+]
+
+[[package]]
 name = "djangocms-attributes-field"
 version = "4.1.2"
 source = { registry = "https://pypi.org/simple" }
@@ -2636,6 +2649,7 @@ dependencies = [
     { name = "django-sekizai" },
     { name = "django-sortedm2m" },
     { name = "django-taggit" },
+    { name = "djangocms-alias" },
     { name = "djangocms-cookie-love" },
     { name = "djangocms-frontend" },
     { name = "djangocms-link" },
@@ -2710,6 +2724,7 @@ requires-dist = [
     { name = "django-sekizai", specifier = ">=4.1.0" },
     { name = "django-sortedm2m", specifier = ">=4.1.0" },
     { name = "django-taggit", specifier = ">=7.0.0" },
+    { name = "djangocms-alias", specifier = "==3.2.0" },
     { name = "djangocms-cookie-love", specifier = "==0.1.1" },
     { name = "djangocms-frontend", specifier = "==2.5.3" },
     { name = "djangocms-link", specifier = ">=5.2.0" },

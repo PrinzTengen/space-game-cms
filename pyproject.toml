@@ -35,6 +35,7 @@ dependencies = [
   "django-sekizai>=4.1.0",
   "django-sortedm2m>=4.1.0",
   "django-taggit>=7.0.0",
+  "djangocms-alias==3.2.0",
   "djangocms-cookie-love==0.1.1",
   "djangocms-frontend==2.5.3",
   "djangocms-link>=5.2.0",
@@ -94,7 +95,7 @@ blank_line_after_tag = "load,extends"
 close_void_tags = true
 format_css = true
 format_js = true
-custom_blocks = "element,slot"
+custom_blocks = "element,slot,childplugins,static_alias"
 ignore = "H006,H030,H031"
 css.indent_size = 2
 js.indent_size = 2

@@ -96,6 +96,7 @@ THIRD_PARTY_APPS = [
     "filer",
     "easy_thumbnails",
     "djangocms_versioning",
+    "djangocms_alias",
     "djangocms_text",
     "djangocms_link",
     "djangocms_transfer",
@@ -561,6 +562,13 @@ CMS_PLACEHOLDER_CONF = {
         "plugins": ["SpaceGameLogbookHeaderPlugin"],
         "limits": {"global": 1},
     },
+    # Placeholder of the static alias {% static_alias "footer" %} in base.html.
+    "footer": {
+        "name": "Footer",
+        "plugins": ["SpaceGameFooterPlugin"],
+        # A global limit would count the slots and links, too.
+        "limits": {"SpaceGameFooterPlugin": 1},
+    },
 }
 CMS_PLACEHOLDER_CACHE = False
 SG_DISCORD_CLIENT_ID = env("DISCORD_CLIENT_ID", default="")
@@ -572,6 +580,8 @@ if SG_DISCORD_CLIENT_ID and SG_DISCORD_CLIENT_SECRET:
         "secret": SG_DISCORD_CLIENT_SECRET,
         "key": "",
     }
+# Seeds the Twitch link of the footer alias (install_footer); edit it in the CMS later.
+SG_TWITCH_URL = env("SPACE_GAME_TWITCH_URL", default="")
 SG_LAUNCHER_URLS = {
     "win": env("SPACE_GAME_WINDOWS_DOWNLOAD_URL", default=""),
     "linux": env("SPACE_GAME_LINUX_DOWNLOAD_URL", default=""),

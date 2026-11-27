@@ -1,4 +1,4 @@
-{% load static i18n compress cms_tags menu_tags sekizai_tags cookie_love_tags %}
+{% load static i18n compress cms_tags menu_tags sekizai_tags cookie_love_tags theme_alias %}
 
 <!DOCTYPE html>
 {% get_current_language as LANGUAGE_CODE %}
@@ -71,7 +71,11 @@
           {% endblock main %}
         </div>
       </main>
-      {% include "theme/footer.html" %}
+      {% block footer %}
+        {% static_alias "footer" or %}
+          {% include "theme/footer.html" %}
+        {% endstatic_alias %}
+      {% endblock footer %}
     {% endblock body %}
     <!-- /container -->
     {% block modal %}
