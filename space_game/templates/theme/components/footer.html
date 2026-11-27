@@ -1,0 +1,49 @@
+{% load i18n frontend %}
+
+{% with editing=request.toolbar.edit_mode_active pages=instance|get_slot:"pages" community=instance|get_slot:"community" legal=instance|get_slot:"legal" %}
+  <footer class="site-footer">
+    <div class="sg-footer container">
+      <div class="sg-footer-brand">
+        <strong class="sg-wordmark">Space Game</strong>
+        {% if instance.tagline %}<p>{{ instance.tagline }}</p>{% endif %}
+      </div>
+      {% if pages or editing %}
+        <nav class="sg-footer-group sg-footer-pages"
+             aria-label="{{ instance.pages_label }}">
+          <p class="sg-footer-label">{{ instance.pages_label }}</p>
+          <ul class="sg-footer-links">
+            {% childplugins instance "pages" %}
+            {% endchildplugins %}
+          </ul>
+        </nav>
+      {% endif %}
+      {% if community or editing %}
+        <div class="sg-footer-group sg-footer-community">
+          <p class="sg-footer-label">{{ instance.community_label }}</p>
+          <ul class="sg-footer-links">
+            {% childplugins instance "community" %}
+            {% endchildplugins %}
+          </ul>
+        </div>
+      {% endif %}
+      <div class="sg-footer-bottom">
+        {% if instance.rights %}<p class="sg-footer-rights">{{ instance.rights }}</p>{% endif %}
+        {% if legal or editing or instance.show_cookie_settings %}
+          <nav class="sg-footer-legal" aria-label="{{ instance.legal_label }}">
+            <ul class="sg-footer-links">
+              {% childplugins instance "legal" %}
+              {% endchildplugins %}
+              {% if instance.show_cookie_settings %}
+                <li>
+                  <button type="button"
+                          class="sg-text-button"
+                          onclick="CookieLove.openSettings()">{% translate "Cookie settings" %}</button>
+                </li>
+              {% endif %}
+            </ul>
+          </nav>
+        {% endif %}
+      </div>
+    </div>
+  </footer>
+{% endwith %}

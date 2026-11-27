@@ -7,6 +7,7 @@ from django.contrib.admin.widgets import AdminTextareaWidget
 from django.db.models import ManyToOneRel
 from django.utils.translation import gettext_lazy as _
 from djangocms_frontend.component_base import CMSFrontendComponent
+from djangocms_frontend.component_base import Slot
 from djangocms_frontend.component_pool import components
 from djangocms_frontend.contrib.image.fields import ImageFormField
 from filer.fields.file import AdminFileFormField
@@ -747,3 +748,47 @@ class SpaceGameGalleryImage(CMSFrontendComponent):
         if not data.get("image") and not data.get("default_image"):
             self.add_error("image", _("Select an image or a default image."))
         return data
+
+
+@components.register
+class SpaceGameFooter(CMSFrontendComponent):
+    """Site footer rendered through the static alias ``footer`` in base.html."""
+
+    # Wraps every link of a slot in <li> so each group renders as a real list.
+    slot_template = "theme/components/footer_slot.html"
+
+    class Meta:
+        name = _("Space Game Footer")
+        module = "Space Game"
+        render_template = "theme/components/footer.html"
+        slots = (
+            Slot("pages", _("Pages"), child_classes=["TextLinkPlugin"]),
+            Slot("community", _("Community"), child_classes=["TextLinkPlugin"]),
+            Slot("legal", _("Legal"), child_classes=["TextLinkPlugin"]),
+        )
+        default_config = {
+            "tagline": "A space game about exploration, trade and mining.",
+            "pages_label": "Pages",
+            "community_label": "Community",
+            "legal_label": "Legal",
+            "rights": "© 2026 Space Game · Pre-Alpha",
+            "show_cookie_settings": True,
+        }
+
+    tagline = forms.CharField(label=_("Tagline"), required=False, max_length=250)
+    pages_label = forms.CharField(label=_("Pages heading"), max_length=100)
+    community_label = forms.CharField(label=_("Community heading"), max_length=100)
+    legal_label = forms.CharField(
+        label=_("Legal navigation label"),
+        max_length=100,
+        help_text=_("Read out by screen readers for the legal links."),
+    )
+    rights = forms.CharField(label=_("Copyright line"), required=False, max_length=250)
+    show_cookie_settings = forms.BooleanField(
+        label=_("Show cookie settings button"),
+        required=False,
+        initial=True,
+    )
+
+    def get_short_description(self):
+        return self.config.get("tagline", "")

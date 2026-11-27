@@ -1,4 +1,5 @@
 {% load sekizai_tags %}
+
 {% if faq_schema_entry and not request.toolbar.edit_mode_active %}
   {% addtoblock "faq_schema" %}{{ faq_schema_entry }}{% endaddtoblock %}
 {% endif %}

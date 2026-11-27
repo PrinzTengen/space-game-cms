@@ -1,22 +1,37 @@
 {% load i18n %}
 
+{% comment %}
+  Fallback for {% static_alias "footer" %} (theme_alias): shown while the footer
+  of the current language is not published or empty. Edit the footer in the CMS.
+{% endcomment %}
 <footer class="site-footer">
-  <div class="sg-footer-grid container">
-    <div>
+  <div class="sg-footer container">
+    <div class="sg-footer-brand">
       <strong class="sg-wordmark">Space Game</strong>
       <p>{{ sg.t.foot.line }}</p>
     </div>
-    <nav aria-label="{{ sg.t.foot.pages }}">
+    <nav class="sg-footer-group sg-footer-pages"
+         aria-label="{{ sg.t.foot.pages }}">
       <p class="sg-footer-label">{{ sg.t.foot.pages }}</p>
-      {% for item in sg.nav %}<a href="{{ item.url }}">{{ item.label }}</a>{% endfor %}
+      <ul class="sg-footer-links">
+        {% for item in sg.nav %}
+          <li>
+            <a href="{{ item.url }}">{{ item.label }}</a>
+          </li>
+        {% endfor %}
+      </ul>
     </nav>
-    <div class="sg-footer-meta">
-      <p>{{ sg.t.foot.rights }}</p>
-      <a href="https://discord.gg/TeGQrqprRM" rel="noopener">Discord</a>
-      <a href="https://www.youtube.com/@monkeycabstudio" rel="noopener">YouTube</a>
-      <button type="button"
-              class="sg-text-button"
-              onclick="CookieLove.openSettings()">{% translate "Cookie settings" %}</button>
+    <div class="sg-footer-bottom">
+      <p class="sg-footer-rights">{{ sg.t.foot.rights }}</p>
+      <nav class="sg-footer-legal" aria-label="{{ sg.t.foot.legal }}">
+        <ul class="sg-footer-links">
+          <li>
+            <button type="button"
+                    class="sg-text-button"
+                    onclick="CookieLove.openSettings()">{% translate "Cookie settings" %}</button>
+          </li>
+        </ul>
+      </nav>
     </div>
   </div>
 </footer>

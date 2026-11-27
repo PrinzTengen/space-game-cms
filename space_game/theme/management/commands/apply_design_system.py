@@ -94,6 +94,8 @@ class Command(BaseCommand):
         call_command("install_logbook_header", username=user.username)
         call_command("install_download_plugins", username=user.username)
         call_command("install_faq_plugins", username=user.username)
+        # Last, so the footer links every page created above.
+        call_command("install_footer", username=user.username)
         self.stdout.write(
             self.style.SUCCESS("F2 Orbit website installed in DE and EN."),
         )

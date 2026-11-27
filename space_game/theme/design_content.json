@@ -127,6 +127,8 @@
       "foot": {
         "line": "Ein Weltraumspiel über Erkundung, Handel und Ressourcenabbau.",
         "pages": "Seiten",
+        "community": "Community",
+        "legal": "Rechtliches",
         "rights": "© 2026 Space Game · Pre-Alpha"
       }
     },
@@ -257,6 +259,8 @@
       "foot": {
         "line": "A space game about exploration, trade and mining.",
         "pages": "Pages",
+        "community": "Community",
+        "legal": "Legal",
         "rights": "© 2026 Space Game · Pre-Alpha"
       }
     }

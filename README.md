@@ -54,6 +54,27 @@ Discord bleibt eine freiwillige Community.
 
 ## django CMS
 
+### Footer als Static Alias
+
+Der Footer ist ein versionierter Static Alias (`{% static_alias "footer" %}` in
+`base.html`, djangocms-alias) mit dem Plugin **Space Game Footer**. Seine Links
+liegen als Link-Plugins in drei festen Slots: **Seiten**, **Community** und
+**Rechtliches** (die Cookie-Einstellungen hängen automatisch hinten an). Der Footer
+wird auf jeder Seite im Bearbeitungsmodus geändert, gilt pro Sprache für die ganze
+Website und wird **getrennt von der Seite veröffentlicht**. Solange für eine
+Sprache kein Footer veröffentlicht ist, zeigt die Seite `theme/footer.html` als
+Fallback.
+
+```bash
+docker compose -f docker-compose.local.yml exec django python manage.py install_footer --username DEIN_ADMIN
+```
+
+Der Befehl (auch Teil von `apply_design_system`) legt den Footer in DE und EN mit
+den Standardlinks an und überschreibt keine vorhandenen Inhalte. Der Twitch-Link
+wird nur angelegt, wenn `SPACE_GAME_TWITCH_URL` gesetzt ist; sonst wird er im CMS
+im Slot **Community** ergänzt.
+
+
 ### FAQ und Systemanforderungen als eigenständige Plugins
 
 **Space Game FAQ** ist ein eigenständiges `djangocms-frontend`-Plugin und kann
